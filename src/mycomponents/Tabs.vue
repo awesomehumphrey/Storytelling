@@ -1,17 +1,5 @@
 <template>
-<div>
-<b-navbar toggleable="md" type="dark" variant="info">
-
-  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-  <b-navbar-brand href="#">Gravity++</b-navbar-brand>
-
-  <b-collapse is-nav id="nav_collapse">
-
-  </b-collapse>
-</b-navbar>
-
-<b-card no-body>
+  <b-card no-body>
   <b-tabs card>
     <b-tab title="DATA" active>
       <b-row>
@@ -38,9 +26,14 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col>
-        <b-col col lg="6" class="tabsections" id="datasection3">3 of 4</b-col>
-        <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col>
+        <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
+        <b-col col lg="9.5" class="tabsections" id="datasection3">
+          <b-row>
+            <b-col col lg="9" class="canvas">1</b-col>
+            <b-col col lg="2.5" class="canvas">2</b-col>
+          </b-row>
+        </b-col>
+        <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
     </b-row>
     </b-tab>
     <b-tab title="STORY">
@@ -48,44 +41,26 @@
     </b-tab>
   </b-tabs>
 </b-card>
- 
-</div>
-
 </template>
 
 <script>
+/* eslint-disable */
 
 export default {
-  data() {
-    return {
-
-    };
-  },
-};
+  
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-
+<style>
 .tabsections {
   margin: 5px;
+  min-height: 500px;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+.canvas {
+  margin: 1px;
   min-height: 500px;
   border: 1px solid grey;
   border-radius: 2px;
@@ -100,7 +75,7 @@ a {
 }
 
 #datasection3 {
-  background-color: #c4c7c5;
+  background-color: #f0f0f0;
 }
 
 #datasection4 {
@@ -119,8 +94,6 @@ a {
   min-height: 200px;  
 }
 
-p {
-  
-}
-
 </style>
+
+

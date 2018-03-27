@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HomePage from '@/docs/HomePage';
+import HomePage from '@/mycomponents/HomePage';
 import GridPage from '@/docs/GridPage';
 import BadgePage from '@/docs/BadgePage';
 import CardPage from '@/docs/CardPage';
