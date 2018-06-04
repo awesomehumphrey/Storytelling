@@ -11,10 +11,13 @@
 /* eslint-disable */
 import Papa from 'papaparse'
 import dl from 'datalib'
+import * as dataForge from 'data-forge';
+
 
 var data;
 var csv;
 var baa;
+var df;
 
 export default {
     data() {
@@ -29,7 +32,7 @@ export default {
         onUpload() {
         // upload file, get it from this.selectedFile
             Papa.parse(this.selectedFile, {
-                header: false,
+                header: true,
                 dynamicTyping: true,
                 complete: function(results) {
                 data = results;
@@ -37,10 +40,17 @@ export default {
                 csv = Papa.unparse(data);
                //console.log(csv);
 
-                baa = dl.read(csv, {type: 'csv', parse: 'auto'});
+                //baa = dl.read(csv, {type: 'csv', parse: 'auto'});
                //console.log(dl.type.inferAll(baa));
+                //console.log(baa);
+                //console.log(results.data[0]);
+
+                df = dataForge.fromCSV(csv);
+                var newDf = df.subset(["Year", "Month"]);
+                baa = newDf.toArray();
+                //baa = Papa.unparse(baa);
+                
                 console.log(baa);
-                console.log(results.data[0]);
                 }
             });
             
