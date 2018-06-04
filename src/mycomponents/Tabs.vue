@@ -6,9 +6,7 @@
         <b-col col lg="2" class="tabsections" id="datasection1">
           <b-row>
             <b-col id="dataupload">
-              <hr>
-              <h5>Data</h5>
-              <p>Data Upload...</p>
+              <app-data></app-data>
             </b-col>
           </b-row>
           <b-row>
@@ -45,9 +43,12 @@
 
 <script>
 /* eslint-disable */
+import Data from '@/mycomponents/Data';
 
 export default {
-  
+  components: {
+        'app-data':Data
+      },
 }
 </script>
 

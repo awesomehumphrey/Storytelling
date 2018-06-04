@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
 <div>
 <app-navbar></app-navbar>

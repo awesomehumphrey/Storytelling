@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Vue from 'vue';
 import Router from 'vue-router';
 import HomePage from '@/mycomponents/HomePage';
@@ -21,75 +23,73 @@ import NavbarPage from '@/docs/NavbarPage';
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomePage,
+    routes: [{
+        path: '/',
+        name: 'Home',
+        component: HomePage,
     }, {
-      path: '/components/badge',
-      name: 'BadgePage',
-      component: BadgePage,
+        path: '/components/badge',
+        name: 'BadgePage',
+        component: BadgePage,
     }, {
-      path: '/components/grid',
-      name: 'GridPage',
-      component: GridPage,
+        path: '/components/grid',
+        name: 'GridPage',
+        component: GridPage,
     }, {
-      path: '/components/card',
-      name: 'CardPage',
-      component: CardPage,
+        path: '/components/card',
+        name: 'CardPage',
+        component: CardPage,
     }, {
-      path: '/components/button',
-      name: 'ButtonPage',
-      component: ButtonPage,
+        path: '/components/button',
+        name: 'ButtonPage',
+        component: ButtonPage,
     }, {
-      path: '/components/table',
-      name: 'TablePage',
-      component: TablePage,
+        path: '/components/table',
+        name: 'TablePage',
+        component: TablePage,
     }, {
-      path: '/components/dropdown',
-      name: 'Dropdown Page',
-      component: DropdownPage,
+        path: '/components/dropdown',
+        name: 'Dropdown Page',
+        component: DropdownPage,
     }, {
-      path: '/components/jumbotron',
-      name: 'JumbotronPage',
-      component: JumbotronPage,
+        path: '/components/jumbotron',
+        name: 'JumbotronPage',
+        component: JumbotronPage,
     }, {
-      path: '/components/carousel',
-      name: 'CarouselPage',
-      component: CarouselPage,
+        path: '/components/carousel',
+        name: 'CarouselPage',
+        component: CarouselPage,
     }, {
-      path: '/components/breadcrumb',
-      name: 'BreadcrumbPage',
-      component: BreadcrumbPage
+        path: '/components/breadcrumb',
+        name: 'BreadcrumbPage',
+        component: BreadcrumbPage
     }, {
-      path: '/components/waves',
-      name: 'WavesPage',
-      component: WavesPage
+        path: '/components/waves',
+        name: 'WavesPage',
+        component: WavesPage
     }, {
-      path: '/components/icons',
-      name: 'FaPage',
-      component: FaPage
+        path: '/components/icons',
+        name: 'FaPage',
+        component: FaPage
     }, {
-      path: '/components/inputs',
-      name: 'InputsPage',
-      component: InputsPage
+        path: '/components/inputs',
+        name: 'InputsPage',
+        component: InputsPage
     }, {
-      path: '/components/liveDemo',
-      name: 'LiveDemoPage',
-      component: LiveDemoPage
+        path: '/components/liveDemo',
+        name: 'LiveDemoPage',
+        component: LiveDemoPage
     }, {
-      path: '/components/media',
-      name: 'MediaPage',
-      component: MediaPage
+        path: '/components/media',
+        name: 'MediaPage',
+        component: MediaPage
     }, {
-      path: '/components/listgroup',
-      name: 'ListGroupPage',
-      component: ListGroupPage
+        path: '/components/listgroup',
+        name: 'ListGroupPage',
+        component: ListGroupPage
     }, {
-      path: '/components/navbar',
-      name: 'NavbarPage',
-      component: NavbarPage
-    }
-  ],
+        path: '/components/navbar',
+        name: 'NavbarPage',
+        component: NavbarPage
+    }],
 });
