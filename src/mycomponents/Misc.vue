@@ -38,13 +38,31 @@ export default {
                 header: true,
                 dynamicTyping: true,
                 complete: function(results) {
-                data = results;   // results is an array of four objects: data, errors, meta (fields is contained within meta)
+                data = results;
+                console.log(data);
+                csv = Papa.unparse(data);
+               //console.log(csv);
+
+                //baa = dl.read(csv, {type: 'csv', parse: 'auto'});
+               //console.log(dl.type.inferAll(baa));
+                //console.log(baa);
+                //console.log(results.data[0]);
+
+                df = dataForge.fromCSV(csv);
+                var newDf = df.subset(["Year", "Month"]);
+                baa = newDf.toArray();
+                //baa = Papa.unparse(baa);
                 
-                DataBus.$emit('dataJson', results.data); // Send the data values through the event bus
-                DataBus.$emit('fieldArray', results.meta.fields);// Send the field names through the event
+                //console.log(baa);
+                DataBus.$emit('okaaay', data.data);
                 }
             });
-        } 
+            
+        }//,
+        // loadedData() {
+        //     console.log(data);
+        //     DataBus.$emit('okaaay', data);
+        // }   
     }
 }
 </script>

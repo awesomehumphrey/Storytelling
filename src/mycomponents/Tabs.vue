@@ -11,9 +11,7 @@
           </b-row>
           <b-row>
             <b-col id="measures">
-              <hr>
-              <h5>Measures</h5>
-              <p>Measures dropdown....</p>
+                <app-axis></app-axis>
             </b-col>
           </b-row>
           <b-row>
@@ -44,10 +42,12 @@
 <script>
 /* eslint-disable */
 import Data from '@/mycomponents/Data';
+import Axis from '@/mycomponents/Axis';
 
 export default {
   components: {
-        'app-data':Data
+        'app-data': Data,
+        'app-axis': Axis
       },
 }
 </script>
