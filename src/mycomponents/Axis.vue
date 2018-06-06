@@ -2,19 +2,19 @@
 <div>
     <hr>
     <label for="y-axis">Y-Axis</label>
-    <select v-model="ySelected">
+    <b-form-select v-model="ySelected">  <!--Might add the multiple property to make it accept multiple values stored in an array -->
         <option v-for="(option, index) in fieldNames" v-bind:value="fieldNames[index]">
             {{fieldNames[index]}}
         </option>
-    </select>
+    </b-form-select>
     <span>Selected: {{ ySelected }}</span>
     <br>
     <label for="x-axis">X-Axis</label>
-    <select v-model="xSelected">
+    <b-form-select v-model="xSelected"> <!--Might add the multiple property to make it accept multiple values stored in an array -->
         <option v-for="(option, index) in fieldNames" v-bind:value="fieldNames[index]">
             {{fieldNames[index]}}
         </option>
-    </select>
+    </b-form-select>
     <span>Selected: {{ xSelected }}</span>
 
 </div>
@@ -29,7 +29,7 @@ export default {
         return {
          dataValues: 0,
          fieldNames: '',
-         ySelected: '',
+         ySelected: '',  //Might change these to array depending on...
          xSelected: ''
         }
     },
