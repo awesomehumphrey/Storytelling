@@ -22,8 +22,13 @@
     "mdbootstrap": "^4.4.3",
     "npm": "^5.5.1",
     "papaparse": "^4.4.0",
+    "vega": "^4.0.0-rc.2",
+    "vega-embed": "^3.14.0",
+    "vega-lite": "^2.5.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-multiselect": "^2.1.0",
+    "vue-router": "^3.0.1",
+    "vue-vega": "^1.0.0-alpha.13"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

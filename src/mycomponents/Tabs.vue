@@ -25,7 +25,7 @@
         <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
         <b-col col lg="9.5" class="tabsections" id="datasection3">
           <b-row>
-            <b-col col lg="9" class="canvas">1</b-col>
+            <b-col col lg="9" class="canvas">1 <app-canvas></app-canvas></b-col>
             <b-col col lg="2.5" class="canvas">2</b-col>
           </b-row>
         </b-col>
@@ -43,11 +43,13 @@
 /* eslint-disable */
 import Data from '@/mycomponents/Data';
 import Axis from '@/mycomponents/Axis';
+import Canvas from '@/mycomponents/Canvas';
 
 export default {
   components: {
         'app-data': Data,
-        'app-axis': Axis
+        'app-axis': Axis,
+        'app-canvas': Canvas
       },
 }
 </script>

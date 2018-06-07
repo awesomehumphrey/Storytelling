@@ -4,7 +4,8 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import Vuetify from 'vuetify';
+import VueVega from 'vue-vega';
+import Multiselect from 'vue-multiselect'
 
 import BootstrapVue from 'bootstrap-vue';
 
@@ -14,8 +15,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
-Vue.use(Vuetify);
+Vue.component('multiselect', Multiselect)
 Vue.use(BootstrapVue);
+Vue.use(VueVega);
 Vue.config.productionTip = false;
 
 ///* eslint-disable no-new */
