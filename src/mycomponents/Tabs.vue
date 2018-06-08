@@ -17,8 +17,10 @@
           <b-row>
             <b-col id="dimensions">
               <hr>
-              <h5>Dimensions</h5>
-              <p>Dimensions dropdown...</p>
+              <h5>Others</h5>   <!--<h5>Dimensions</h5>-->
+              <p>Colour...</p>
+              <p>Shape...</p>
+              <p>Size...</p>
             </b-col>
           </b-row>
         </b-col>

@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         onFileChanged (event) {
-            this.selectedFile = event.target.files[0];
+            this.selectedFile = event.target.files[0];  //ToDo: get name of file, determine file type using the extension, and pass extension through a switch statement with each case calling a specific function to process that file type
 
             Papa.parse(this.selectedFile, { //parse blob into array of Json(if header is true) or array of rows (if header is false)
                 header: true,

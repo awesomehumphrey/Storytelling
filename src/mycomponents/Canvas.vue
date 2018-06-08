@@ -1,5 +1,5 @@
 <template>
-    <div class='dashboard' v-if="dataValues.length > 0">
+    <div class='dashboard' v-if="dataValues && this.encoding.y.field && this.encoding.x.field">
         <vega-lite :data="dataValues" :mark="mar" :encoding="encoding" :height="h" :width="w" :title="titl"/>
     </div>
 </template>
@@ -12,25 +12,30 @@ export default{
   data () {
     return {
     dataValues: [],
-    values: [
-      {"a": "A","b": 28}, {"a": "B","b": 55}, {"a": "C","b": 43},
-      {"a": "D","b": 91}, {"a": "E","b": 81}, {"a": "F","b": 53},
-      {"a": "G","b": 19}, {"a": "H","b": 87}, {"a": "I","b": 52}
-    ],
-  titl: "The simple bar chart",
+  titl: "A simple scatterplot",
   h: 500,
   w: 500,
-  mar: "bar",
+  yAxis: '',
+  xAxis: '',
+  mar: "point",
   encoding: {
-    "x": {"field": "Item_Weight", "type": "ordinal"},
-    "y": {"field": "Item_Visibility", "type": "quantitative"},
-    "tooltip": {"field": "b", "type": "quantitative"}
+    "x": {"field": "", "type": "quantitative"},
+    "y": {"field": "", "type": "quantitative"},
+    "tooltip": {"field": "max", "type": "quantitative"}
   }
     }
   },
+  
   created() {
 		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
 			this.dataValues = dataJson;
+		});
+    DataBus.$on('Y-axisValue', (yAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
+			this.encoding["y"]["field"] = yAxisSelected;
+      //console.log(this.encoding.y.field);
+		});
+    DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
+			this.encoding["x"]["field"] = xAxisSelected;
 		});
 	}
 }
