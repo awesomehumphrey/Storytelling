@@ -2,7 +2,7 @@
 <div class="input">
     <hr>
     <h5>Data</h5>
-    <b-form-file v-model="selectedFile" placeholder="Select a file..." accept=".csv" @change="onFileChanged" no-drop></b-form-file>
+    <b-form-file v-model="selectedFile" placeholder="Select file..." accept=".csv" @change="onFileChanged" no-drop></b-form-file>
 </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
     },
     methods: {
         onFileChanged (event) {
-            this.selectedFile = event.target.files[0];  //ToDo: get name of file, determine file type using the extension, and pass extension through a switch statement with each case calling a specific function to process that file type
+            this.selectedFile = event.target.files[0];  //ToDo: get name of file, determine file type using the extension, 
+            //and pass extension through a switch statement with each case calling a specific function to process that file type
 
             Papa.parse(this.selectedFile, { //parse blob into array of Json(if header is true) or array of rows (if header is false)
                 header: true,

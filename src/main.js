@@ -11,7 +11,7 @@ import BootstrapVue from 'bootstrap-vue';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'mdbootstrap/css/mdb.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
