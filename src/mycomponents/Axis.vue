@@ -2,20 +2,12 @@
 <div>
     <hr>
     <label for="y-axis">Y-Axis</label>
-    <select v-model="ySelected" @change="sendYValues">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
-        <option value="">Select y-axis field</option>
-        <option v-for="(option, index) in fieldNames" v-bind:value="option">
-            {{fieldNames[index]}}
-        </option>
-    </select>
+    <multiselect v-model="ySelected" placeholder="Select Y-axis" :searchable="true" :options="fieldNames" @select="sendYValues">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
+    </multiselect>
     <br>
     <label for="x-axis">X-Axis</label>
-    <select v-model="xSelected" @change="sendXValues"> <!--Might add the multiple property to make it accept multiple values stored in an array -->
-        <option value="">Select x-axis field</option>
-        <option v-for="(option, index) in fieldNames" v-bind:value="option">
-            {{fieldNames[index]}}
-        </option>
-    </select>
+    <multiselect v-model="xSelected" placeholder="Select X-axis" :searchable="true" :options="fieldNames" @select="sendXValues">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
+    </multiselect>
 
 </div>
 </template>
@@ -28,7 +20,7 @@ export default {
     data() {
         return {
          dataValues: 0,
-         fieldNames: '',
+         fieldNames: [],
          ySelected: '',  //Might change these to array depending on...
          xSelected: ''
         }
@@ -37,9 +29,6 @@ export default {
         DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
             this.dataValues = dataJson;
             console.log(this.dataValues);
-
-            //this.ySelected = '';
-            //this.xSelected = '';
         });
         DataBus.$on('fieldArray', (fieldArray) => { //Receive the data (field names) from Data component via DataBus
             this.fieldNames = fieldArray;
@@ -47,13 +36,13 @@ export default {
         });
     },
     methods: {
-        sendYValues() {
-            DataBus.$emit('Y-axisValue', this.ySelected); // Send Y-axis values through the event bus...When I use the methods object, select returns previous value, not current
+        sendYValues(val) { // val contains currently selected ySelected value from select input
+            DataBus.$emit('Y-axisValue', val); // Send Y-axis values through the event bus...
         },
-        sendXValues() {
-            DataBus.$emit('X-axisValue', this.xSelected); // Send X-axis values through the event bus...When I use the methods object, select returns previous value, not current
+        sendXValues(val) { // val contains currently selected xSelected value from select input
+            DataBus.$emit('X-axisValue', val); // Send X-axis values through the event bus...
         }
-    },
+    } ,
     watch: { // Watch for change in fieldNames which is triggered by a new file upload and reset the x and y axis and then resend their values
         fieldNames(val){
             this.ySelected = '';
@@ -63,10 +52,9 @@ export default {
         }
     } 
 }
-
 </script>
 
-<style scoped>
+<style src="vue-multiselect/dist/vue-multiselect.min.css">
 
 
 </style>
