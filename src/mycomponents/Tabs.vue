@@ -21,6 +21,8 @@
               <p>Colour...</p>
               <p>Shape...</p>
               <p>Size...</p>
+              <p>Opacity...</p>
+             <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
             </b-col>
           </b-row>
         </b-col>
