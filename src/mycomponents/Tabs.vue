@@ -30,7 +30,20 @@
         <b-col col lg="9.5" class="tabsections" id="datasection3">
           <b-row>
             <b-col col lg="9" class="canvas">1 <app-canvas></app-canvas></b-col>
-            <b-col col lg="2.5" class="canvas">2</b-col>
+            <b-col col lg="2.5" class="canvas">
+              <b-row>
+                <b-col><app-bargraph></app-bargraph></b-col>
+                <b-col><app-scatterplot></app-scatterplot></b-col>
+              </b-row>
+              <b-row>
+                <b-col>1 of 2</b-col>
+                <b-col>2 of 2</b-col>
+              </b-row>
+              <b-row>
+                <b-col>1 of 2</b-col>
+                <b-col>2 of 2</b-col>
+              </b-row>
+            </b-col>
           </b-row>
         </b-col>
         <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
@@ -48,12 +61,16 @@
 import Data from '@/mycomponents/Data';
 import Axis from '@/mycomponents/Axis';
 import Canvas from '@/mycomponents/Canvas';
+import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
+import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
 
 export default {
   components: {
         'app-data': Data,
         'app-axis': Axis,
-        'app-canvas': Canvas
+        'app-canvas': Canvas,
+        'app-bargraph': BarGraph,
+        'app-scatterplot': ScatterPlot
       },
 }
 </script>

@@ -1,7 +1,12 @@
 <template>
-    <div class='dashboard' v-if="dataValues && this.encoding.y.field && this.encoding.x.field">
+  <div ref="canvas">
+  <div v-if="this.spec.data.values.length !== 0 && this.spec.encoding.y.field && this.spec.encoding.x.field">
+    <vega-lite :spec="spec"></vega-lite>
+    <!-- <div class='dashboard' v-if="dataValues && this.encoding.y.field && this.encoding.x.field">
         <vega-lite :data="dataValues" :mark="mar" :encoding="encoding" :height="h" :width="w" :title="titl"/>
-    </div>
+    </div> -->
+  </div>
+  </div>
 </template>
 
 <script>
@@ -11,23 +16,26 @@ import { DataBus } from '@/main';
 export default{
   data () {
     return {
-    dataValues: [],
-  titl: "A simple scatterplot",
-  h: 500,
-  w: 500,
-  yAxis: '',
-  xAxis: '',
-  mar: "point",
-  encoding: {
-    "x": {"field": "", "type": "quantitative"},
-    "y": {"field": "", "type": "quantitative"},
-    "tooltip": {"field": "max", "type": "quantitative"}
-  }
+      spec: {
+        "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+        "description": "Graph",
+        "data": {
+        "values": []
+        }
+      }
     }
   },
-  
+  /* mounted() {
+    this.spec.height = this.$refs.canvas.clientHeight;
+    this.spec.width = this.$refs.canvas.clientWidth;
+    console.log(this.$refs.canv.clientHeight);
+  },  */
   created() {
-		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
+    DataBus.$on('graphSchema', (graphSpec) => {  //Receive the data (array of data values) from Data component via DataBus
+      this.spec = graphSpec;
+      this.spec.width = this.$refs.canvas.clientWidth;
+		});
+/* 		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
 			this.dataValues = dataJson;
 		});
     DataBus.$on('Y-axisValue', (yAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
@@ -36,8 +44,8 @@ export default{
 		});
     DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
 			this.encoding["x"]["field"] = xAxisSelected;
-		});
-	}
+		}); */
+  }
 }
 
 </script>
