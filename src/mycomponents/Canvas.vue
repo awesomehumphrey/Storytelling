@@ -33,7 +33,7 @@ export default{
   created() {
     DataBus.$on('graphSchema', (graphSpec) => {  //Receive the data (array of data values) from Data component via DataBus
       this.spec = graphSpec;
-      this.spec.width = this.$refs.canvas.clientWidth;
+      this.spec.width = this.$refs.canvas.clientWidth - 50;
 		});
 /* 		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
 			this.dataValues = dataJson;

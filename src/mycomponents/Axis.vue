@@ -19,17 +19,17 @@ import { DataBus } from '@/main';
 export default {
     data() {
         return {
-         dataValues: 0,
+         //dataValues: 0,
          fieldNames: [],
          ySelected: '',  //Might change these to array depending on...
          xSelected: ''
         }
     },
     created() {
-        DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
+        /* DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
             this.dataValues = dataJson;
             console.log(this.dataValues);
-        });
+        }); */
         DataBus.$on('fieldArray', (fieldArray) => { //Receive the data (field names) from Data component via DataBus
             this.fieldNames = fieldArray;
             console.log(this.fieldNames);

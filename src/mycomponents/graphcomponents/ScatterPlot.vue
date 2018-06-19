@@ -14,7 +14,7 @@ export default{
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
                 "description": "scatterplot",
-                "height": 500,  // Default height of graph
+                "height": 550,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
                     "type": "fit",
@@ -26,7 +26,10 @@ export default{
                 "mark": "point",
                 "encoding": {
                 "x": {"field": "", "type": "quantitative"},
-                "y": {"field": "", "type": "quantitative"}
+                "y": {"field": "", "type": "quantitative"},
+                "tooltip": {"field": "", "type": "quantitative"},
+                "color": {"field": "", "type": "nominal"},
+                "shape": {"field": "", "type": "nominal"}
                 }
             } 
         }
@@ -40,6 +43,9 @@ export default{
 		});
         DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
 			this.spec.encoding["x"]["field"] = xAxisSelected;
+        });
+        DataBus.$on('ToolTipLabel', (toolTipLabel) => {  //Receive the y-axis value from Axis component via DataBus
+			this.spec.encoding["tooltip"]["field"] = toolTipLabel;
 		});
 	},
     methods: {

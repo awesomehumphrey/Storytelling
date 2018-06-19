@@ -15,13 +15,13 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col id="dimensions">
-              <hr>
-              <h5>Others</h5>   <!--<h5>Dimensions</h5>-->
+            <b-col id="otherSelections">
+              <app-otherselections></app-otherselections>
+              <!-- <hr> <h5>Others</h5>   
               <p>Colour...</p>
               <p>Shape...</p>
               <p>Size...</p>
-              <p>Opacity...</p>
+              <p>Opacity...</p> -->
              <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
             </b-col>
           </b-row>
@@ -63,6 +63,7 @@ import Axis from '@/mycomponents/Axis';
 import Canvas from '@/mycomponents/Canvas';
 import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
 import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
+import otherSelections from '@/mycomponents/OtherSelections';
 
 export default {
   components: {
@@ -70,7 +71,8 @@ export default {
         'app-axis': Axis,
         'app-canvas': Canvas,
         'app-bargraph': BarGraph,
-        'app-scatterplot': ScatterPlot
+        'app-scatterplot': ScatterPlot,
+        'app-otherselections': otherSelections
       },
 }
 </script>
@@ -78,14 +80,14 @@ export default {
 <style>
 .tabsections {
   margin: 5px;
-  min-height: 500px;
+  min-height: 650px;
   border: 1px solid grey;
   border-radius: 2px;
 }
 
 .canvas {
   margin: 1px;
-  min-height: 500px;
+  min-height: 650px;
   border: 1px solid grey;
   border-radius: 2px;
 }
@@ -114,7 +116,7 @@ export default {
   min-height: 200px;  
 }
 
-#dimensions {
+#otherSelections {
   min-height: 200px;  
 }
 
