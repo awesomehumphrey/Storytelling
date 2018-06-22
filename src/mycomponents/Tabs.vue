@@ -36,7 +36,7 @@
                 <b-col><app-scatterplot></app-scatterplot></b-col>
               </b-row>
               <b-row>
-                <b-col>1 of 2</b-col>
+                <b-col><app-linegraph></app-linegraph></b-col>
                 <b-col>2 of 2</b-col>
               </b-row>
               <b-row>
@@ -49,8 +49,11 @@
         <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
     </b-row>
     </b-tab>
+    <b-tab title="GRAPH">
+      Graph (Visualisation nodes and edges) here...
+    </b-tab>
     <b-tab title="STORY">
-      Stories here...
+      Stories (Slideshows, gifs and videos) here...
     </b-tab>
   </b-tabs>
 </b-card>
@@ -64,6 +67,7 @@ import Canvas from '@/mycomponents/Canvas';
 import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
 import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
 import otherSelections from '@/mycomponents/OtherSelections';
+import LineGraph from '@/mycomponents/graphcomponents/LineGraph';
 
 export default {
   components: {
@@ -72,7 +76,8 @@ export default {
         'app-canvas': Canvas,
         'app-bargraph': BarGraph,
         'app-scatterplot': ScatterPlot,
-        'app-otherselections': otherSelections
+        'app-otherselections': otherSelections,
+        'app-linegraph': LineGraph
       },
 }
 </script>
@@ -80,14 +85,14 @@ export default {
 <style>
 .tabsections {
   margin: 5px;
-  min-height: 650px;
+  min-height: 600px;
   border: 1px solid grey;
   border-radius: 2px;
 }
 
 .canvas {
   margin: 1px;
-  min-height: 650px;
+  min-height: 600px;
   border: 1px solid grey;
   border-radius: 2px;
 }

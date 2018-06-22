@@ -2,15 +2,15 @@
 <div>
     <hr>
     <label for="labelToolTip">Label</label>
-    <multiselect v-model="toolTipLabel" placeholder="Select label variable" :searchable="true" :options="fieldNames" @select="sendLabelToolTip">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
+    <multiselect v-model="toolTipLabel" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendLabelToolTip">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
     </multiselect>
     <br>
     <label for="color">Colour</label>
-    <multiselect v-model="color" placeholder="Select colour variable" :searchable="true" :options="fieldNames" @select="sendColourValue">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
+    <multiselect v-model="color" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendColourValue">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
     </multiselect>
     <br>
     <label for="shape">Shape</label>
-    <multiselect v-model="shape" placeholder="Select shape variable" :searchable="true" :options="fieldNames" @select="sendShapeValue">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
+    <multiselect v-model="shape" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendShapeValue">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
     </multiselect>
 </div>
 </template>
@@ -55,7 +55,7 @@ export default {
             this.color = '';
             DataBus.$emit('Colour', this.color);
             this.shape = '';
-            DataBus.$emit('Colour', this.shape);
+            DataBus.$emit('Shape', this.shape);
         }
     }
 }

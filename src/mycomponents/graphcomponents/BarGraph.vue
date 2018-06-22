@@ -14,7 +14,7 @@ export default{
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
                 "description": "Bar Chart",
-                "height": 550,  // Default height of graph
+                "height": 500,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
                     "type": "fit",
@@ -56,6 +56,7 @@ export default{
 <style scoped>
 div {
     cursor: pointer;
+    margin-bottom: 5px;
 }
 
 

@@ -1,6 +1,6 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec" style="max-height: 7rem;" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid :src="require('@/assets/linegraph.png')" alt="Thumbnail" v-on:click="sendLineGraphSpec" style="max-height: 7rem;" /> <!--style="max-width: 7rem;" -->
 </div>
 </template>
 
@@ -13,7 +13,7 @@ export default{
         return {
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-                "description": "Scatterplot",
+                "description": "Line graph",
                 "height": 500,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
@@ -23,39 +23,34 @@ export default{
                 "data": {
                  "values": []
                  },
-                "mark": "point",
+                "mark": "line",
                 "encoding": {
-                "x": {"field": "", "type": "quantitative"},
+                "x": {"field": "", "type": "ordinal"},   // type can also be ordinal temporal
                 "y": {"field": "", "type": "quantitative"},
                 "tooltip": {"field": "", "type": "quantitative"},
-                "color": {"field": "", "type": "nominal"},
-                "shape": {"field": "", "type": "nominal"}
+                "color": {"field": "", "type": "nominal"}
                 }
             } 
         }
     },
     created() {
 		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
-			this.spec.data.values = dataJson;
+            this.spec.data.values = dataJson;
 		});
         DataBus.$on('Y-axisValue', (yAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
-			this.spec.encoding["y"]["field"] = yAxisSelected;
+            this.spec.encoding["y"]["field"] = yAxisSelected;
+            //this.spec.encoding["tooltip"]["field"] = yAxisSelected; //There's a bug in the tooltip that might come from the Vuevega wrapper...
+            //because it works on plain vegalite
 		});
         DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
-			this.spec.encoding["x"]["field"] = xAxisSelected;
-        });
-        DataBus.$on('ToolTipLabel', (toolTipLabel) => {  //Receive the tooltip label value from Axis component via DataBus
-			this.spec.encoding["tooltip"]["field"] = toolTipLabel;
+            this.spec.encoding["x"]["field"] = xAxisSelected;
         });
         DataBus.$on('Colour', (colour) => {  //Receive the colour value from Axis component via DataBus
 			this.spec.encoding["color"]["field"] = colour;
         });
-        DataBus.$on('Shape', (shape) => {  //Receive the colour value from Axis component via DataBus
-			this.spec.encoding["shape"]["field"] = shape;
-		});
 	},
     methods: {
-        sendScatterPlotSpec() {
+        sendLineGraphSpec() {
             DataBus.$emit('graphSchema', this.spec);
         }
     }
@@ -66,7 +61,7 @@ export default{
 <style scoped>
 div {
     cursor: pointer;
-    margin-bottom: 5px;
+     margin-bottom: 5px;
 }
 
 
