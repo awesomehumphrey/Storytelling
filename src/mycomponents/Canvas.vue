@@ -1,11 +1,11 @@
 <template>
   <div ref="canvas">
-  <div v-if="this.spec.data.values.length !== 0 && this.spec.encoding.y.field && this.spec.encoding.x.field">
+    <div v-if="this.spec.data.values.length !== 0 && this.spec.encoding.y.field && this.spec.encoding.x.field">
     <vega-lite :spec="spec"></vega-lite>
     <!-- <div class='dashboard' v-if="dataValues && this.encoding.y.field && this.encoding.x.field">
         <vega-lite :data="dataValues" :mark="mar" :encoding="encoding" :height="h" :width="w" :title="titl"/>
     </div> -->
-  </div>
+    </div>
   </div>
 </template>
 

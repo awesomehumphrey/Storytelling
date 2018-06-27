@@ -25,7 +25,7 @@ export default{
                  },
                 "mark": "line",
                 "encoding": {
-                "x": {"field": "", "type": "ordinal"},   // type can also be ordinal temporal
+                "x": {"field": "", "type": "temporal"},   // type can also be ordinal temporal
                 "y": {"field": "", "type": "quantitative"},
                 "tooltip": {"field": "", "type": "quantitative"},
                 "color": {"field": "", "type": "nominal"}

@@ -37,7 +37,7 @@
               </b-row>
               <b-row>
                 <b-col><app-linegraph></app-linegraph></b-col>
-                <b-col>2 of 2</b-col>
+                <b-col><app-areachart></app-areachart></b-col>
               </b-row>
               <b-row>
                 <b-col>1 of 2</b-col>
@@ -68,6 +68,7 @@ import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
 import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
 import otherSelections from '@/mycomponents/OtherSelections';
 import LineGraph from '@/mycomponents/graphcomponents/LineGraph';
+import AreaChart from '@/mycomponents/graphcomponents/AreaChart';
 
 export default {
   components: {
@@ -77,7 +78,8 @@ export default {
         'app-bargraph': BarGraph,
         'app-scatterplot': ScatterPlot,
         'app-otherselections': otherSelections,
-        'app-linegraph': LineGraph
+        'app-linegraph': LineGraph,
+        'app-areachart': AreaChart
       },
 }
 </script>
