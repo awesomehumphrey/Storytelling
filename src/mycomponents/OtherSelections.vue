@@ -12,6 +12,10 @@
     <label for="shape">Shape</label>
     <multiselect v-model="shape" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendShapeValue">  <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
     </multiselect>
+   <!-- <br>
+    <label for="size">Size</label>
+    <multiselect v-model="size" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendSizeValue">  
+    </multiselect> -->
 </div>
 </template>
 
@@ -25,7 +29,8 @@ export default {
          fieldNames: [],
          toolTipLabel: '',  
          color: '',
-         shape: ''
+         shape: ''//,
+         //size: ''
         }
     },
     created() {
@@ -46,7 +51,11 @@ export default {
         sendShapeValue(val) { // val contains currently selected shape value from select input
             DataBus.$emit('Shape', val); // Send shape values through the event bus...
             console.log(val)
-        }
+        }//,
+        //sendSizeValue(val) { // val contains currently selected shape value from select input
+        //    DataBus.$emit('Size', val); // Send shape values through the event bus...
+        //    console.log(val)
+        //}
     },
     watch: { // Watch for change in fieldNames which is triggered by a new file upload and reset the x and y axis and then resend their values
         fieldNames(val){
@@ -56,6 +65,8 @@ export default {
             DataBus.$emit('Colour', this.color);
             this.shape = '';
             DataBus.$emit('Shape', this.shape);
+            //this.size = '';
+            //DataBus.$emit('Size', this.size);
         }
     }
 }

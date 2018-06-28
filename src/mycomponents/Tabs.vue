@@ -40,8 +40,8 @@
                 <b-col><app-areachart></app-areachart></b-col>
               </b-row>
               <b-row>
-                <b-col>1 of 2</b-col>
-                <b-col>2 of 2</b-col>
+                <b-col><app-histogram></app-histogram></b-col>
+                <b-col><app-punchcard></app-punchcard></b-col>
               </b-row>
             </b-col>
           </b-row>
@@ -69,6 +69,8 @@ import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
 import otherSelections from '@/mycomponents/OtherSelections';
 import LineGraph from '@/mycomponents/graphcomponents/LineGraph';
 import AreaChart from '@/mycomponents/graphcomponents/AreaChart';
+import Histogram from '@/mycomponents/graphcomponents/Histogram';
+import PunchCard from '@/mycomponents/graphcomponents/PunchCard';
 
 export default {
   components: {
@@ -79,7 +81,9 @@ export default {
         'app-scatterplot': ScatterPlot,
         'app-otherselections': otherSelections,
         'app-linegraph': LineGraph,
-        'app-areachart': AreaChart
+        'app-areachart': AreaChart,
+        'app-histogram': Histogram,
+        'app-punchcard': PunchCard
       },
 }
 </script>

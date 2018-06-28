@@ -6,6 +6,9 @@
         <vega-lite :data="dataValues" :mark="mar" :encoding="encoding" :height="h" :width="w" :title="titl"/>
     </div> -->
     </div>
+    <div v-else-if="this.spec.description === 'histogram'">
+    <vega-lite :spec="spec"></vega-lite>
+    </div>
   </div>
 </template>
 
