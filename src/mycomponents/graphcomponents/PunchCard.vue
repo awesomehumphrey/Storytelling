@@ -1,6 +1,12 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/punchcard.png')" alt="Thumbnail" v-on:click="sendPunchCardSpec" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="punchcard" :src="require('@/assets/punchcard.png')" alt="Thumbnail" v-on:click="sendPunchCardSpec" /> <!--style="max-width: 7rem;" -->
+   <b-popover :target="'punchcard'"
+                   :placement="'top'"
+                   title="Punch card"
+                   triggers="hover focus"
+                   :content="'2 nominal/temporal variables and 1 quantitative variable subsetted by colour and/or shape.'">
+    </b-popover>
 </div>
 </template>
 

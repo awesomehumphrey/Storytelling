@@ -1,6 +1,12 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/histogram.png')" alt="Thumbnail" v-on:click="sendHistogramSpec" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="histogram" :src="require('@/assets/histogram.png')" alt="Thumbnail" v-on:click="sendHistogramSpec" /> <!--style="max-width: 7rem;" -->
+   <b-popover :target="'histogram'"
+                   :placement="'top'"
+                   title="Histogram"
+                   triggers="hover focus"
+                   :content="'1 quantitative variable that supports binning calculation.'">
+    </b-popover>
 </div>
 </template>
 

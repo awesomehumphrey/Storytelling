@@ -48,9 +48,9 @@ export default{
 			this.encoding["x"]["field"] = xAxisSelected;
 		}); */
   },
-  /*beforeDestroy: function () {
-    window.removeEventListener('resize', this.handleResize)
-  }, */
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   methods: {
     // whenever the document is resized, re-set the 'clientWidth' variable
     handleResize (event) {

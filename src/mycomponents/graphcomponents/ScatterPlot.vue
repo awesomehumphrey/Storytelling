@@ -1,6 +1,12 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec"/> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="scatterplot" :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec"/> <!--style="max-width: 7rem;" -->
+   <b-popover :target="'scatterplot'"
+                   :placement="'top'"
+                   title="Scatterplot"
+                   triggers="hover focus"
+                   :content="'2 quantitative variables. Can be subsetted by colour and/or shape.'">
+    </b-popover>
 </div>
 </template>
 

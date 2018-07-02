@@ -1,6 +1,12 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/linegraph.png')" alt="Thumbnail" v-on:click="sendLineGraphSpec"/> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="linegraph" :src="require('@/assets/linegraph.png')" alt="Thumbnail" v-on:click="sendLineGraphSpec"/> <!--style="max-width: 7rem;" -->
+   <b-popover :target="'linegraph'"
+                   :placement="'top'"
+                   title="Line graph"
+                   triggers="hover focus"
+                   :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-line, subset with colour.'">
+    </b-popover>
 </div>
 </template>
 

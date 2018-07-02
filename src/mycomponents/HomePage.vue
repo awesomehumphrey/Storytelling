@@ -47,47 +47,4 @@ a {
   color: #42b983;
 }
 
-/*.tabsections {
-  margin: 5px;
-  min-height: 500px;
-  border: 1px solid grey;   
-  border-radius: 2px;
-}
-
-.canvas {
-  margin: 1px;
-  min-height: 500px;
-  border: 1px solid grey;
-  border-radius: 2px;
-}
-
-#datasection1 {
-  background-color: #f1f1f1; 
-}
-
-#datasection2 {
-  background-color: blue;
-}
-
-#datasection3 {
-  background-color: #f0f0f0;
-}
-
-#datasection4 {
-  background-color: #b9428b;
-}
-
-#dataupload {
-  min-height: 100px;
-}
-
-#measures {
-  min-height: 200px;  
-}
-
-#dimensions {
-  min-height: 200px;  
-}  */
-
-
 </style>

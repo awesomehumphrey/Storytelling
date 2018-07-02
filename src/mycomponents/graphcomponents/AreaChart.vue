@@ -1,6 +1,12 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/areachart.png')" alt="Thumbnail" v-on:click="sendAreaChartSpec"/> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="areagraph" :src="require('@/assets/areachart.png')" alt="Thumbnail" v-on:click="sendAreaChartSpec"/> <!--style="max-width: 7rem;" -->
+   <b-popover :target="'areagraph'"
+                   :placement="'top'"
+                   title="Area graph"
+                   triggers="hover focus"
+                   :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-categories, subset by colour.'">
+    </b-popover>
 </div>
 </template>
 

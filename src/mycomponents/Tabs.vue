@@ -1,6 +1,6 @@
 <template>
   <b-card no-body>
-  <b-tabs card>
+  <b-tabs pills card>
     <b-tab title="DATA" active>
       <b-row>
         <b-col col lg="2" class="tabsections" id="datasection1">
