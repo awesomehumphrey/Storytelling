@@ -1,5 +1,5 @@
 <template>
-  <div ref="canvas">
+  <div ref="canvas" v-on:resize="handleResize()">
     <div v-if="this.spec.data.values.length !== 0 && this.spec.encoding.y.field && this.spec.encoding.x.field">
     <vega-lite :spec="spec"></vega-lite>
     <!-- <div class='dashboard' v-if="dataValues && this.encoding.y.field && this.encoding.x.field">
@@ -28,15 +28,14 @@ export default{
       }
     }
   },
-  /* mounted() {
-    this.spec.height = this.$refs.canvas.clientHeight;
-    this.spec.width = this.$refs.canvas.clientWidth;
-    console.log(this.$refs.canv.clientHeight);
-  },  */
+  mounted() {
+    window.addEventListener('resize', this.handleResize);   
+  },  
   created() {
     DataBus.$on('graphSchema', (graphSpec) => {  //Receive the data (array of data values) from Data component via DataBus
       this.spec = graphSpec;
       this.spec.width = this.$refs.canvas.clientWidth - 50;
+     // window.addEventListener('resize', this.handleResize);
 		});
 /* 		DataBus.$on('dataJson', (dataJson) => {  //Receive the data (array of data values) from Data component via DataBus
 			this.dataValues = dataJson;
@@ -48,6 +47,16 @@ export default{
     DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
 			this.encoding["x"]["field"] = xAxisSelected;
 		}); */
+  },
+  /*beforeDestroy: function () {
+    window.removeEventListener('resize', this.handleResize)
+  }, */
+  methods: {
+    // whenever the document is resized, re-set the 'clientWidth' variable
+    handleResize (event) {
+      this.spec.width = this.$refs.canvas.clientWidth - 50;
+      //console.log(this.$refs.canvas.clientWidth);
+    }
   }
 }
 
