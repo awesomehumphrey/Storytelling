@@ -1,6 +1,6 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec" style="max-height: 7rem;" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec"/> <!--style="max-width: 7rem;" -->
 </div>
 </template>
 

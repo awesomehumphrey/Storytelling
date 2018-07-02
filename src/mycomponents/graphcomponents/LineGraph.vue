@@ -1,6 +1,6 @@
 <template>
 <div>
-   <b-img thumbnail fluid :src="require('@/assets/linegraph.png')" alt="Thumbnail" v-on:click="sendLineGraphSpec" style="max-height: 7rem;" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid :src="require('@/assets/linegraph.png')" alt="Thumbnail" v-on:click="sendLineGraphSpec"/> <!--style="max-width: 7rem;" -->
 </div>
 </template>
 

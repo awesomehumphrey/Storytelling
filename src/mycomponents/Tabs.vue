@@ -27,10 +27,10 @@
           </b-row>
         </b-col>
         <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
-        <b-col col lg="9.5" class="tabsections" id="datasection3">
+        <b-col col lg="9.5" class="tabsections">
           <b-row>
-            <b-col col lg="9" class="canvas">1 <app-canvas></app-canvas></b-col>
-            <b-col col lg="2.5" class="canvas">
+            <b-col col lg="9" class="canvas" id="datasection3"><app-canvas></app-canvas></b-col>
+            <b-col col lg="2.5" class="canvas" id="datasection4">
               <b-row>
                 <b-col><app-bargraph></app-bargraph></b-col>
                 <b-col><app-scatterplot></app-scatterplot></b-col>
@@ -92,7 +92,7 @@ export default {
 .tabsections {
   margin: 5px;
   min-height: 600px;
-  border: 1px solid grey;
+  border: 1px solid grey;  /* border: 1px solid grey;*/
   border-radius: 2px;
 }
 
@@ -112,11 +112,13 @@ export default {
 }
 
 #datasection3 {
-  background-color: #f0f0f0;
+  /*background-color: #f0f0f0; */
+  padding: 20px;
 }
 
 #datasection4 {
-  background-color: #b9428b;
+  background-color: #f1f1f1; 
+  padding: 10px;
 }
 
 #dataupload {

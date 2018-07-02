@@ -47,10 +47,10 @@ a {
   color: #42b983;
 }
 
-.tabsections {
+/*.tabsections {
   margin: 5px;
   min-height: 500px;
-  border: 1px solid grey;
+  border: 1px solid grey;   
   border-radius: 2px;
 }
 
@@ -87,10 +87,7 @@ a {
 
 #dimensions {
   min-height: 200px;  
-}
+}  */
 
-p {
-  
-}
 
 </style>
