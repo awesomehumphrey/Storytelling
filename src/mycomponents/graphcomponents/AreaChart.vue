@@ -19,7 +19,7 @@ export default{
         return {
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-                "description": "Area chart",
+                "description": "areaChart",
                 "height": 500,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {

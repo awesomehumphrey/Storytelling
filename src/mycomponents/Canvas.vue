@@ -6,7 +6,7 @@
         <vega-lite :data="dataValues" :mark="mar" :encoding="encoding" :height="h" :width="w" :title="titl"/>
     </div> -->
     </div>
-    <div v-else-if="this.spec.description === 'histogram'">
+    <div v-else-if="this.spec.description === 'histogram' && this.spec.encoding.x.field">
     <vega-lite :spec="spec"></vega-lite>
     </div>
   </div>
@@ -32,7 +32,7 @@ export default{
     window.addEventListener('resize', this.handleResize);   
   },  
   created() {
-    DataBus.$on('graphSchema', (graphSpec) => {  //Receive the data (array of data values) from Data component via DataBus
+    DataBus.$on('graphSchema', (graphSpec) => {  //Receive the graph schema from selected graph component via DataBus
       this.spec = graphSpec;
       this.spec.width = this.$refs.canvas.clientWidth - 50;
      // window.addEventListener('resize', this.handleResize);

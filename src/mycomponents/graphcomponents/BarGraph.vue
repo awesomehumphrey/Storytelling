@@ -19,7 +19,7 @@ export default{
         return {
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-                "description": "Bar Chart",
+                "description": "barChart",
                 "height": 500,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
@@ -33,7 +33,7 @@ export default{
                 "encoding": {
                 "x": {"field": "", "type": "ordinal"},
                 "y": {"field": "", "type": "quantitative"},
-                "tooltip": {"field": "", "type": "quantitative"},
+                "tooltip": {"field": "", "type": "quantitative"}
                 }
             } 
         }

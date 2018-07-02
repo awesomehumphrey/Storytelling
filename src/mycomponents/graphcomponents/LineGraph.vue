@@ -5,7 +5,7 @@
                    :placement="'top'"
                    title="Line graph"
                    triggers="hover focus"
-                   :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-line, subset with colour.'">
+                   :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-line, subset by colour.'">
     </b-popover>
 </div>
 </template>
@@ -19,7 +19,7 @@ export default{
         return {
            spec: {
                 "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-                "description": "Line graph",
+                "description": "lineGraph",
                 "height": 500,  // Default height of graph
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
