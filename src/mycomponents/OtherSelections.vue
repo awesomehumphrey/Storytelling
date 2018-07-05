@@ -45,7 +45,7 @@ export default {
     created() {
         DataBus.$on('fieldArray', (fieldArray) => { //Receive the data (field names) from Data component via DataBus
             this.fieldNames = fieldArray;
-            console.log(this.fieldNames);
+            //console.log(this.fieldNames);
         });
         DataBus.$on('graphSchema', (graphSpec) => {  //Receive the graph schema from selected graph component via DataBus
             this.spec = graphSpec;
@@ -54,15 +54,15 @@ export default {
     methods: {
         sendLabelToolTip(val) { // val contains currently selected label value from select input
             DataBus.$emit('ToolTipLabel', val); // Send label values through the event bus...
-            console.log(val)
+            //console.log(val)
         },
         sendColourValue(val) { // val contains currently selected colour value from select input
             DataBus.$emit('Colour', val); // Send colour values through the event bus...
-            console.log(val)
+            //console.log(val)
         },
         sendShapeValue(val) { // val contains currently selected shape value from select input
             DataBus.$emit('Shape', val); // Send shape values through the event bus...
-            console.log(val)
+            //console.log(val)
         }//,
         //sendSizeValue(val) { // val contains currently selected shape value from select input
         //    DataBus.$emit('Size', val); // Send shape values through the event bus...
@@ -70,7 +70,7 @@ export default {
         //}
     },
     watch: { // Watch for change in fieldNames which is triggered by a new file upload and reset the x and y axis and then resend their values
-        fieldNames(val){
+        fieldNames(val) {
             this.toolTipLabel = '';
             DataBus.$emit('ToolTipLabel', this.toolTipLabel);
             this.color = '';
@@ -79,6 +79,15 @@ export default {
             DataBus.$emit('Shape', this.shape);
             //this.size = '';
             //DataBus.$emit('Size', this.size);
+        },
+        color(val) {
+            DataBus.$emit('Colour', this.color);
+        },
+        shape(val) {
+            DataBus.$emit('Shape', this.shape); 
+        },
+        toolTipLabel(val) {
+            DataBus.$emit('ToolTipLabel', this.toolTipLabel); 
         }
     }
 }

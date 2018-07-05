@@ -32,7 +32,7 @@ export default {
         }); */
         DataBus.$on('fieldArray', (fieldArray) => { //Receive the data (field names) from Data component via DataBus
             this.fieldNames = fieldArray;
-            console.log(this.fieldNames);
+            //console.log(this.fieldNames);
         });
     },
     methods: {

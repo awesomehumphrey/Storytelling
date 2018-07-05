@@ -26,8 +26,8 @@ export default{
         },
         "mark": "line",
         "encoding": {
-          "x": {"field": "", "type": "ordinal"},   
-          "y": {"field": "", "type": "quantitative"}}
+          "x": {"field": "", "type": ""},   
+          "y": {"field": "", "type": ""}}
       }
     }
   },  
@@ -42,7 +42,7 @@ export default{
     //vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
   },
   updated () {
-    this.renderVis();
+    this.renderVis(); //Initially, visualisation is not rendered in mounted() because spec is not yet populated with real data hence rendered in updated() after data selection
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
@@ -54,7 +54,7 @@ export default{
       this.renderVis();
     },
     renderVis() {
-      console.log(this.spec);
+      //console.log(this.spec);
       vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
     }
   },
