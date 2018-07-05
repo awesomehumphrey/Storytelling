@@ -49,7 +49,6 @@ export default{
     methods: {
         sendHistogramSpec() {
             DataBus.$emit('graphSchema', this.spec);
-            console.log(this.spec);
         }
     }
 }

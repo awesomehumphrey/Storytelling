@@ -105,6 +105,7 @@ export default {
 
 #datasection1 {
   background-color: #f1f1f1; 
+  max-width: 240px;
 }
 
 #datasection2 {
@@ -114,11 +115,14 @@ export default {
 #datasection3 {
   /*background-color: #f0f0f0; */
   padding: 20px;
+  min-height: 600px;
+  min-width: 500px;
 }
 
 #datasection4 {
   background-color: #f1f1f1; 
   padding: 10px;
+  min-height: 600px;
 }
 
 #dataupload {

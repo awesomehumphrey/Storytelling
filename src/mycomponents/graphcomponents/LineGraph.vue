@@ -45,7 +45,7 @@ export default{
 		});
         DataBus.$on('Y-axisValue', (yAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
             this.spec.encoding["y"]["field"] = yAxisSelected;
-            //this.spec.encoding["tooltip"]["field"] = yAxisSelected; //There's a bug in the tooltip that might come from the Vuevega wrapper...
+            this.spec.encoding["tooltip"]["field"] = yAxisSelected; //There's a bug in the tooltip that might come from the Vuevega wrapper...
             //because it works on plain vegalite
 		});
         DataBus.$on('X-axisValue', (xAxisSelected) => {  //Receive the y-axis value from Axis component via DataBus
