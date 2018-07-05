@@ -49,6 +49,12 @@ export default {
             DataBus.$emit('Y-axisValue', this.ySelected);
             this.xSelected = '';
             DataBus.$emit('X-axisValue', this.xSelected);
+        },
+        ySelected(val) {
+            DataBus.$emit('Y-axisValue', this.ySelected);
+        },
+        xSelected(val) {
+            DataBus.$emit('X-axisValue', this.xSelected);
         }
     } 
 }
