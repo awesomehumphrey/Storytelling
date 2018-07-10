@@ -29,7 +29,7 @@ export default{
                 "data": {
                  "values": []
                  },
-                "mark": "bar",
+                "mark": {"type": "bar", "cursor": "pointer"},
                 "encoding": {
                 "x": {"field": "", "type": "ordinal"},
                 "y": {"field": "", "type": "quantitative"},

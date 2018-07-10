@@ -26,6 +26,7 @@
     "vega": "^4.0.0-rc.2",
     "vega-embed": "^3.14.0",
     "vega-lite": "^2.5.1",
+    "vis": "^4.21.0",
     "vue": "^2.5.2",
     "vue-multiselect": "^2.1.0",
     "vue-router": "^3.0.1",

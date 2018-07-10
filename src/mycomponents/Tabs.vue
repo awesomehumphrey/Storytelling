@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
   <b-tabs pills card>
-    <b-tab title="DATA" active>
+    <b-tab title="DATA">
       <b-row>
         <b-col col lg="2" class="tabsections" id="datasection1">
           <b-row>
@@ -49,8 +49,10 @@
         <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
     </b-row>
     </b-tab>
-    <b-tab title="GRAPH">
-      Graph (Visualisation nodes and edges) here...
+    <b-tab title="GRAPH" active>
+      <b-row>
+        <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col>
+      </b-row>
     </b-tab>
     <b-tab title="STORY">
       Stories (Slideshows, gifs and videos) here...
@@ -66,11 +68,12 @@ import Axis from '@/mycomponents/Axis';
 import Canvas from '@/mycomponents/Canvas';
 import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
 import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
-import otherSelections from '@/mycomponents/OtherSelections';
+import OtherSelections from '@/mycomponents/OtherSelections';
 import LineGraph from '@/mycomponents/graphcomponents/LineGraph';
 import AreaChart from '@/mycomponents/graphcomponents/AreaChart';
 import Histogram from '@/mycomponents/graphcomponents/Histogram';
 import PunchCard from '@/mycomponents/graphcomponents/PunchCard';
+import GraphCanvas from '@/mycomponents/GraphCanvas';
 
 export default {
   components: {
@@ -79,11 +82,12 @@ export default {
         'app-canvas': Canvas,
         'app-bargraph': BarGraph,
         'app-scatterplot': ScatterPlot,
-        'app-otherselections': otherSelections,
+        'app-otherselections': OtherSelections,
         'app-linegraph': LineGraph,
         'app-areachart': AreaChart,
         'app-histogram': Histogram,
-        'app-punchcard': PunchCard
+        'app-punchcard': PunchCard,
+        'app-graphcanvas': GraphCanvas
       },
 }
 </script>
