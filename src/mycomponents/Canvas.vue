@@ -15,7 +15,8 @@ import { DataBus } from '@/main';
 import vegaEmbed from 'vega-embed';
 //import vegalite from 'vega-lite';
 
-export default{
+export default{ 
+  
   data () {
     return {
       spec: {

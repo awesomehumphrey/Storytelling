@@ -96,7 +96,7 @@ export default {
 .tabsections {
   margin: 5px;
   min-height: 600px;
-  border: 1px solid grey;  /* border: 1px solid grey;*/
+  border: 1px solid grey;  /* border: 1px solid grey; */
   border-radius: 2px;
 }
 
