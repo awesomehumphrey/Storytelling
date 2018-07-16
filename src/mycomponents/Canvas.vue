@@ -6,6 +6,7 @@
     <div v-else-if="this.spec.description === 'histogram' && this.spec.encoding.x.field">
       <div id="vis"></div>
     </div>
+    <b-button v-show="this.spec.encoding.x.field" size="md" variant="primary" class="float-right" v-on:click="sendNodeData">Create Node</b-button>
   </div>
 </template>
 
@@ -57,6 +58,10 @@ export default{
     renderVis() {
       //console.log(this.spec);
       vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
+    },
+    sendNodeData() {
+      DataBus.$emit('nodeData', this.spec); //Perhaps update title here before sending the data for graph node
+      //console.log(this.spec);
     }
   },
    watch: { // Watch for change in spec properties and re-render visualisation

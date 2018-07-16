@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
   <b-tabs pills card>
-    <b-tab title="DATA">
+    <b-tab title="DATA" active>
       <b-row>
         <b-col col lg="2" class="tabsections" id="datasection1">
           <b-row>
@@ -49,7 +49,7 @@
         <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
     </b-row>
     </b-tab>
-    <b-tab title="GRAPH" active>
+    <b-tab title="GRAPH">
       <b-row>
         <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col>
       </b-row>

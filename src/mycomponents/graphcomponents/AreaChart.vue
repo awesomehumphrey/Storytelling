@@ -24,7 +24,9 @@ export default{
                 "width": 650,   // Default width of graph, but is dynamically updated to fit the width of the device
                 "autosize": {
                     "type": "fit",
-                    "contains": "padding"
+                    "contains": "padding",
+                    "resize": true  //
+
                  },
                 "data": {
                  "values": []
