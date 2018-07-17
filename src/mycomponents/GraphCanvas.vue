@@ -116,8 +116,7 @@ var options = {
 export default{
     data() {
         return {
-            network: null,
-            count: 15,                
+            network: null,               
             container: '',
             nodeCount: 0,
             edgeCount: 0,
@@ -156,11 +155,11 @@ export default{
         DataBus.$off('nodeData', this.visNodeData);
     },
     methods: {
-        addNode(nodeData) {
+        /* addNode(nodeData) {
             nodes.update(nodeData)
     	    console.log(nodeData);
             console.log(nodes);
-        },
+        }, */
 
         deleteNode(deleteData) {
      
@@ -170,7 +169,8 @@ export default{
         addEdge(edgeData) {
             //var nodeOne = nodes.get(edgeData.from);
             //var nodeTwo = nodes.get(edgeData.to);
-            edgeData.id = this.count++;
+            edgeData.id = this.edgeCount;
+            this.edgeCount++;
             edges.update(edgeData);
             console.log(edgeData);
             console.log(edges);
@@ -185,7 +185,7 @@ export default{
             this.newNode.id = this.nodeCount;
             this.newNode.index = this.nodeCount;
             this.newNode.nData = nodeData;
-            this.newNode.title = "See " + this.nodeCount;
+            this.newNode.title = nodeData.myTitle;   //newnode.title is for the visjs tooltip and different from vega spec.title
             this.newNode.x = 800;   // x coordinate on the screen
             this.newNode.y = 250;   // y coordinate on the screen
             
@@ -210,7 +210,6 @@ export default{
                     break;
                 default:
                     this.newNode.image = require('@/assets/logo.png');
-                    break;
             }
             this.nodeCount++;
             nodes.update(this.newNode);

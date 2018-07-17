@@ -25,7 +25,7 @@ export default{
                 "autosize": {
                     "type": "fit",
                     "contains": "padding",
-                    "resize": true  //
+                    //"resize": true  //
                  },
                 "data": {
                  "values": []

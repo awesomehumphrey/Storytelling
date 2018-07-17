@@ -1,12 +1,14 @@
 <template>
   <div ref="canvas" v-on:resize="handleResize()">
-    <div v-if="this.spec.data.values.length !== 0 && this.spec.encoding.y.field && this.spec.encoding.x.field">
+    <div v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field">
+      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input> <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
-    <div v-else-if="this.spec.description === 'histogram' && this.spec.encoding.x.field">
+    <div v-else-if="spec.description === 'histogram' && spec.encoding.x.field">
+      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input> <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
-    <b-button v-show="this.spec.encoding.x.field" size="md" variant="primary" class="float-right" v-on:click="sendNodeData">Create Node</b-button>
+    <b-button v-show="spec.encoding.x.field" size="md" variant="primary" class="float-right" v-on:click="sendNodeData">Create Node</b-button>
   </div>
 </template>
 
@@ -20,6 +22,7 @@ export default{
   
   data () {
     return {
+      myTitle: "Title",
       spec: {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "description": "Graph",
@@ -59,17 +62,25 @@ export default{
       //console.log(this.spec);
       vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
     },
+    updateTitle() {
+      this.myTitle = "Title";
+    },
     sendNodeData() {
-      DataBus.$emit('nodeData', this.spec); //Perhaps update title here before sending the data for graph node
+      this.spec.myTitle = this.myTitle;    //the object property, "myTitle" is not part of the spec. It's only used to send the title to GraphTab...
+      // ...The spec property, "title" will be used instead when modals are used for title and axis labels update.
+      DataBus.$emit('nodeData', this.spec);
       //console.log(this.spec);
     }
   },
-   watch: { // Watch for change in spec properties and re-render visualisation
+  watch: { // Watch for change in spec properties and re-render visualisation
         spec:{ 
           handler() {
             this.renderVis();
           },
-          deep: true      //watches for changes in nested properties    
+          deep: true      //watches for changes in nested properties in spec   
+        },
+        'spec.description'() { //watch for changes in spec.description
+          this.updateTitle(); //Update title when spec description changes, triggered by selection of a different visualisation type
         }
     } 
 }
@@ -77,6 +88,11 @@ export default{
 </script>
 
 <style scoped>
+#visTitle{
+  border: none;
+  text-align: center;
+  font-weight: bolder;
+}
 
 
 </style>
