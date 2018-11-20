@@ -186,6 +186,7 @@ export default{
             this.newNode.index = this.nodeCount;
             this.newNode.nData = nodeData;
             this.newNode.title = nodeData.myTitle;   //newnode.title is for the visjs tooltip and different from vega spec.title
+            this.newNode.label = nodeData.myTitle;   //newnode.title is for the visjs tooltip and different from vega spec.title
             this.newNode.x = 800;   // x coordinate on the screen
             this.newNode.y = 250;   // y coordinate on the screen
             

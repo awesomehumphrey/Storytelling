@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
   <b-tabs pills card>
-    <b-tab title="DATA" active>
+    <b-tab title="DATA">
       <b-row>
         <b-col col lg="2" class="tabsections" id="datasection1">
           <b-row>
@@ -17,7 +17,7 @@
           <b-row>
             <b-col id="otherSelections">
               <app-otherselections></app-otherselections>
-              <!-- <hr> <h5>Others</h5>   
+              <!-- <hr> <h5>Others</h5>
               <p>Colour...</p>
               <p>Shape...</p>
               <p>Size...</p>
@@ -54,8 +54,11 @@
         <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col>
       </b-row>
     </b-tab>
-    <b-tab title="STORY">
-      Stories (Slideshows, gifs and videos) here...
+    <b-tab title="STORY" active>
+      <b-row>
+        <b-col class="tabsections"><app-story></app-story></b-col>
+      </b-row>
+      <!--Stories (Slideshows, gifs and videos) here... -->
     </b-tab>
   </b-tabs>
 </b-card>
@@ -74,6 +77,7 @@ import AreaChart from '@/mycomponents/graphcomponents/AreaChart';
 import Histogram from '@/mycomponents/graphcomponents/Histogram';
 import PunchCard from '@/mycomponents/graphcomponents/PunchCard';
 import GraphCanvas from '@/mycomponents/GraphCanvas';
+import Story from '@/mycomponents/Story';
 
 export default {
   components: {
@@ -87,7 +91,8 @@ export default {
         'app-areachart': AreaChart,
         'app-histogram': Histogram,
         'app-punchcard': PunchCard,
-        'app-graphcanvas': GraphCanvas
+        'app-graphcanvas': GraphCanvas,
+        'app-story': Story
       },
 }
 </script>
@@ -108,7 +113,7 @@ export default {
 }
 
 #datasection1 {
-  background-color: #f1f1f1; 
+  background-color: #f1f1f1;
   max-width: 240px;
 }
 
@@ -124,7 +129,7 @@ export default {
 }
 
 #datasection4 {
-  background-color: #f1f1f1; 
+  background-color: #f1f1f1;
   padding: 10px;
   min-height: 600px;
 }
@@ -134,13 +139,11 @@ export default {
 }
 
 #measures {
-  min-height: 200px;  
+  min-height: 200px;
 }
 
 #otherSelections {
-  min-height: 200px;  
+  min-height: 200px;
 }
 
 </style>
-
-
