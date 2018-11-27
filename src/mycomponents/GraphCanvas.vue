@@ -1,9 +1,9 @@
 <template>
   <div ref="graphCanvas">
     <div ref="graphVis" id="graphVis" class="vis-network">Testing</div>
-    <!--<b-button size="md" variant="primary" class="float-right" @click="me">Done</b-button>
+    <b-button size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button>
 
-    <b-button size="md" variant="primary" class="float-left">Import</b-button>
+   <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
     <b-button size="md" variant="primary" class="float-left">Export</b-button> -->
   </div>
 </template>
@@ -169,17 +169,19 @@ export default{
         addEdge(edgeData) {
             //var nodeOne = nodes.get(edgeData.from);
             //var nodeTwo = nodes.get(edgeData.to);
+
             edgeData.id = this.edgeCount;
             this.edgeCount++;
             edges.update(edgeData);
-            console.log(edgeData);
-            console.log(edges);
+            //console.log(edgeData);
+            //console.log(edges); //all attributes of edges object
+            console.log(edges._data); //only data attribute of edges object
         },
 
         deleteEdge(deleteData) {
 
             console.log(edges);
-     
+
         },
         visNodeData(nodeData) {
             this.newNode.id = this.nodeCount;
@@ -214,12 +216,53 @@ export default{
             }
             this.nodeCount++;
             nodes.update(this.newNode);
-            console.log(nodes);
+            //console.log(nodes);    //All attributes of nodes object
+            console.log(nodes._data); //Only data attribute of nodes object
         },
-        me() {
-            var a = { id: 14, index: 14, label: 14, testing: {a:5}}
-            nodes.update(a)
-            console.log(nodes);
+        // me() { //test function to add new node to graph canvas
+        //     var a = { id: 14, index: 14, label: 14, testing: {a:5}}
+        //     nodes.update(a)
+        //     console.log(nodes);
+        // },
+
+        prepareAndSendData() {
+
+            //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
+            var prepEdges = edges._data
+            var edgeArray = [];
+            var nodeArray = [];
+            for (var key in prepEdges) { //create array of 'from' and 'to' from edges object
+                delete prepEdges[key].id;  //delete all id property of edges
+                edgeArray.push(prepEdges[key].from);
+                edgeArray.push(prepEdges[key].to);
+            }
+            //console.log(edgeArray);
+            edgeArray = [...new Set(edgeArray)]; //deduplicate array using set and keep original order/direction of connection
+            console.log(edgeArray);
+
+            nodeArray = Object.values(nodes._data); //convert object of objects to array of objects
+            //console.log(nodeArray);
+
+            nodeArray = this.mapOrder(nodeArray, edgeArray, 'id'); //Sort nodeArray of objects based on the order of edgeArray using id as key
+            console.log(nodeArray);
+
+            //send array of node objects containing graphschema with the connection order preserved to storytab
+            DataBus.$emit('nodeArray', nodeArray);
+        },
+
+        mapOrder (array, order, key) {
+            array.sort( function (a, b) {
+                var A = a[key], B = b[key];
+    
+                if (order.indexOf(A) > order.indexOf(B)) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+    
+            });
+  
+            return array;
         }
     }
 }

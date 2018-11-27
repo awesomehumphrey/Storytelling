@@ -16,14 +16,21 @@
 
 <script>
 /* eslint-disable */
-// import HelloWorld from './components/HelloWorld.vue'
+import { DataBus } from '@/main';
 import Reveal from 'reveal.js/js/reveal';
 export default {
-  components: {
-    // HelloWorld
+  created() {
+    DataBus.$on('nodeArray', this.getNodeArray);  //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
   },
+
   mounted() {
     Reveal.initialize()
+  },
+
+  methods: {
+    getNodeArray(nodeArray) {
+      console.log(nodeArray);
+    }
   }
 }
 </script>
