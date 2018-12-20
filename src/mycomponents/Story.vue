@@ -1,14 +1,11 @@
 <template>
-  <div id="pres">
-    <!-- <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+<div id="pres">
+  
     <div class="reveal">
       <div class="slides">
-        <section>Single Horizontal Slide</section>
-        <section>
-          <section>Vertical Slide 1</section>
-          <section>Vertical Slide 2</section>
-        </section>
+        <section>Gravity++: Telling stories with data...</section>
+        <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
+        <section>Thank you!</section>
       </div>
     </div>
   </div>
@@ -16,23 +13,55 @@
 
 <script>
 /* eslint-disable */
-import { DataBus } from '@/main';
-import Reveal from 'reveal.js/js/reveal';
+import { DataBus } from "@/main";
+import Reveal from "reveal.js/js/reveal";
+import vegaEmbed from "vega-embed";
+
+var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
+
 export default {
+  data() {
+    return {
+      id: []
+    };
+  },
   created() {
-    DataBus.$on('nodeArray', this.getNodeArray);  //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
+    DataBus.$on("nodeArray", this.getNodeArray); //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
   },
 
   mounted() {
-    Reveal.initialize()
+    Reveal.initialize({ transition: "zoom", embedded: true });
+  },
+
+  updated() {
+    for (var i = 0; i < myNodes.length; i++) {
+      myNodes[i].nData.title = myNodes[i].label; //Add graph title to graph spec
+      vegaEmbed("#" + this.id[i], myNodes[i].nData, {
+        defaultStyle: false,
+        actions: false
+      });
+    }
   },
 
   methods: {
     getNodeArray(nodeArray) {
       console.log(nodeArray);
+      myNodes = JSON.parse(JSON.stringify(nodeArray)); //convert reactive array of objects to normal objects
+      this.id = [];
+      //generate ids for dynamic slide elements based on number of incoming graph nodes
+      for (var i = 0; i < myNodes.length; i++) {
+        this.id.push(
+          "vis" +
+            Math.random()
+              .toString(36)
+              .substr(2, 7)
+        );
+        console.log(this.id[i]);
+        console.log(myNodes[i].nData);
+      }
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -40,7 +69,7 @@ export default {
 @import url('/node_modules/reveal.js/css/theme/white.css'); */
 
 #pres {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -48,5 +77,4 @@ export default {
   /* margin-top: 60px; */
   height: 70vh;
 }
-
 </style>

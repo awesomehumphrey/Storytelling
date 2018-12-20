@@ -14,43 +14,44 @@
 
 <script>
 /* eslint-disable */
-import { DataBus } from '@/main';
-import vegaEmbed from 'vega-embed';
+import { DataBus } from "@/main";
+import vegaEmbed from "vega-embed";
 //import vegalite from 'vega-lite';
 
-export default{ 
-  
-  data () {
+export default {
+  data() {
     return {
       myTitle: "Title",
       spec: {
-        "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-        "description": "Graph",
-        "data": {
-        "values": [],
+        $schema: "https://vega.github.io/schema/vega-lite/v2.json",
+        description: "Graph",
+        data: {
+          values: []
         },
-        "mark": "line",
-        "encoding": {
-          "x": {"field": "", "type": ""},   
-          "y": {"field": "", "type": ""}}
+        mark: "line",
+        encoding: {
+          x: { field: "", type: "" },
+          y: { field: "", type: "" }
+        }
       }
-    }
-  },  
+    };
+  },
   created() {
-    DataBus.$on('graphSchema', (graphSpec) => {  //Receive the graph schema from selected graph component via DataBus
+    DataBus.$on("graphSchema", graphSpec => {
+      //Receive the graph schema from selected graph component via DataBus
       this.spec = graphSpec;
       this.spec.width = this.$refs.canvas.clientWidth - 50;
-		});
+    });
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);   
+    window.addEventListener("resize", this.handleResize);
     //vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
   },
-  updated () {
+  updated() {
     this.renderVis(); //Initially, visualisation is not rendered in mounted() because spec is not yet populated with real data hence rendered in updated() after data selection
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
   methods: {
     // whenever the document is resized, re-set the 'clientWidth' variable and re-render visualisation
@@ -60,41 +61,43 @@ export default{
     },
     renderVis() {
       //console.log(this.spec);
-      vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
+      vegaEmbed("#vis", this.spec, {
+        defaultStyle: true,
+        actions: { export: true, source: false, compiled: false, editor: false }
+      });
     },
     updateTitle() {
       this.myTitle = "Title";
     },
     sendNodeData() {
-      this.spec.myTitle = this.myTitle;    //the object property, "myTitle" is not part of the spec. It's only used to send the title to GraphTab...
+      this.spec.myTitle = this.myTitle; //the object property, "myTitle" is not part of the spec. It's only used to send the title to GraphTab...
       // ...The spec property, "title" will be used instead when modals are used for title and axis labels update.
-      DataBus.$emit('nodeData', this.spec);
+      DataBus.$emit("nodeData", this.spec);
       //console.log(this.spec);
     }
   },
-  watch: { // Watch for change in spec properties and re-render visualisation
-        spec:{ 
-          handler() {
-            this.renderVis();
-          },
-          deep: true      //watches for changes in nested properties in spec   
-        },
-        'spec.description'() { //watch for changes in spec.description
-          this.updateTitle(); //Update title when spec description changes, triggered by selection of a different visualisation type
-        }
-    } 
-}
-
+  watch: {
+    // Watch for change in spec properties and re-render visualisation
+    spec: {
+      handler() {
+        this.renderVis();
+      },
+      deep: true //watches for changes in nested properties in spec
+    },
+    "spec.description"() {
+      //watch for changes in spec.description
+      this.updateTitle(); //Update title when spec description changes, triggered by selection of a different visualisation type
+    }
+  }
+};
 </script>
 
 <style scoped>
-#visTitle{
+#visTitle {
   border: none;
   text-align: center;
   font-weight: bolder;
 }
-
-
 </style>
 
 

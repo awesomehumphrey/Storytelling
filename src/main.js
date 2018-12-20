@@ -17,11 +17,14 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../node_modules/reveal.js/css/reveal.css';
 import '../node_modules/reveal.js/css/theme/white.css';
 
+import VueCarousel from 'vue-carousel';
+
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
 Vue.component('multiselect', Multiselect)
 Vue.use(BootstrapVue);
 Vue.use(VueVega);
+Vue.use(VueCarousel);
 Vue.config.productionTip = false;
 
 ///* eslint-disable no-new */
@@ -29,5 +32,7 @@ new Vue({
     el: '#app',
     router,
     template: '<App/>',
-    components: { App }
+    components: {
+        App
+    }
 });
