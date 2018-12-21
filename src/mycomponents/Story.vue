@@ -45,7 +45,7 @@ export default {
 
   methods: {
     getNodeArray(nodeArray) {
-      console.log(nodeArray);
+      //console.log(nodeArray);
       myNodes = JSON.parse(JSON.stringify(nodeArray)); //convert reactive array of objects to normal objects
       this.id = [];
       //generate ids for dynamic slide elements based on number of incoming graph nodes
@@ -56,8 +56,8 @@ export default {
               .toString(36)
               .substr(2, 7)
         );
-        console.log(this.id[i]);
-        console.log(myNodes[i].nData);
+        //console.log(this.id[i]);
+        //console.log(myNodes[i].nData);
       }
     }
   }

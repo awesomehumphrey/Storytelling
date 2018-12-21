@@ -13,6 +13,8 @@
 import { DataBus } from "@/main";
 import vis from "vis";
 
+var temp; //variable for sending edges
+
 var nodes = new vis.DataSet([
   /* { id: 0, index: 0, label: '0', x: -147, y: -77 },
     { id: 1, index: 1, label: '1', x: -186, y: 88 },
@@ -170,16 +172,48 @@ export default {
     addEdge(edgeData) {
       //var nodeOne = nodes.get(edgeData.from);
       //var nodeTwo = nodes.get(edgeData.to);
-
+      //console.log(edgeData);
       edgeData.id = this.edgeCount;
       this.edgeCount++;
-      edges.update(edgeData);
-      //console.log(edgeData);
-      //console.log(edges); //all attributes of edges object
-      console.log(edges._data); //only data attribute of edges object
+
+      edges.update(edgeData); //.add   .remove
+      console.log(edges);
+
+      temp = JSON.parse(JSON.stringify(edges._data)); //convert reactive array of objects to normal objects
+
+      temp = Object.values(temp); //convert object of objects to array of objects
+      //console.log(temp[0].from);
+      //temp.splice(1, 0, edgeData);
+      console.log(temp);
+      for (var i = 0; i < temp.length; i++) {
+        if (edgeData.to == temp[i].from) {
+          //temp.splice(i, 0, edgeData);
+          console.log(edgeData);
+          console.log(temp[i]);
+          //edgeData.id = ++this.edgeCount;
+          temp.splice(i, 0, edgeData);
+          temp.pop();
+          break;
+        }
+        //console.log(temp[i]);
+      }
+
+      //convert array of objects back to object of objects
+      const arrayToObject = (array, keyField) =>
+        array.reduce((obj, item) => {
+          obj[item[keyField]] = item;
+          return obj;
+        }, {});
+      const bar = arrayToObject(temp, "id");
+
+      edges._data = bar;
+      // console.log(edges); //all attributes of edges object
+      console.log(temp);
+      console.log(edges); //only data attribute of edges object
     },
 
     deleteEdge(deleteData) {
+      console.log(deleteData);
       console.log(edges);
     },
     visNodeData(nodeData) {
@@ -228,7 +262,7 @@ export default {
 
     prepareAndSendData() {
       //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
-      var prepEdges = edges._data;
+      var prepEdges = temp; //use temp instead of edges._data else indices of object won't work and will affect edge delete
       var edgeArray = [];
       var nodeArray = [];
       for (var key in prepEdges) {
@@ -237,7 +271,7 @@ export default {
         edgeArray.push(prepEdges[key].from);
         edgeArray.push(prepEdges[key].to);
       }
-      //console.log(edgeArray);
+      console.log(edgeArray);
       edgeArray = [...new Set(edgeArray)]; //deduplicate array using set and keep original order/direction of connection
       console.log(edgeArray);
 
