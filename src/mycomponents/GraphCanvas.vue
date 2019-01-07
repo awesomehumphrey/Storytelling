@@ -182,34 +182,53 @@ export default {
       temp = JSON.parse(JSON.stringify(edges._data)); //convert reactive array of objects to normal objects
 
       temp = Object.values(temp); //convert object of objects to array of objects
-      //console.log(temp[0].from);
-      //temp.splice(1, 0, edgeData);
+
       console.log(temp);
+      // Put recently added edge in its correct position relative to the other edges
       for (var i = 0; i < temp.length; i++) {
         if (edgeData.to == temp[i].from) {
           //temp.splice(i, 0, edgeData);
-          console.log(edgeData);
-          console.log(temp[i]);
+          //console.log(edgeData);
+          //console.log(temp[i]);
           //edgeData.id = ++this.edgeCount;
           temp.splice(i, 0, edgeData);
           temp.pop();
           break;
         }
-        //console.log(temp[i]);
       }
 
+      //Instead of using the function below we could just update using edges.update(edgeData)
       //convert array of objects back to object of objects
-      const arrayToObject = (array, keyField) =>
+      /* const arrayToObject = (array, keyField) =>
         array.reduce((obj, item) => {
           obj[item[keyField]] = item;
           return obj;
         }, {});
-      const bar = arrayToObject(temp, "id");
+      const edgeArrToObj = arrayToObject(temp, "id"); */
 
-      edges._data = bar;
+      //The difference between the arrayToObject and sortObjects function is that the former does not preserve order while the latter does
+      function sortObjects(objects) {
+        var newObject = {};
+        console.log(objects);
+        //var sortedArray = sortProperties(objects, 'zindex', true, false);
+        for (var i = 0; i < objects.length; i++) {
+          var key = objects[i].id;
+          var value = objects[i];
+
+          newObject[key] = value;
+        }
+
+        return newObject;
+      }
+
+      var edgeArrToObj = sortObjects(temp);
+
+      console.log(edgeArrToObj);
+
+      edges._data = edgeArrToObj;
       // console.log(edges); //all attributes of edges object
       console.log(temp);
-      console.log(edges); //only data attribute of edges object
+      console.log(edges._data); //only data attribute of edges object
     },
 
     deleteEdge(deleteData) {
