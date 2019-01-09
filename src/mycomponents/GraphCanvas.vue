@@ -1,15 +1,32 @@
 <template>
   <div ref="graphCanvas">
-    <div ref="graphVis" id="graphVis" class="vis-network">Testing</div>
-    <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button>
-
-   <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
-    <b-button size="md" variant="primary" class="float-left">Export</b-button> -->
+    <b-row>
+      <b-col col lg="2" class="graphOps">
+        <app-graphimport></app-graphimport>
+        <app-graphexport></app-graphexport>
+        <app-recommendsequence @clickedRecommendSequence="prepareAndSendData()"></app-recommendsequence>
+        <app-restoredefault></app-restoredefault>
+        <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
+      </b-col>
+      <b-col col lg="9.5" id="section2">
+        <div ref="graphVis" id="graphVis" class="vis-network"></div>
+        <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button> -->
+        <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-left">Next Sequence</b-button> -->
+      <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
+      <b-button size="md" variant="primary" class="float-left">Export</b-button> -->
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
+import GraphImport from "@/mycomponents/graphtabcomponents/GraphImport";
+import GraphExport from "@/mycomponents/graphtabcomponents/GraphExport";
+import SendToStory from "@/mycomponents/graphtabcomponents/SendToStory";
+import RecommendSequence from "@/mycomponents/graphtabcomponents/RecommendSequence";
+import RestoreDefault from "@/mycomponents/graphtabcomponents/RestoreDefault";
+
 import { DataBus } from "@/main";
 import vis from "vis";
 
@@ -118,6 +135,13 @@ var options = {
 };
 
 export default {
+  components: {
+    "app-graphimport": GraphImport,
+    "app-graphexport": GraphExport,
+    "app-sendtostory": SendToStory,
+    "app-recommendsequence": RecommendSequence,
+    "app-restoredefault": RestoreDefault
+  },
   data() {
     return {
       network: null,
@@ -209,7 +233,7 @@ export default {
       //The difference between the arrayToObject and sortObjects function is that the former does not preserve order while the latter does
       function sortObjects(objects) {
         var newObject = {};
-        console.log(objects);
+        //console.log(objects);
         //var sortedArray = sortProperties(objects, 'zindex', true, false);
         for (var i = 0; i < objects.length; i++) {
           var key = objects[i].id;
@@ -327,10 +351,33 @@ export default {
 #graphVis {
   min-width: 500px;
   min-height: 600px;
-  border: 1px solid lightgray;
+  border: 1px solid grey;
+  border-radius: 2px;
+  /* background-color: green; */
+  overflow: hidden;
 }
 .vis-network {
   height: 600px;
   min-width: 500px;
+  /* width: auto; */
+  border: 1px solid grey;
+  /* background-color: blue; */
+}
+
+.graphOps {
+  margin: 5px;
+  min-height: 600px;
+  border: 1px solid grey; /* border: 1px solid grey; */
+  border-radius: 2px;
+  background-color: #f1f1f1;
+  max-width: 240px;
+}
+
+#section2 {
+  margin: 5px;
+  padding: 0px;
+  min-height: 600px;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 </style>

@@ -51,7 +51,8 @@
     </b-tab>
     <b-tab title="GRAPH">
       <b-row>
-        <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col>
+        <b-col><app-graphcanvas></app-graphcanvas></b-col>
+        <!-- <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col> -->
       </b-row>
     </b-tab>
     <b-tab title="STORY">
@@ -66,42 +67,42 @@
 
 <script>
 /* eslint-disable */
-import Data from '@/mycomponents/Data';
-import Axis from '@/mycomponents/Axis';
-import Canvas from '@/mycomponents/Canvas';
-import BarGraph from '@/mycomponents/graphcomponents/BarGraph';
-import ScatterPlot from '@/mycomponents/graphcomponents/Scatterplot';
-import OtherSelections from '@/mycomponents/OtherSelections';
-import LineGraph from '@/mycomponents/graphcomponents/LineGraph';
-import AreaChart from '@/mycomponents/graphcomponents/AreaChart';
-import Histogram from '@/mycomponents/graphcomponents/Histogram';
-import PunchCard from '@/mycomponents/graphcomponents/PunchCard';
-import GraphCanvas from '@/mycomponents/GraphCanvas';
-import Story from '@/mycomponents/Story';
+import Data from "@/mycomponents/datatabcomponents/Data";
+import Axis from "@/mycomponents/datatabcomponents/Axis";
+import Canvas from "@/mycomponents/datatabcomponents/Canvas";
+import OtherSelections from "@/mycomponents/datatabcomponents/OtherSelections";
+import BarGraph from "@/mycomponents/graphcomponents/BarGraph";
+import ScatterPlot from "@/mycomponents/graphcomponents/Scatterplot";
+import LineGraph from "@/mycomponents/graphcomponents/LineGraph";
+import AreaChart from "@/mycomponents/graphcomponents/AreaChart";
+import Histogram from "@/mycomponents/graphcomponents/Histogram";
+import PunchCard from "@/mycomponents/graphcomponents/PunchCard";
+import GraphCanvas from "@/mycomponents/GraphCanvas";
+import Story from "@/mycomponents/Story";
 
 export default {
   components: {
-        'app-data': Data,
-        'app-axis': Axis,
-        'app-canvas': Canvas,
-        'app-bargraph': BarGraph,
-        'app-scatterplot': ScatterPlot,
-        'app-otherselections': OtherSelections,
-        'app-linegraph': LineGraph,
-        'app-areachart': AreaChart,
-        'app-histogram': Histogram,
-        'app-punchcard': PunchCard,
-        'app-graphcanvas': GraphCanvas,
-        'app-story': Story
-      },
-}
+    "app-data": Data,
+    "app-axis": Axis,
+    "app-canvas": Canvas,
+    "app-bargraph": BarGraph,
+    "app-scatterplot": ScatterPlot,
+    "app-otherselections": OtherSelections,
+    "app-linegraph": LineGraph,
+    "app-areachart": AreaChart,
+    "app-histogram": Histogram,
+    "app-punchcard": PunchCard,
+    "app-graphcanvas": GraphCanvas,
+    "app-story": Story
+  }
+};
 </script>
 
 <style>
 .tabsections {
   margin: 5px;
   min-height: 600px;
-  border: 1px solid grey;  /* border: 1px solid grey; */
+  border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
 }
 
@@ -145,5 +146,4 @@ export default {
 #otherSelections {
   min-height: 200px;
 }
-
 </style>
