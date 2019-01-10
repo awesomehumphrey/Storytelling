@@ -1,7 +1,7 @@
 <template>
     <div>
         <hr>
-        <b-button class="btn-block" size="md" @click="clicked">Recommend sequence</b-button>
+        <b-button class="btn-block" variant="outline-primary" size="md" @click="clicked">Recommend sequence</b-button>
     </div>
 </template>
 

@@ -30,6 +30,30 @@ import RestoreDefault from "@/mycomponents/graphtabcomponents/RestoreDefault";
 import { DataBus } from "@/main";
 import vis from "vis";
 
+//import gs from "@/graphscape-master/graphscape.js";
+//var gs = require("C:/Users/hobie/Documents/GitHub/Storytelling/src/graphscape-master/graphscape.js");
+var gs = require("@/graphscape-master/graphscape.js");
+//var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
+
+var charts = []; // an array of Vega-Lite charts
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "point",
+  encoding: {
+    x: { field: "Horsepower", type: "quantitative" }
+  }
+});
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "point",
+  encoding: {
+    x: { field: "Horsepower", type: "quantitative" },
+    y: { field: "Miles_per_Gallon", type: "quantitative" }
+  }
+});
+var options = { fixFirst: false };
+console.log(gs.sequence(charts, options));
+
 var temp; //variable for sending edges
 
 var nodes = new vis.DataSet([
