@@ -99,8 +99,8 @@ export default {
 </script>
 
 <style>
-div {
-  font-family: Helvetica, sans-serif;
+body {
+  overflow: auto; /* To overwrite overflow:hidden in reveal.css */
 }
 .tabsections {
   margin: 5px;
