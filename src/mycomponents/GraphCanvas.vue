@@ -4,7 +4,7 @@
       <b-col col lg="2" class="graphOps">
         <app-graphimport></app-graphimport>
         <app-graphexport></app-graphexport>
-        <app-recommendsequence @clickedRecommendSequence="prepareAndSendData()"></app-recommendsequence>
+        <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
         <app-restoredefault></app-restoredefault>
         <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
       </b-col>
@@ -30,8 +30,6 @@ import RestoreDefault from "@/mycomponents/graphtabcomponents/RestoreDefault";
 import { DataBus } from "@/main";
 import vis from "vis";
 
-//import gs from "@/graphscape-master/graphscape.js";
-//var gs = require("C:/Users/hobie/Documents/GitHub/Storytelling/src/graphscape-master/graphscape.js");
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
 
@@ -45,13 +43,53 @@ charts.push({
 });
 charts.push({
   data: { url: "data/cars.json" },
-  mark: "point",
+  mark: "area",
+  encoding: {
+    x: { field: "Horsepower", type: "quantitative" },
+    y: { field: "Miles_per_Gallon", type: "quantitative" }
+  }
+});
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "line",
+  encoding: {
+    x: { field: "Horsepower", type: "quantitative" },
+    y: { field: "Miles_per_Gallon", type: "quantitative" }
+  }
+});
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "bar",
+  encoding: {
+    x: { field: "Horsepower", type: "quantitative" },
+    y: { field: "Miles_per_Gallon", type: "quantitative" }
+  }
+});
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "rect",
+  encoding: {
+    x: { field: "Horsepower", type: "ordinal" }
+  }
+});
+
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "rect",
+  encoding: {
+    x: { field: "Miles_per_Gallon", type: "ordinal" }
+  }
+});
+charts.push({
+  data: { url: "data/cars.json" },
+  mark: "circle",
   encoding: {
     x: { field: "Horsepower", type: "quantitative" },
     y: { field: "Miles_per_Gallon", type: "quantitative" }
   }
 });
 var options = { fixFirst: false };
+//console.log(charts[0]);
 console.log(gs.sequence(charts, options));
 
 var temp; //variable for sending edges
@@ -227,7 +265,7 @@ export default {
       edges.update(edgeData); //.add   .remove
       console.log(edges);
 
-      temp = JSON.parse(JSON.stringify(edges._data)); //convert reactive array of objects to normal objects
+      temp = JSON.parse(JSON.stringify(edges._data)); //convert reactive object of objects to normal objects
 
       temp = Object.values(temp); //convert object of objects to array of objects
 
@@ -317,16 +355,44 @@ export default {
           this.newNode.image = require("@/assets/logo.png");
       }
       this.nodeCount++;
-      nodes.update(this.newNode);
+
+      //console.log(this.newNode);
+      nodes.update(JSON.parse(JSON.stringify(this.newNode))); //use nodes.add instead of nodes.update
       //console.log(nodes);    //All attributes of nodes object
       console.log(nodes._data); //Only data attribute of nodes object
     },
+
     // me() { //test function to add new node to graph canvas
     //     var a = { id: 14, index: 14, label: 14, testing: {a:5}}
     //     nodes.update(a)
     //     console.log(nodes);
     // },
-
+    recommend() {
+      console.log(nodes._data);
+      var chartSpec = [];
+      var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
+      var chartData = Object.values(nonReactive); //convert object of objects to array of objects
+      console.log(chartData[0].nData);
+      console.log(chartData[1].nData);
+      //console.log(chartData[2].nData);
+      for (var i = 0; i < chartData.length; i++) {
+        //chartData[i].nData.data = { url: "data/cars.json" };
+        //tooltip is deleted because it causes error with graphscape
+        delete chartData[i].nData.encoding.tooltip;
+        //The other objects data below are deleted for graphscape optimisation purposes
+        delete chartData[i].nData.data;
+        delete chartData[i].nData.description;
+        delete chartData[i].nData.$schema;
+        delete chartData[i].nData.autosize;
+        delete chartData[i].nData.height;
+        delete chartData[i].nData.width;
+        delete chartData[i].nData.myTitle;
+        chartSpec.push(chartData[i].nData);
+        chartSpec[i].id = chartData[i].id; //assigning id from the node object to graphspec object
+      }
+      console.log(gs.sequence(chartSpec, options));
+      console.log(chartSpec);
+    },
     prepareAndSendData() {
       //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
       var prepEdges = temp; //use temp instead of edges._data else indices of object won't work and will affect edge delete

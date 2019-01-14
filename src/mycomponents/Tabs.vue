@@ -99,6 +99,9 @@ export default {
 </script>
 
 <style>
+div {
+  font-family: Helvetica, sans-serif;
+}
 .tabsections {
   margin: 5px;
   min-height: 600px;

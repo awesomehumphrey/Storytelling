@@ -87,6 +87,9 @@ export default {
     "spec.description"() {
       //watch for changes in spec.description
       this.updateTitle(); //Update title when spec description changes, triggered by selection of a different visualisation type
+    },
+    "spec.encoding.x.field"() {
+      this.updateTitle(); //Update title when x-axis changes
     }
   }
 };

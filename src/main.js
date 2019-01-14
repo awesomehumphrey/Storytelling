@@ -16,6 +16,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import '../node_modules/reveal.js/css/reveal.css';
 import '../node_modules/reveal.js/css/theme/white.css';
+//import "@/css/reveal.scss";
 
 import VueCarousel from 'vue-carousel';
 

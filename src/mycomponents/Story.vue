@@ -65,8 +65,8 @@ export default {
 </script>
 
 <style scoped>
-/* @import url('/node_modules/reveal.js/css/reveal.css');
-@import url('/node_modules/reveal.js/css/theme/white.css'); */
+/*@import url("/node_modules/reveal.js/css/reveal.css");
+ @import url("/node_modules/reveal.js/css/theme/white.css"); */
 
 #pres {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
