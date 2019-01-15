@@ -1,12 +1,12 @@
 <template>
-<div id="pres">
+  <div id="pres">
   
     <div class="reveal">
       <div class="slides">
         <section>Gravity++: Telling stories with data...</section>
         <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
         <section>Thank you!</section>
-      </div>
+      </div> <!--Move 'Thank you' to a different div before adding conditional statements-->
     </div>
   </div>
 </template>

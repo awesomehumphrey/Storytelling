@@ -88,11 +88,9 @@ charts.push({
     y: { field: "Miles_per_Gallon", type: "quantitative" }
   }
 });
-var options = { fixFirst: false };
+var sequencOptions = { fixFirst: false };
 //console.log(charts[0]);
-console.log(gs.sequence(charts, options));
-
-var temp; //variable for sending edges
+//console.log(gs.sequence(charts, sequencOptions));
 
 var nodes = new vis.DataSet([
   /* { id: 0, index: 0, label: '0', x: -147, y: -77 },
@@ -192,8 +190,38 @@ var options = {
   },
   edges: {
     arrows: "to",
-    font: "12px arial #ff0000"
-  }
+    font: "12px arial #ff0000",
+    physics: true,
+    smooth: {
+      enabled: true,
+      type: "cubicBezier",
+      forceDirection: "vertical",
+      roundness: 0.5
+    }
+  } /*,
+  physics: {
+    enabled: true,
+    barnesHut: {
+      gravitationalConstant: -2000,
+      centralGravity: 0.3,
+      springLength: 95,
+      springConstant: 0.04,
+      damping: 0.09,
+      avoidOverlap: 1
+    },
+     repulsion: {
+      nodeDistance: 0,
+      centralGravity: 1
+    },
+    hierarchicalRepulsion: {
+      centralGravity: 0.9,
+      springLength: 100,
+      springConstant: 0.01,
+      nodeDistance: 0,
+      damping: 0.09
+    }, 
+    stabilization: true
+  }*/
 };
 
 export default {
@@ -258,62 +286,11 @@ export default {
     addEdge(edgeData) {
       //var nodeOne = nodes.get(edgeData.from);
       //var nodeTwo = nodes.get(edgeData.to);
-      //console.log(edgeData);
       edgeData.id = this.edgeCount;
       this.edgeCount++;
-
-      edges.update(edgeData); //.add   .remove
+      edges.update(edgeData);
+      console.log(edgeData);
       console.log(edges);
-
-      temp = JSON.parse(JSON.stringify(edges._data)); //convert reactive object of objects to normal objects
-
-      temp = Object.values(temp); //convert object of objects to array of objects
-
-      console.log(temp);
-      // Put recently added edge in its correct position relative to the other edges
-      for (var i = 0; i < temp.length; i++) {
-        if (edgeData.to == temp[i].from) {
-          //temp.splice(i, 0, edgeData);
-          //console.log(edgeData);
-          //console.log(temp[i]);
-          //edgeData.id = ++this.edgeCount;
-          temp.splice(i, 0, edgeData);
-          temp.pop();
-          break;
-        }
-      }
-
-      //Instead of using the function below we could just update using edges.update(edgeData)
-      //convert array of objects back to object of objects
-      /* const arrayToObject = (array, keyField) =>
-        array.reduce((obj, item) => {
-          obj[item[keyField]] = item;
-          return obj;
-        }, {});
-      const edgeArrToObj = arrayToObject(temp, "id"); */
-
-      //The difference between the arrayToObject and sortObjects function is that the former does not preserve order while the latter does
-      function sortObjects(objects) {
-        var newObject = {};
-        //console.log(objects);
-        //var sortedArray = sortProperties(objects, 'zindex', true, false);
-        for (var i = 0; i < objects.length; i++) {
-          var key = objects[i].id;
-          var value = objects[i];
-
-          newObject[key] = value;
-        }
-
-        return newObject;
-      }
-
-      var edgeArrToObj = sortObjects(temp);
-
-      console.log(edgeArrToObj);
-
-      edges._data = edgeArrToObj;
-      // console.log(edges); //all attributes of edges object
-      console.log(temp);
       console.log(edges._data); //only data attribute of edges object
     },
 
@@ -327,8 +304,8 @@ export default {
       this.newNode.nData = nodeData;
       this.newNode.title = nodeData.myTitle; //newnode.title is for the visjs tooltip and different from vega spec.title
       this.newNode.label = nodeData.myTitle; //newnode.title is for the visjs tooltip and different from vega spec.title
-      this.newNode.x = 800; // x coordinate on the screen
-      this.newNode.y = 250; // y coordinate on the screen
+      this.newNode.x = this.getRandomNum(200, 800); // Former default 800 x coordinate on the screen
+      this.newNode.y = this.getRandomNum(150, 450); // Former default 250 y coordinate on the screen
 
       switch (
         nodeData.description //select node image based on the graph type
@@ -361,6 +338,9 @@ export default {
       //console.log(nodes);    //All attributes of nodes object
       console.log(nodes._data); //Only data attribute of nodes object
     },
+    getRandomNum(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    },
 
     // me() { //test function to add new node to graph canvas
     //     var a = { id: 14, index: 14, label: 14, testing: {a:5}}
@@ -372,8 +352,8 @@ export default {
       var chartSpec = [];
       var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
       var chartData = Object.values(nonReactive); //convert object of objects to array of objects
-      console.log(chartData[0].nData);
-      console.log(chartData[1].nData);
+      // console.log(chartData[0].nData);
+      //console.log(chartData[1].nData);
       //console.log(chartData[2].nData);
       for (var i = 0; i < chartData.length; i++) {
         //chartData[i].nData.data = { url: "data/cars.json" };
@@ -390,28 +370,37 @@ export default {
         chartSpec.push(chartData[i].nData);
         chartSpec[i].id = chartData[i].id; //assigning id from the node object to graphspec object
       }
-      console.log(gs.sequence(chartSpec, options));
-      console.log(chartSpec);
+      var sequenceArray = gs.sequence(chartSpec, sequencOptions);
+      console.log(sequenceArray[0].charts);
+      //console.log(chartSpec);
+
+      var edgeObj = [{ from: 1, to: 2, id: 74 }, { from: 0, to: 1, id: 75 }];
+      edges.update(edgeObj);
+      console.log(edges._data);
     },
     prepareAndSendData() {
       //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
-      var prepEdges = temp; //use temp instead of edges._data else indices of object won't work and will affect edge delete
-      var edgeArray = [];
+      var prepEdges = edges._data;
       var nodeArray = [];
+      var grandEdgeArray = [];
       for (var key in prepEdges) {
+        var edgeArray = [];
         //create array of 'from' and 'to' from edges object
         //delete prepEdges[key].id;  //delete all id property of edges
         edgeArray.push(prepEdges[key].from);
         edgeArray.push(prepEdges[key].to);
+        grandEdgeArray.push(edgeArray);
       }
-      console.log(edgeArray);
-      edgeArray = [...new Set(edgeArray)]; //deduplicate array using set and keep original order/direction of connection
-      console.log(edgeArray);
+
+      console.log(grandEdgeArray);
+      grandEdgeArray = this.tsort(grandEdgeArray);
+
+      console.log(grandEdgeArray);
 
       nodeArray = Object.values(nodes._data); //convert object of objects to array of objects
       //console.log(nodeArray);
 
-      nodeArray = this.mapOrder(nodeArray, edgeArray, "id"); //Sort nodeArray of objects based on the order of edgeArray using id as key
+      nodeArray = this.mapOrder(nodeArray, grandEdgeArray, "id"); //Sort nodeArray of objects based on the order of edgeArray using id as key
       console.log(nodeArray);
 
       //send array of node objects containing graphschema with the connection order preserved to storytab
@@ -431,6 +420,57 @@ export default {
       });
 
       return array;
+    },
+    tsort(edges) {
+      var nodes = {}, // hash: stringified id of the node => { id: id, afters: lisf of ids }
+        sorted = [], // sorted list of IDs ( returned value )
+        visited = {}; // hash: id of already visited node => true
+
+      var Node = function(id) {
+        this.id = id;
+        this.afters = [];
+      };
+
+      // 1. build data structures
+      edges.forEach(function(v) {
+        var from = v[0],
+          to = v[1];
+        if (!nodes[from]) nodes[from] = new Node(from);
+        if (!nodes[to]) nodes[to] = new Node(to);
+        nodes[from].afters.push(to);
+      });
+
+      // 2. topological sort
+      Object.keys(nodes).forEach(function visit(idstr, ancestors) {
+        var node = nodes[idstr],
+          id = node.id;
+
+        // if already exists, do nothing
+        if (visited[idstr]) return;
+
+        if (!Array.isArray(ancestors)) ancestors = [];
+
+        ancestors.push(id);
+
+        visited[idstr] = true;
+
+        node.afters.forEach(function(afterID) {
+          if (ancestors.indexOf(afterID) >= 0)
+            // if already in ancestors, a closed chain exists.
+            throw new Error("closed chain : " + afterID + " is in " + id);
+
+          visit(
+            afterID.toString(),
+            ancestors.map(function(v) {
+              return v;
+            })
+          ); // recursive call
+        });
+
+        sorted.unshift(id);
+      });
+
+      return sorted;
     }
   }
 };
