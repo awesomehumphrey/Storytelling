@@ -3,7 +3,6 @@
         <br>
         <b-button class="btn-block" size="md" @click="clicked">Done</b-button>   
         <hr>
-        <h4>Sequence Cost Info</h4>
     </div>
 </template>
 

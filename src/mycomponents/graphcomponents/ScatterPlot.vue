@@ -35,7 +35,7 @@ export default {
         encoding: {
           x: { field: "", type: "quantitative" },
           y: { field: "", type: "quantitative" },
-          //tooltip: { field: "", type: "quantitative" },
+          tooltip: { field: "", type: "quantitative" },
           color: { field: "", type: "nominal" },
           shape: { field: "", type: "nominal" }
         }
@@ -57,7 +57,7 @@ export default {
     });
     DataBus.$on("ToolTipLabel", toolTipLabel => {
       //Receive the tooltip label value from Axis component via DataBus
-      //this.spec.encoding["tooltip"]["field"] = toolTipLabel;
+      this.spec.encoding["tooltip"]["field"] = toolTipLabel;
     });
     DataBus.$on("Colour", colour => {
       //Receive the colour value from Axis component via DataBus

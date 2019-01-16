@@ -2,6 +2,7 @@
     <div>
         <hr>
         <b-button class="btn-block" variant="outline-primary" size="md" @click="clicked">Recommend sequence</b-button>
+        <br>
     </div>
 </template>
 

@@ -1,19 +1,72 @@
 <template>
   <div ref="graphCanvas">
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+      crossorigin="anonymous"
+    >
     <b-row>
       <b-col col lg="2" class="graphOps">
         <app-graphimport></app-graphimport>
         <app-graphexport></app-graphexport>
         <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
-        <app-restoredefault></app-restoredefault>
+        <div id="sequenceInfo">
+          <b-list-group>
+            <b-list-group-item
+              id="ts"
+              class="d-flex justify-content-between align-items-center"
+            ># of recommendations
+              <b-badge variant="primary" pill>{{totalRecommendation}}</b-badge>
+            </b-list-group-item>
+            <b-list-group-item
+              id="sp"
+              class="d-flex justify-content-between align-items-center"
+            >Sequence position
+              <b-badge variant="primary" pill>{{seqCounter}}</b-badge>
+            </b-list-group-item>
+            <b-list-group-item
+              id="tc"
+              class="d-flex justify-content-between align-items-center"
+            >Transition cost
+              <b-badge variant="primary" pill>{{transitionCost}}</b-badge>
+            </b-list-group-item>
+          </b-list-group>
+          <b-popover
+            :target="'ts'"
+            :placement="'top'"
+            title="Number of recommendations"
+            triggers="hover"
+            :content="'Number of recommended sequences. This number increases exponentially with more visualisation nodes.'"
+          ></b-popover>
+          <b-popover
+            :target="'sp'"
+            :placement="'top'"
+            title="Sequence position"
+            triggers="hover"
+            :content="'The current sequence index. Transition cost increases as this number increases.'"
+          ></b-popover>
+          <b-popover
+            :target="'tc'"
+            :placement="'top'"
+            title="Transition cost"
+            triggers="hover"
+            :content="'Total cost of transitioning between each pair of adjacent charts. Effective sequences have smaller costs.'"
+          ></b-popover>
+        </div>
+
+        <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
+        <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
+
+        <app-restoredefault @clickedRestoreDefault="clearEdges()"></app-restoredefault>
         <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
       </b-col>
       <b-col col lg="9.5" id="section2">
         <div ref="graphVis" id="graphVis" class="vis-network"></div>
         <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button> -->
         <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-left">Next Sequence</b-button> -->
-      <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
-      <b-button size="md" variant="primary" class="float-left">Export</b-button> -->
+        <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
+        <b-button size="md" variant="primary" class="float-left">Export</b-button>-->
       </b-col>
     </b-row>
   </div>
@@ -26,6 +79,8 @@ import GraphExport from "@/mycomponents/graphtabcomponents/GraphExport";
 import SendToStory from "@/mycomponents/graphtabcomponents/SendToStory";
 import RecommendSequence from "@/mycomponents/graphtabcomponents/RecommendSequence";
 import RestoreDefault from "@/mycomponents/graphtabcomponents/RestoreDefault";
+import NextSequence from "@/mycomponents/graphtabcomponents/NextSequence";
+import PreviousSequence from "@/mycomponents/graphtabcomponents/PreviousSequence";
 
 import { DataBus } from "@/main";
 import vis from "vis";
@@ -33,63 +88,9 @@ import vis from "vis";
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
 
-var charts = []; // an array of Vega-Lite charts
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "point",
-  encoding: {
-    x: { field: "Horsepower", type: "quantitative" }
-  }
-});
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "area",
-  encoding: {
-    x: { field: "Horsepower", type: "quantitative" },
-    y: { field: "Miles_per_Gallon", type: "quantitative" }
-  }
-});
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "line",
-  encoding: {
-    x: { field: "Horsepower", type: "quantitative" },
-    y: { field: "Miles_per_Gallon", type: "quantitative" }
-  }
-});
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "bar",
-  encoding: {
-    x: { field: "Horsepower", type: "quantitative" },
-    y: { field: "Miles_per_Gallon", type: "quantitative" }
-  }
-});
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "rect",
-  encoding: {
-    x: { field: "Horsepower", type: "ordinal" }
-  }
-});
-
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "rect",
-  encoding: {
-    x: { field: "Miles_per_Gallon", type: "ordinal" }
-  }
-});
-charts.push({
-  data: { url: "data/cars.json" },
-  mark: "circle",
-  encoding: {
-    x: { field: "Horsepower", type: "quantitative" },
-    y: { field: "Miles_per_Gallon", type: "quantitative" }
-  }
-});
 var sequencOptions = { fixFirst: false };
-//console.log(charts[0]);
+var sequenceArray = [];
+
 //console.log(gs.sequence(charts, sequencOptions));
 
 var nodes = new vis.DataSet([
@@ -230,7 +231,9 @@ export default {
     "app-graphexport": GraphExport,
     "app-sendtostory": SendToStory,
     "app-recommendsequence": RecommendSequence,
-    "app-restoredefault": RestoreDefault
+    "app-restoredefault": RestoreDefault,
+    "app-nextsequence": NextSequence,
+    "app-previoussequence": PreviousSequence
   },
   data() {
     return {
@@ -247,7 +250,10 @@ export default {
         x: 0,
         y: 0,
         image: null
-      }
+      },
+      seqCounter: 0,
+      transitionCost: 0,
+      totalRecommendation: 0
     };
   },
   created() {
@@ -349,6 +355,7 @@ export default {
     // },
     recommend() {
       console.log(nodes._data);
+      edges.clear(); //clear edges before recommending
       var chartSpec = [];
       var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
       var chartData = Object.values(nonReactive); //convert object of objects to array of objects
@@ -370,12 +377,53 @@ export default {
         chartSpec.push(chartData[i].nData);
         chartSpec[i].id = chartData[i].id; //assigning id from the node object to graphspec object
       }
-      var sequenceArray = gs.sequence(chartSpec, sequencOptions);
-      console.log(sequenceArray[0].charts);
+      sequenceArray = gs.sequence(chartSpec, sequencOptions);
+      //console.log(sequenceArray[0].charts);
+      console.log(sequenceArray);
       //console.log(chartSpec);
-
-      var edgeObj = [{ from: 1, to: 2, id: 74 }, { from: 0, to: 1, id: 75 }];
-      edges.update(edgeObj);
+      this.displaySequence(sequenceArray[0]);
+      this.seqCounter = 1;
+      this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
+      this.totalRecommendation = sequenceArray.length;
+    },
+    clearEdges() {
+      edges.clear();
+      this.seqCounter = 0;
+      this.transitionCost = 0;
+      this.totalRecommendation = 0;
+      //console.log(edges._data);
+    },
+    nextSequence() {
+      if (
+        sequenceArray.length !== 0 &&
+        this.seqCounter < sequenceArray.length
+      ) {
+        this.seqCounter++;
+        this.displaySequence(sequenceArray[this.seqCounter - 1]);
+      }
+    },
+    previousSequence() {
+      if (sequenceArray.length !== 0 && this.seqCounter > 1) {
+        this.seqCounter--;
+        this.displaySequence(sequenceArray[this.seqCounter - 1]);
+      }
+    },
+    displaySequence(mySeqArray) {
+      edges.clear(); //clear edges before recommending
+      var len = mySeqArray.charts.length;
+      this.transitionCost = mySeqArray.sumOfTransitionCosts;
+      this.totalRecommendation = sequenceArray.length;
+      var arr = [];
+      for (var i = 1; i < len - 1; i++) {
+        //console.log(sequenceArray[0].charts[i]);
+        var tempObj = {};
+        tempObj.from = mySeqArray.charts[i].id;
+        tempObj.to = mySeqArray.charts[i + 1].id;
+        arr.push(tempObj);
+      }
+      console.log(arr);
+      //var edgeObj = [{ from: 1, to: 2, id: 74 }, { from: 0, to: 1, id: 75 }];
+      edges.update(arr);
       console.log(edges._data);
     },
     prepareAndSendData() {
@@ -500,7 +548,7 @@ export default {
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
   background-color: #f1f1f1;
-  max-width: 240px;
+  max-width: 250px;
 }
 
 #section2 {
@@ -509,5 +557,17 @@ export default {
   min-height: 600px;
   border: 1px solid grey;
   border-radius: 2px;
+}
+
+#sequenceInfo {
+  margin: 4px;
+  margin-bottom: 10px;
+  /* border: 1px solid grey; 
+  border-radius: 15px;*/
+  background-color: white;
+}
+
+.prevNext {
+  display: inline-block;
 }
 </style>

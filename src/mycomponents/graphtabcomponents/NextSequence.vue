@@ -1,7 +1,8 @@
 <template>
   <div>
-    <hr>
-    <b-button class="btn-block" size="md" @click="clicked">Restore default</b-button>
+    <b-button variant="outline-primary" size="sm" @click="clicked">Next
+      <i class="fas fa-step-forward"></i>
+    </b-button>
   </div>
 </template>
 
@@ -10,7 +11,7 @@
 export default {
   methods: {
     clicked() {
-      this.$emit("clickedRestoreDefault");
+      this.$emit("clickedNext");
     }
   }
 };
