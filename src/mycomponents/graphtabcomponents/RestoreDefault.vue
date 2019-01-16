@@ -1,7 +1,9 @@
 <template>
   <div>
     <hr>
-    <b-button class="btn-block" size="md" @click="clicked">Restore default</b-button>
+    <b-button variant="outline-warning" class="btn-block" size="md" @click="clicked">
+      <i class="fa fa-remove"></i> Reset
+    </b-button>
   </div>
 </template>
 

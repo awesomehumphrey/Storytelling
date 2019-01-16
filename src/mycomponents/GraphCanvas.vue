@@ -381,10 +381,12 @@ export default {
       //console.log(sequenceArray[0].charts);
       console.log(sequenceArray);
       //console.log(chartSpec);
-      this.displaySequence(sequenceArray[0]);
-      this.seqCounter = 1;
-      this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
-      this.totalRecommendation = sequenceArray.length;
+      if (sequenceArray.length > 1) {
+        this.displaySequence(sequenceArray[0]);
+        this.seqCounter = 1;
+        this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
+        this.totalRecommendation = sequenceArray.length;
+      }
     },
     clearEdges() {
       edges.clear();
@@ -394,10 +396,7 @@ export default {
       //console.log(edges._data);
     },
     nextSequence() {
-      if (
-        sequenceArray.length !== 0 &&
-        this.seqCounter < sequenceArray.length
-      ) {
+      if (sequenceArray.length > 1 && this.seqCounter < sequenceArray.length) {
         this.seqCounter++;
         this.displaySequence(sequenceArray[this.seqCounter - 1]);
       }

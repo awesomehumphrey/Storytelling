@@ -1,8 +1,14 @@
 <template>
-<div class="input">
+  <div class="input">
     <hr>
-    <b-form-file v-model="selectedFile" placeholder="Import file..." accept=".json" @change="onImport" no-drop></b-form-file>
-</div>
+    <b-form-file
+      v-model="selectedFile"
+      placeholder="Import graph..."
+      accept=".json"
+      @change="onImport"
+      no-drop
+    ></b-form-file>
+  </div>
 </template>
 
 <script>

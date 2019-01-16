@@ -1,9 +1,11 @@
 <template>
-    <div>
-        <br>
-        <b-button class="btn-block" size="md" @click="clicked">Done</b-button>   
-        <hr>
-    </div>
+  <div>
+    <br>
+    <b-button variant="primary" class="btn-block" size="md" @click="clicked">
+      <i class="fas fa-check"></i> Done
+    </b-button>
+    <hr>
+  </div>
 </template>
 
 <script>
