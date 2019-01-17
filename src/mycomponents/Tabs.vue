@@ -1,68 +1,86 @@
 <template>
   <b-card no-body>
-  <b-tabs pills card>
-    <b-tab title="DATA" active>
-      <b-row>
-        <b-col col lg="2" class="tabsections" id="datasection1">
-          <b-row>
-            <b-col id="dataupload">
-              <app-data></app-data>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col id="measures">
+    <b-tabs pills card>
+      <b-tab title="DATA" active>
+        <b-row>
+          <b-col col lg="2" class="tabsections" id="datasection1">
+            <b-row>
+              <b-col id="dataupload">
+                <app-data></app-data>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col id="measures">
                 <app-axis></app-axis>
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col id="otherSelections">
-              <app-otherselections></app-otherselections>
-              <!-- <hr> <h5>Others</h5>
+              </b-col>
+            </b-row>
+            <b-row>
+              <b-col id="otherSelections">
+                <app-otherselections></app-otherselections>
+                <!-- <hr> <h5>Others</h5>
               <p>Colour...</p>
               <p>Shape...</p>
               <p>Size...</p>
-              <p>Opacity...</p> -->
-             <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
-            </b-col>
-          </b-row>
-        </b-col>
-        <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
-        <b-col col lg="9.5" class="tabsections">
-          <b-row>
-            <b-col col lg="9" class="canvas" id="datasection3"><app-canvas></app-canvas></b-col>
-            <b-col col lg="2.5" class="canvas" id="datasection4">
-              <b-row>
-                <b-col><app-bargraph></app-bargraph></b-col>
-                <b-col><app-scatterplot></app-scatterplot></b-col>
-              </b-row>
-              <b-row>
-                <b-col><app-linegraph></app-linegraph></b-col>
-                <b-col><app-areachart></app-areachart></b-col>
-              </b-row>
-              <b-row>
-                <b-col><app-histogram></app-histogram></b-col>
-                <b-col><app-punchcard></app-punchcard></b-col>
-              </b-row>
-            </b-col>
-          </b-row>
-        </b-col>
-        <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
-    </b-row>
-    </b-tab>
-    <b-tab title="GRAPH">
-      <b-row>
-        <b-col><app-graphcanvas></app-graphcanvas></b-col>
-        <!-- <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col> -->
-      </b-row>
-    </b-tab>
-    <b-tab title="STORY">
-      <b-row>
-        <b-col class="tabsections"><app-story></app-story></b-col>
-      </b-row>
-      <!--Stories (Slideshows, gifs and videos) here... -->
-    </b-tab>
-  </b-tabs>
-</b-card>
+                <p>Opacity...</p>-->
+                <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
+              </b-col>
+            </b-row>
+          </b-col>
+          <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
+          <b-col col lg="9.5" class="tabsections">
+            <b-row>
+              <b-col col lg="9" class="canvas" id="datasection3">
+                <app-canvas></app-canvas>
+              </b-col>
+              <b-col col lg="2.5" class="canvas" id="datasection4">
+                <b-row>
+                  <b-col>
+                    <app-bargraph></app-bargraph>
+                  </b-col>
+                  <b-col>
+                    <app-scatterplot></app-scatterplot>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <app-linegraph></app-linegraph>
+                  </b-col>
+                  <b-col>
+                    <app-areachart></app-areachart>
+                  </b-col>
+                </b-row>
+                <b-row>
+                  <b-col>
+                    <app-histogram></app-histogram>
+                  </b-col>
+                  <b-col>
+                    <app-punchcard></app-punchcard>
+                  </b-col>
+                </b-row>
+              </b-col>
+            </b-row>
+          </b-col>
+          <!-- <b-col col lg="2" class="tabsections" id="datasection4">4 of 4</b-col> -->
+        </b-row>
+      </b-tab>
+      <b-tab title="GRAPH">
+        <b-row>
+          <b-col>
+            <app-graphcanvas></app-graphcanvas>
+          </b-col>
+          <!-- <b-col class="tabsections"><app-graphcanvas></app-graphcanvas></b-col> -->
+        </b-row>
+      </b-tab>
+      <b-tab title="STORY">
+        <b-row>
+          <b-col class="tabsections">
+            <app-story></app-story>
+          </b-col>
+        </b-row>
+        <!--Stories (Slideshows, gifs and videos) here... -->
+      </b-tab>
+    </b-tabs>
+  </b-card>
 </template>
 
 <script>
