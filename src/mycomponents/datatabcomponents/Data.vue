@@ -65,8 +65,6 @@ export default {
         dynamicTyping: true,
         complete: function(results) {
           //data = results;   // results is an array of three objects: data, errors, meta (fields is contained within meta)
-          console.log(results.data);
-          console.log(results.meta.fields);
           DataBus.$emit("dataJson", results.data); // Send the data values through the event bus
           DataBus.$emit("fieldArray", results.meta.fields); // Send the field names through the event
         }
@@ -76,13 +74,13 @@ export default {
       //console.log(this.selectedRadio);
       switch (this.selectedRadio) {
         case "temperature":
-          this.sampleData(temperatureData);
+          this.sampleData(temperatureData, this.selectedRadio);
           break;
         case "car":
-          this.sampleData(carData);
+          this.sampleData(carData, this.selectedRadio);
           break;
         case "iris":
-          this.sampleData(irisData);
+          this.sampleData(irisData, this.selectedRadio);
           break;
         default:
           this.selectedRadio = "";
@@ -90,15 +88,12 @@ export default {
     },
     handleCancel() {
       console.log("Cancel!");
-      //this.selectedRadio = "";
+      this.selectedRadio = "";
     },
-    sampleData(sData) {
-      //this.selectedFile = "cars.json";
-      //var b = document.getElementById("__BVID__20___BV_file_control_");
-      //b.innerHTML = "okayyyyyy";
+    sampleData(sData, fileName) {
       document
-        .getElementById("__BVID__20___BV_file_control_") //get this id by inspecting the element
-        .setAttribute("data-selected", "democlass");
+        .getElementsByClassName("custom-file-control")[0] //Change the placeholder text from "Select file" to fileName
+        .setAttribute("data-selected", fileName); //To get the classname and attributes, inspect the b-form-file element
       //this.$refs.fileReader.placeholder = "Cars.json";
       var fieldNames = Object.keys(sData[0]);
       DataBus.$emit("dataJson", sData); // Send the data values through the event bus
