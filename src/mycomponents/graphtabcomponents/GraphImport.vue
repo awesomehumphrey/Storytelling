@@ -4,7 +4,7 @@
     <b-form-file
       v-model="selectedFile"
       placeholder="Import graph..."
-      accept=".json"
+      accept=".gty"
       @change="onImport"
       no-drop
     ></b-form-file>
@@ -13,7 +13,6 @@
 
 <script>
 /* eslint-disable */
-import Papa from "papaparse";
 import { DataBus } from "@/main";
 
 export default {
@@ -23,21 +22,17 @@ export default {
     };
   },
   methods: {
-    //Update method to handle json and not csv
     onImport(event) {
-      this.selectedFile = event.target.files[0]; //ToDo: get name of file, determine file type using the extension,
-      //and pass extension through a switch statement with each case calling a specific function to process that file type
-
-      Papa.parse(this.selectedFile, {
-        //parse blob into array of Json(if header is true) or array of rows (if header is false)
-        header: true,
-        dynamicTyping: true,
-        complete: function(results) {
-          //data = results;   // results is an array of three objects: data, errors, meta (fields is contained within meta)
-          DataBus.$emit("dataJson", results.data); // Send the data values through the event bus
-          DataBus.$emit("fieldArray", results.meta.fields); // Send the field names through the event
-        }
-      });
+      this.selectedFile = event.target.files[0];
+      var reader = new FileReader();
+      var graphData;
+      reader.onload = function(event) {
+        // The file's text will be printed here
+        graphData = JSON.parse(reader.result);
+        //console.log(graphData);
+        DataBus.$emit("gData", graphData); // Send the graphdata values through the event bus
+      };
+      reader.readAsText(this.selectedFile);
     }
   }
 };

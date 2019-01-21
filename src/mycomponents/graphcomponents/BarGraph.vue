@@ -1,6 +1,6 @@
 <template>
 <div>
-   <b-img thumbnail id="bargraph" fluid :src="require('@/assets/bar.png')" alt="Thumbnail" v-on:click="sendBarGraphSpec" /> <!--style="max-width: 7rem;" -->
+   <b-img thumbnail fluid id="bargraph" :src="require('@/assets/bar.png')" alt="Thumbnail" v-on:click="sendBarGraphSpec" /> <!--style="max-width: 7rem;" -->
    <b-popover :target="'bargraph'"
                    :placement="'top'"
                    title="Bar graph"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <br>
-    <b-button variant="primary" class="btn-block" size="md">
+    <b-button variant="primary" class="btn-block" size="md" @click="clicked">
       <i class="fa fa-download"></i> Download graph
     </b-button>
   </div>
@@ -9,6 +9,13 @@
 
 <script>
 /* eslint-disable */
+export default {
+  methods: {
+    clicked() {
+      this.$emit("clickedExport");
+    }
+  }
+};
 </script>
 
 <style scoped>

@@ -87,7 +87,7 @@ export default {
       }
     },
     handleCancel() {
-      console.log("Cancel!");
+      //console.log("Cancel!");
       this.selectedRadio = "";
     },
     sampleData(sData, fileName) {
