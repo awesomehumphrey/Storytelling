@@ -9,7 +9,7 @@
     <b-row>
       <b-col col lg="2" class="graphOps">
         <app-graphimport></app-graphimport>
-        <app-graphexport></app-graphexport>
+        <app-graphexport @clickedExport="exportNetwork()"></app-graphexport>
         <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
         <div id="sequenceInfo">
           <b-list-group>
@@ -84,6 +84,7 @@ import PreviousSequence from "@/mycomponents/graphtabcomponents/PreviousSequence
 
 import { DataBus } from "@/main";
 import vis from "vis";
+import { saveAs } from "file-saver";
 
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
@@ -225,6 +226,20 @@ var options = {
   }*/
 };
 
+//getNodeById is a helper function. It shouldn't be in component methods object...
+//...because it is called within callback functions in getEdgeData()...
+//...and will result in a Vue.js error
+var getNodeById = function(data, id) {
+  for (var n = 0; n < data.length; n++) {
+    if (data[n].id == id) {
+      // double equals since id can be numeric or string
+      return data[n];
+    }
+  }
+
+  throw "Can not find id '" + id + "' in data";
+};
+
 export default {
   components: {
     "app-graphimport": GraphImport,
@@ -262,6 +277,7 @@ export default {
     DataBus.$on("add-edge", this.addEdge);
     DataBus.$on("delete-edge", this.deleteEdge);
     DataBus.$on("nodeData", this.visNodeData);
+    DataBus.$on("gData", this.importNetwork);
   },
   mounted() {
     this.container = this.$refs.graphVis;
@@ -270,6 +286,9 @@ export default {
             edges: this.edges
         }; */
     window.network = new vis.Network(this.container, data, options);
+    /* network.on("hoverNode", function(bar){ //using events handlers...Should this be in mounted hook or updated?
+      console.log(bar)
+    }); */
   },
   beforeDestroy() {
     DataBus.$off("add-node", this.addNode);
@@ -277,6 +296,7 @@ export default {
     DataBus.$off("add-edge", this.addEdge);
     DataBus.$off("delete-edge", this.deleteEdge);
     DataBus.$off("nodeData", this.visNodeData);
+    DataBus.$off("gData", this.importNetwork);
   },
   methods: {
     /* addNode(nodeData) {
@@ -414,6 +434,7 @@ export default {
       this.totalRecommendation = sequenceArray.length;
       var arr = [];
       for (var i = 1; i < len - 1; i++) {
+        //The counter starts from 1 because when options-fixfirst is false(in the graphscape API), the index 0 is a null chart
         //console.log(sequenceArray[0].charts[i]);
         var tempObj = {};
         tempObj.from = mySeqArray.charts[i].id;
@@ -518,6 +539,95 @@ export default {
       });
 
       return sorted;
+    },
+    addConnections(elem, index) {
+      // need to replace this with a tree of the network, then get child direct children of the element
+      elem.connections = network.getConnectedNodes(index);
+
+      console.log(elem);
+    },
+    exportNetwork() {
+      var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
+      var dataForExport = Object.values(nonReactive); //convert object of objects to array of objects
+
+      for (var i = 0; i < dataForExport.length; i++) {
+        delete dataForExport[i].image;
+      }
+      if (dataForExport.length == 0) {
+        alert("There is nothing to export to file!");
+      } else {
+        //console.log(dataForExport);
+
+        dataForExport.forEach(this.addConnections);
+
+        // pretty print node data
+        var exportValue = JSON.stringify(dataForExport, undefined, 2);
+
+        var fileName = "graph.gty"; //gravity.json
+
+        // Create a blob of the data
+        var fileToSave = new Blob([exportValue], {
+          type: "application/json",
+          name: fileName
+        });
+
+        // Save the file
+        saveAs(fileToSave, fileName);
+      }
+    },
+    importNetwork(inputData) {
+      console.log(inputData);
+
+      var data = {
+        nodes: this.getNodeData(inputData),
+        edges: this.getEdgeData(inputData)
+      };
+      console.log(this.getEdgeData(inputData));
+      network = new vis.Network(this.container, data, {}); //may remove this line
+    },
+
+    getNodeData(data) {
+      var networkNodes = [];
+
+      data.forEach(function(elem, index, array) {
+        networkNodes.push({
+          id: elem.id,
+          label: elem.label,
+          x: elem.x,
+          y: elem.y
+        });
+      });
+      console.log(networkNodes);
+      return new vis.DataSet(networkNodes);
+    },
+
+    getEdgeData(data) {
+      var networkEdges = [];
+
+      data.forEach(function(node) {
+        // add the connection
+        node.connections.forEach(function(connId, cIndex, conns) {
+          //networkEdges.push({ from: node.id, to: connId });
+          networkEdges.push({ from: connId, to: node.id });
+
+          var cNode = getNodeById(data, connId);
+
+          var elementConnections = cNode.connections;
+
+          // remove the connection from the other node to prevent duplicate connections
+          var duplicateIndex = elementConnections.findIndex(function(
+            connection
+          ) {
+            return connection == node.id; // double equals since id can be numeric or string
+          });
+
+          if (duplicateIndex != -1) {
+            elementConnections.splice(duplicateIndex, 1);
+          }
+        });
+      });
+
+      return new vis.DataSet(networkEdges);
     }
   }
 };
