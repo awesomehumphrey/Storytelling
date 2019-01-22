@@ -13,17 +13,17 @@
         <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
         <div id="sequenceInfo">
           <b-list-group>
-            <b-list-group-item
+            <!-- <b-list-group-item
               id="ts"
               class="d-flex justify-content-between align-items-center"
             ># of recommendations
               <b-badge variant="primary" pill>{{totalRecommendation}}</b-badge>
-            </b-list-group-item>
+            </b-list-group-item>-->
             <b-list-group-item
               id="sp"
               class="d-flex justify-content-between align-items-center"
             >Sequence position
-              <b-badge variant="primary" pill>{{seqCounter}}</b-badge>
+              <b-badge variant="primary" pill>{{seqCounter}} of {{totalRecommendation}}</b-badge>
             </b-list-group-item>
             <b-list-group-item
               id="tc"
@@ -32,13 +32,13 @@
               <b-badge variant="primary" pill>{{transitionCost}}</b-badge>
             </b-list-group-item>
           </b-list-group>
-          <b-popover
+          <!-- <b-popover
             :target="'ts'"
             :placement="'top'"
             title="Number of recommendations"
             triggers="hover"
             :content="'Number of recommended sequences. This number increases exponentially with more visualisation nodes.'"
-          ></b-popover>
+          ></b-popover>-->
           <b-popover
             :target="'sp'"
             :placement="'top'"
@@ -254,7 +254,7 @@ export default {
     return {
       network: null,
       container: "",
-      nodeCount: 0,
+      nodeCount: 0, //this should be set to 0 and not 1
       edgeCount: 0,
       newNode: {
         id: 0,
@@ -312,7 +312,7 @@ export default {
     addEdge(edgeData) {
       //var nodeOne = nodes.get(edgeData.from);
       //var nodeTwo = nodes.get(edgeData.to);
-      edgeData.id = this.edgeCount;
+      //edgeData.id = this.edgeCount;  //This is commented so visjs can assign a random uuid
       this.edgeCount++;
       edges.update(edgeData);
       console.log(edgeData);
@@ -325,7 +325,18 @@ export default {
       console.log(edges);
     },
     visNodeData(nodeData) {
-      this.newNode.id = this.nodeCount;
+      //this.newNode.id = this.nodeCount; //This line is commented so as to use system time to generate id...
+      //...else when a .gty file is imported, newly created node clashes/overrides nodes from .gty file.
+      var dt = new Date();
+      this.newNode.id =
+        dt.getYear() +
+        dt.getDay() +
+        dt.getMonth() +
+        dt.getHours() +
+        dt.getMinutes() +
+        dt.getSeconds() +
+        dt.getMilliseconds();
+      //this.newNode.id = this.nodeCount; //this is for testing
       this.newNode.index = this.nodeCount;
       this.newNode.nData = nodeData;
       this.newNode.title = nodeData.myTitle; //newnode.title is for the visjs tooltip and different from vega spec.title
@@ -540,28 +551,32 @@ export default {
 
       return sorted;
     },
-    addConnections(elem, index) {
-      // need to replace this with a tree of the network, then get child direct children of the element
-      elem.connections = network.getConnectedNodes(index);
-
-      console.log(elem);
-    },
     exportNetwork() {
-      var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
-      var dataForExport = Object.values(nonReactive); //convert object of objects to array of objects
+      //var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
+      //var dataForExport = Object.values(nonReactive); //convert object of objects to array of objects
 
-      for (var i = 0; i < dataForExport.length; i++) {
+      /* for (var i = 0; i < dataForExport.length; i++) {
         delete dataForExport[i].image;
-      }
-      if (dataForExport.length == 0) {
+      } */
+      var nodesToExport = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
+      nodesToExport = Object.values(nodesToExport); //convert object of objects to array of objects
+
+      var edgesToExport = JSON.parse(JSON.stringify(edges._data)); //convert reactive object of objects to normal objects
+      edgesToExport = Object.values(edgesToExport); //convert object of objects to array of objects
+      console.log(nodesToExport);
+      console.log(edgesToExport);
+      var dataToExport = [];
+      dataToExport.push(nodesToExport);
+      dataToExport.push(edgesToExport);
+      console.log(dataToExport);
+
+      if (nodesToExport.length == 0) {
         alert("There is nothing to export to file!");
       } else {
-        //console.log(dataForExport);
-
-        dataForExport.forEach(this.addConnections);
+        //dataForExport.forEach(this.addConnections);
 
         // pretty print node data
-        var exportValue = JSON.stringify(dataForExport, undefined, 2);
+        var exportValue = JSON.stringify(dataToExport, undefined, 2);
 
         var fileName = "graph.gty"; //gravity.json
 
@@ -576,58 +591,14 @@ export default {
       }
     },
     importNetwork(inputData) {
-      console.log(inputData);
+      nodes.clear();
+      edges.clear();
 
-      var data = {
-        nodes: this.getNodeData(inputData),
-        edges: this.getEdgeData(inputData)
-      };
-      console.log(this.getEdgeData(inputData));
-      network = new vis.Network(this.container, data, {}); //may remove this line
-    },
+      nodes.update(inputData[0]);
+      edges.update(inputData[1]);
 
-    getNodeData(data) {
-      var networkNodes = [];
-
-      data.forEach(function(elem, index, array) {
-        networkNodes.push({
-          id: elem.id,
-          label: elem.label,
-          x: elem.x,
-          y: elem.y
-        });
-      });
-      console.log(networkNodes);
-      return new vis.DataSet(networkNodes);
-    },
-
-    getEdgeData(data) {
-      var networkEdges = [];
-
-      data.forEach(function(node) {
-        // add the connection
-        node.connections.forEach(function(connId, cIndex, conns) {
-          //networkEdges.push({ from: node.id, to: connId });
-          networkEdges.push({ from: connId, to: node.id });
-
-          var cNode = getNodeById(data, connId);
-
-          var elementConnections = cNode.connections;
-
-          // remove the connection from the other node to prevent duplicate connections
-          var duplicateIndex = elementConnections.findIndex(function(
-            connection
-          ) {
-            return connection == node.id; // double equals since id can be numeric or string
-          });
-
-          if (duplicateIndex != -1) {
-            elementConnections.splice(duplicateIndex, 1);
-          }
-        });
-      });
-
-      return new vis.DataSet(networkEdges);
+      console.log(inputData[0]);
+      console.log(inputData[1]);
     }
   }
 };
