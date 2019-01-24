@@ -1,14 +1,22 @@
 <template>
   <div ref="canvas" v-on:resize="handleResize()">
     <div v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field">
-      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input> <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
+      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input>
+      <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
     <div v-else-if="spec.description === 'histogram' && spec.encoding.x.field">
-      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input> <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
+      <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input>
+      <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
-    <b-button v-show="spec.encoding.x.field" size="md" variant="primary" class="float-right" v-on:click="sendNodeData">Create Node</b-button>
+    <b-button
+      v-show="spec.encoding.x.field"
+      size="md"
+      variant="primary"
+      class="float-right"
+      v-on:click="sendNodeData"
+    >Create Node</b-button>
   </div>
 </template>
 

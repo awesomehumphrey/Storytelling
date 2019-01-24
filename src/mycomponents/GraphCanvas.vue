@@ -226,20 +226,6 @@ var options = {
   }*/
 };
 
-//getNodeById is a helper function. It shouldn't be in component methods object...
-//...because it is called within callback functions in getEdgeData()...
-//...and will result in a Vue.js error
-var getNodeById = function(data, id) {
-  for (var n = 0; n < data.length; n++) {
-    if (data[n].id == id) {
-      // double equals since id can be numeric or string
-      return data[n];
-    }
-  }
-
-  throw "Can not find id '" + id + "' in data";
-};
-
 export default {
   components: {
     "app-graphimport": GraphImport,

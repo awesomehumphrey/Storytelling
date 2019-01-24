@@ -11,21 +11,17 @@ import Multiselect from 'vue-multiselect';
 import BootstrapVue from 'bootstrap-vue';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'mdbootstrap/css/mdb.css';
+import 'mdbootstrap/css/mdb.css'; //This (overwrites)provides the better styling for buttons than bootstrap-vue
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import '../node_modules/reveal.js/css/reveal.css';
 import '../node_modules/reveal.js/css/theme/white.css';
-//import "@/css/reveal.scss";
-
-import VueCarousel from 'vue-carousel';
 
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
 Vue.component('multiselect', Multiselect)
 Vue.use(BootstrapVue);
 Vue.use(VueVega);
-Vue.use(VueCarousel);
 Vue.config.productionTip = false;
 
 ///* eslint-disable no-new */

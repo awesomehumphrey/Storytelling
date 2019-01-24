@@ -1,13 +1,22 @@
 <template>
-<div>
-   <b-img thumbnail fluid id="bargraph" :src="require('@/assets/bar.png')" alt="Thumbnail" v-on:click="sendBarGraphSpec" /> <!--style="max-width: 7rem;" -->
-   <b-popover :target="'bargraph'"
-                   :placement="'top'"
-                   title="Bar graph"
-                   triggers="hover focus"
-                   :content="'1 categorical variable and 1 quantitative variable.'">
-    </b-popover>
-</div>
+  <div>
+    <b-img
+      thumbnail
+      fluid
+      id="bargraph"
+      :src="require('@/assets/bar.png')"
+      alt="Thumbnail"
+      v-on:click="sendBarGraphSpec"
+    />
+    <!--style="max-width: 7rem;" -->
+    <b-popover
+      :target="'bargraph'"
+      :placement="'top'"
+      title="Bar graph"
+      triggers="hover focus"
+      :content="'1 categorical variable and 1 quantitative variable.'"
+    ></b-popover>
+  </div>
 </template>
 
 <script>

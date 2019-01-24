@@ -73,7 +73,8 @@
       </b-tab>
       <b-tab title="STORY">
         <b-row>
-          <b-col class="tabsections">
+          <b-col>
+            <!-- <b-col class="tabsections"> -->
             <app-story></app-story>
           </b-col>
         </b-row>
@@ -118,7 +119,7 @@ export default {
 
 <style>
 body {
-  overflow: auto; /* To overwrite overflow:hidden in reveal.css */
+  overflow: auto !important; /* To overwrite overflow:hidden in reveal.css */
 }
 .tabsections {
   margin: 5px;
