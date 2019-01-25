@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       spec: {
-        $schema: "https://vega.github.io/schema/vega-lite/v2.json",
+        $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "barChart",
         height: 500, // Default height of graph
         width: 650, // Default width of graph, but is dynamically updated to fit the width of the device
@@ -43,8 +43,8 @@ export default {
         mark: "bar",
         encoding: {
           x: { field: "", type: "ordinal" },
-          y: { field: "", type: "quantitative" },
-          tooltip: { field: "", type: "quantitative" }
+          y: { field: "", type: "quantitative" }
+          //tooltip: { field: "", type: "quantitative" } //Tooltip now comes with the latest version of vega-embed
         }
       }
     };
@@ -57,7 +57,7 @@ export default {
     DataBus.$on("Y-axisValue", yAxisSelected => {
       //Receive the y-axis value from Axis component via DataBus
       this.spec.encoding["y"]["field"] = yAxisSelected;
-      this.spec.encoding["tooltip"]["field"] = yAxisSelected;
+      //this.spec.encoding["tooltip"]["field"] = yAxisSelected;
     });
     DataBus.$on("X-axisValue", xAxisSelected => {
       //Receive the y-axis value from Axis component via DataBus

@@ -5,7 +5,7 @@ import 'babel-polyfill'; //Make sure this babel-polyfill is always first
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import VueVega from 'vue-vega';
+//import VueVega from 'vue-vega';
 import Multiselect from 'vue-multiselect';
 
 import BootstrapVue from 'bootstrap-vue';
@@ -21,7 +21,7 @@ export const DataBus = new Vue(); //Event bus for passing data amongst component
 
 Vue.component('multiselect', Multiselect)
 Vue.use(BootstrapVue);
-Vue.use(VueVega);
+//Vue.use(VueVega);
 Vue.config.productionTip = false;
 
 ///* eslint-disable no-new */

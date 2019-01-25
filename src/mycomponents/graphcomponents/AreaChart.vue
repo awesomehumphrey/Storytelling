@@ -1,13 +1,22 @@
 <template>
-<div>
-   <b-img thumbnail fluid id="areagraph" :src="require('@/assets/areachart.png')" alt="Thumbnail" v-on:click="sendAreaChartSpec"/> <!--style="max-width: 7rem;" -->
-   <b-popover :target="'areagraph'"
-                   :placement="'top'"
-                   title="Area graph"
-                   triggers="hover focus"
-                   :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-categories, subset by colour.'">
-    </b-popover>
-</div>
+  <div>
+    <b-img
+      thumbnail
+      fluid
+      id="areagraph"
+      :src="require('@/assets/areachart.png')"
+      alt="Thumbnail"
+      v-on:click="sendAreaChartSpec"
+    />
+    <!--style="max-width: 7rem;" -->
+    <b-popover
+      :target="'areagraph'"
+      :placement="'top'"
+      title="Area graph"
+      triggers="hover focus"
+      :content="'1 nominal/temporal variable and 1 quantitative variable. For multi-categories, subset by colour.'"
+    ></b-popover>
+  </div>
 </template>
 
 <script>
@@ -18,7 +27,7 @@ export default {
   data() {
     return {
       spec: {
-        $schema: "https://vega.github.io/schema/vega-lite/v2.json",
+        $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "areaChart",
         height: 500, // Default height of graph
         width: 650, // Default width of graph, but is dynamically updated to fit the width of the device
@@ -33,9 +42,9 @@ export default {
         //"mark": {"type": "area", "line": false, "point": false},
         mark: "area",
         encoding: {
-          x: { field: "", type: "temporal" }, // type can also be ordinal temporal
+          x: { field: "", type: "ordinal" }, // type can also be ordinal temporal
           y: { field: "", type: "quantitative" },
-          tooltip: { field: "", type: "quantitative" },
+          //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" }
         }
       }

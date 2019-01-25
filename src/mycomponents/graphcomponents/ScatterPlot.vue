@@ -1,13 +1,22 @@
 <template>
-<div>
-   <b-img thumbnail fluid id="scatterplot" :src="require('@/assets/scatterplot.png')" alt="Thumbnail" v-on:click="sendScatterPlotSpec"/> <!--style="max-width: 7rem;" -->
-   <b-popover :target="'scatterplot'"
-                   :placement="'top'"
-                   title="Scatterplot"
-                   triggers="hover focus"
-                   :content="'2 quantitative variables. Can be subsetted by colour and/or shape.'">
-    </b-popover>
-</div>
+  <div>
+    <b-img
+      thumbnail
+      fluid
+      id="scatterplot"
+      :src="require('@/assets/scatterplot.png')"
+      alt="Thumbnail"
+      v-on:click="sendScatterPlotSpec"
+    />
+    <!--style="max-width: 7rem;" -->
+    <b-popover
+      :target="'scatterplot'"
+      :placement="'top'"
+      title="Scatterplot"
+      triggers="hover focus"
+      :content="'2 quantitative variables. Can be subsetted by colour and/or shape.'"
+    ></b-popover>
+  </div>
 </template>
 
 <script>
@@ -18,7 +27,7 @@ export default {
   data() {
     return {
       spec: {
-        $schema: "https://vega.github.io/schema/vega-lite/v2.json",
+        $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "scatterplot",
         height: 500, // Default height of graph
         width: 650, // Default width of graph, but is dynamically updated to fit the width of the device
@@ -35,7 +44,7 @@ export default {
         encoding: {
           x: { field: "", type: "quantitative" },
           y: { field: "", type: "quantitative" },
-          tooltip: { field: "", type: "quantitative" },
+          //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" },
           shape: { field: "", type: "nominal" }
         }
@@ -57,7 +66,7 @@ export default {
     });
     DataBus.$on("ToolTipLabel", toolTipLabel => {
       //Receive the tooltip label value from Axis component via DataBus
-      this.spec.encoding["tooltip"]["field"] = toolTipLabel;
+      //this.spec.encoding["tooltip"]["field"] = toolTipLabel; //Tooltip now comes with the latest version of vega-embed
     });
     DataBus.$on("Colour", colour => {
       //Receive the colour value from Axis component via DataBus

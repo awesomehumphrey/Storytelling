@@ -31,7 +31,7 @@ export default {
     return {
       myTitle: "Title",
       spec: {
-        $schema: "https://vega.github.io/schema/vega-lite/v2.json",
+        $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "Graph",
         data: {
           values: []
@@ -71,6 +71,7 @@ export default {
       //console.log(this.spec);
       vegaEmbed("#vis", this.spec, {
         defaultStyle: true,
+        tooltip: true,
         actions: { export: true, source: false, compiled: false, editor: false }
       });
     },
