@@ -28,8 +28,8 @@
             <b-list-group-item
               id="tc"
               class="d-flex justify-content-between align-items-center"
-            >Transition cost
-              <b-badge variant="primary" pill>{{transitionCost}}</b-badge>
+            >Sequence cost
+              <b-badge variant="primary" pill>{{sequenceCost}}</b-badge>
             </b-list-group-item>
           </b-list-group>
           <!-- <b-popover
@@ -37,21 +37,21 @@
             :placement="'top'"
             title="Number of recommendations"
             triggers="hover"
-            :content="'Number of recommended sequences. This number increases exponentially with more visualisation nodes.'"
+            :content="'Number of recommended sequences. This number increases exponentially with more visualisation nodes. Total cost of transitioning between each pair of adjacent charts'"
           ></b-popover>-->
           <b-popover
             :target="'sp'"
             :placement="'top'"
             title="Sequence position"
             triggers="hover"
-            :content="'The current sequence index. Transition cost increases as this number increases.'"
+            :content="'The current sequence index. Sequence cost increases as this number increases.'"
           ></b-popover>
           <b-popover
             :target="'tc'"
             :placement="'top'"
-            title="Transition cost"
+            title="Sequence cost"
             triggers="hover"
-            :content="'Total cost of transitioning between each pair of adjacent charts. Effective sequences have smaller costs.'"
+            :content="'Total sequence cost. Effective sequences have smaller costs.'"
           ></b-popover>
         </div>
 
@@ -87,6 +87,7 @@ import vis from "vis";
 import { saveAs } from "file-saver";
 
 import myWorker from "@/my-worker";
+import NProgress from "nprogress";
 
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
@@ -256,6 +257,7 @@ export default {
       },
       seqCounter: 0,
       transitionCost: 0,
+      sequenceCost: 0,
       totalRecommendation: 0
     };
   },
@@ -373,7 +375,9 @@ export default {
     //     console.log(nodes);
     // },
     recommend() {
-      console.log(nodes._data);
+      NProgress.configure({ parent: "#section2" });
+      NProgress.start(); // start progress bar here and end after worker ends
+      //console.log(nodes._data);
       edges.clear(); //clear edges before recommending
       var chartSpec = [];
       var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
@@ -404,27 +408,36 @@ export default {
         .send(dataForWorkers)
         .then(reply => {
           // Handle the reply
+          console.log(reply);
+          NProgress.done();
           sequenceArray = reply;
           if (sequenceArray.length > 1) {
             this.displaySequence(sequenceArray[0]);
             this.seqCounter = 1;
             this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
+            this.sequenceCost = +sequenceArray[0].sequenceCost.toFixed(2); //truncate to 2 decimal places
             this.totalRecommendation = sequenceArray.length;
           }
         })
         .catch(error => {
           // Handle the error
+          NProgress.done();
           console.log(error);
         });
       //console.log(sequenceArray[0].charts);
       //console.log(sequenceArray);
       //console.log(chartSpec);
     },
-    clearEdges() {
-      edges.clear();
+    reInitialiseSeqParam() {
       this.seqCounter = 0;
       this.transitionCost = 0;
+      this.sequenceCost = 0;
       this.totalRecommendation = 0;
+      sequenceArray = [];
+    },
+    clearEdges() {
+      edges.clear();
+      this.reInitialiseSeqParam();
       //console.log(edges._data);
     },
     nextSequence() {
@@ -443,6 +456,7 @@ export default {
       edges.clear(); //clear edges before recommending
       var len = mySeqArray.charts.length;
       this.transitionCost = mySeqArray.sumOfTransitionCosts;
+      this.sequenceCost = +mySeqArray.sequenceCost.toFixed(2);
       this.totalRecommendation = sequenceArray.length;
       var arr = [];
       for (var i = 1; i < len - 1; i++) {
@@ -592,6 +606,7 @@ export default {
       }
     },
     importNetwork(inputData) {
+      this.reInitialiseSeqParam();
       nodes.clear();
       edges.clear();
 
