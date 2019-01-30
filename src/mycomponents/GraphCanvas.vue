@@ -408,7 +408,7 @@ export default {
         .send(dataForWorkers)
         .then(reply => {
           // Handle the reply
-          console.log(reply);
+          //console.log(reply);
           NProgress.done();
           sequenceArray = reply;
           if (sequenceArray.length > 1) {
