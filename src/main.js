@@ -17,6 +17,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import '../node_modules/reveal.js/css/reveal.css';
 import '../node_modules/reveal.js/css/theme/white.css';
 
+import '../node_modules/nprogress/nprogress.css'
+
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
 Vue.component('multiselect', Multiselect)
