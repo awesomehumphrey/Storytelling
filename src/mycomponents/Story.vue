@@ -1,22 +1,23 @@
 <template>
   <div>
     <b-row>
-      <b-col col lg="2" id="storyOps"></b-col>
-      <b-col col lg="9.5" class="storySections">
+      <b-col col sm="2" id="storyOps"></b-col>
+      <b-col col sm="9.5" class="storySections">
         <b-row>
-          <b-col col lg="9.5">
+          <b-col col sm="9.5">
             <div id="pres" ref="bar" v-on:resize="handleResize()">
               <div class="reveal">
                 <div class="slides">
                   <section>Gravity++: Telling stories with data...</section>
                   <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
-                  <section>Thank you!</section>
+                  <section></section>
+                  <!-- <section>Thank you!</section> -->
                 </div>
                 <!--Move 'Thank you' to a different div before adding conditional statements or render it dynamically like the charts-->
               </div>
             </div>
           </b-col>
-          <b-col col lg="2" id="presOps"></b-col>
+          <b-col col sm="2" id="presOps"></b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -42,6 +43,7 @@ export default {
   mounted() {
     Reveal.initialize({
       transition: "zoom",
+      backgroundTransition: "slide",
       embedded: true,
       margin: 0,
       minScale: 1,

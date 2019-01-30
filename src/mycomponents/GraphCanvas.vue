@@ -86,13 +86,15 @@ import { DataBus } from "@/main";
 import vis from "vis";
 import { saveAs } from "file-saver";
 
+import myWorker from "@/my-worker";
+
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
 
-var sequencOptions = { fixFirst: false };
+var sequenceOptions = { fixFirst: false };
 var sequenceArray = [];
 
-//console.log(gs.sequence(charts, sequencOptions));
+//console.log(gs.sequence(charts, sequenceOptions));
 
 var nodes = new vis.DataSet([
   /* { id: 0, index: 0, label: '0', x: -147, y: -77 },
@@ -394,16 +396,29 @@ export default {
         chartSpec.push(chartData[i].nData);
         chartSpec[i].id = chartData[i].id; //assigning id from the node object to graphspec object
       }
-      sequenceArray = gs.sequence(chartSpec, sequencOptions);
+      //sequenceArray = gs.sequence(chartSpec, sequenceOptions); //use workers/threads instead for performance and to prevent UI freezing
+      var dataForWorkers = [];
+      dataForWorkers.push(chartSpec);
+      dataForWorkers.push(sequenceOptions);
+      myWorker
+        .send(dataForWorkers)
+        .then(reply => {
+          // Handle the reply
+          sequenceArray = reply;
+          if (sequenceArray.length > 1) {
+            this.displaySequence(sequenceArray[0]);
+            this.seqCounter = 1;
+            this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
+            this.totalRecommendation = sequenceArray.length;
+          }
+        })
+        .catch(error => {
+          // Handle the error
+          console.log(error);
+        });
       //console.log(sequenceArray[0].charts);
-      console.log(sequenceArray);
+      //console.log(sequenceArray);
       //console.log(chartSpec);
-      if (sequenceArray.length > 1) {
-        this.displaySequence(sequenceArray[0]);
-        this.seqCounter = 1;
-        this.transitionCost = sequenceArray[0].sumOfTransitionCosts;
-        this.totalRecommendation = sequenceArray.length;
-      }
     },
     clearEdges() {
       edges.clear();
@@ -614,7 +629,7 @@ export default {
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
   background-color: #f1f1f1;
-  max-width: 250px;
+  max-width: 270px;
 }
 
 #section2 {
