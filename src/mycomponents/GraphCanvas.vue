@@ -379,6 +379,7 @@ export default {
       NProgress.start(); // start progress bar here and end after worker ends
       //console.log(nodes._data);
       edges.clear(); //clear edges before recommending
+      this.reInitialiseSeqParam();
       var chartSpec = [];
       var nonReactive = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
       var chartData = Object.values(nonReactive); //convert object of objects to array of objects
