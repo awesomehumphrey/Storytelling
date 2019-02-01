@@ -19,32 +19,42 @@
           </b-col>
           <b-col col sm="4" id="presOps">
             <button
+              class="btn btn-primary btn-sm"
+              title="Start recording"
               id="btn-start-recording"
               ref="btnStartRecording"
-              @click="sttRecording()"
-            >Start Recording</button>
+              @click="myStartRecording()"
+            >Start</button>
             <button
+              class="btn btn-primary btn-sm"
+              title="Pause/resume recording"
+              id="btn-pause-resume-recording"
+              ref="btnPauseResumeRecording"
+              @click="pauseResumeRecording()"
+              disabled
+            >Pause</button>
+            <button
+              class="btn btn-primary btn-sm"
+              title="Stop recording"
               id="btn-stop-recording"
               ref="btnStopRecording"
-              @click="sppRecording()"
+              @click="myStopRecording()"
               disabled
-            >Stop Recording</button>
+            >Stop</button>
 
             <hr>
             <div
               id="element-to-record"
               ref="elementRecord"
-              style="border: 5px solid gray; border-radius: 5px; padding: 20px; margin: 20px;width: 480px; height: 360px;"
+              style="border: 2px solid gray; border-radius: 2px; width: 100%; height: 40%;"
             >
-              <input value="type something" style="width: 80%;font-size: 16px;">
-              <br>
-              <br>
-              <span id="timer"></span>
-              <br>
-              <br>
-              <span id="counter"></span>
-              <br>
-              <br>
+              <video
+                controls
+                id="preview-video"
+                ref="previewVideo"
+                :poster="require('@/assets/story.jpg')"
+                :src="videoSrc"
+              ></video>
             </div>
 
             <canvas
@@ -53,8 +63,8 @@
               style="position:absolute; top:-99999999px; left:-9999999999px; float: right"
             ></canvas>
             <hr>
-            <div style="display: block; background-color:white height: 300px; width: 300px">
-              <video controls autoplay id="preview-video" ref="previewVideo" :src="videoSrc"></video>
+            <div style="background-color:white; ">
+              <h4>Speaker Notes</h4>
             </div>
           </b-col>
         </b-row>
@@ -86,51 +96,14 @@ export default {
   data() {
     return {
       id: [],
-      videoSrc: "https://www.w3schools.com/tags/movie.mp4"
+      videoSrc: "https://www.w3schools.com/tags/movie.mp4",
+      pause: false
     };
   },
   created() {
     DataBus.$on("nodeArray", this.getNodeArray); //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
   },
   mounted() {
-    /*     elementToRecord = this.$refs.elementRecord;
-    canvas2d = this.$refs.backgroundCanvas;
-    context = canvas2d.getContext("2d");
-
-    console.log(context);
-
-    canvas2d.width = elementToRecord.clientWidth;
-    canvas2d.height = elementToRecord.clientHeight;
-
-    (function looper() {
-      if (!isRecordingStarted) {
-        return setTimeout(looper, 500);
-      }
-
-      html2canvas(elementToRecord).then(function(canvas) {
-        context.clearRect(0, 0, canvas2d.width, canvas2d.height);
-        context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
-
-        if (isStoppedRecording) {
-          return;
-        }
-
-        requestAnimationFrame(looper);
-      });
-    })();
-
-    recorder = new RecordRTC(canvas2d, {
-      type: "canvas",
-      showMousePointer: true
-    });
-
-    var timer = document.getElementById("timer");
-    var counter = document.getElementById("counter");
-    var interval = setInterval(function() {
-      timer.innerHTML = new Date();
-      counter.innerHTML = (Math.random() * 100).toString().replace(".", "");
-    }, 1000); */
-
     Reveal.initialize({
       transition: "zoom",
       backgroundTransition: "slide",
@@ -153,13 +126,11 @@ export default {
     window.addEventListener("load", this.handleLoad);
   },
   methods: {
-    sttRecording() {
-      elementToRecord = this.$refs.elementRecord;
-      //elementToRecord = this.$refs.bar;
+    myStartRecording() {
+      //elementToRecord = this.$refs.elementRecord;
+      elementToRecord = this.$refs.bar;
       canvas2d = this.$refs.backgroundCanvas;
       context = canvas2d.getContext("2d");
-
-      console.log(context);
 
       canvas2d.width = elementToRecord.clientWidth;
       canvas2d.height = elementToRecord.clientHeight;
@@ -169,7 +140,7 @@ export default {
           return setTimeout(looper, 500);
         }
 
-        html2canvas(elementToRecord).then(function(canvas) {
+        html2canvas(elementToRecord, { logging: false }).then(function(canvas) {
           context.clearRect(0, 0, canvas2d.width, canvas2d.height);
           context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
 
@@ -186,14 +157,14 @@ export default {
         showMousePointer: true
       }); */
 
+      const myThis = this; //Can't use "this" in a callback in vuejs because of clashing of its scope
       navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then(function(audioStream) {
           //var canvas = document.getElementById('canvas');
           canvasStream = canvas2d.captureStream();
           finalStream = new MediaStream();
-          console.log(canvasStream);
-          console.log(finalStream);
+
           getTracks(audioStream, "audio").forEach(function(track) {
             finalStream.addTrack(track);
           });
@@ -204,50 +175,40 @@ export default {
             type: "video"
           });
           recorder.startRecording();
-          //var stop = false;
-          /*                 (function looper() {
-                    if(stop) {
-                        recorder.stopRecording(function() {
-                            var blob = recorder.getBlob();
-                            document.body.innerHTML = '<video controls src="' + URL.createObjectURL(blob) + '" autoplay loop></video>';
-                            audioStream.stop();
-                            canvasStream.stop();
-                        });
-                        return;
-                    }
-                    setTimeout(looper, 100);
-                })();
-                var seconds = 15;
-                var interval = setInterval(function() {
-                    seconds--;
-                    if(document.querySelector('h1')) {
-                        document.querySelector('h1').innerHTML = seconds + ' seconds remaining.';
-                    }
-                }, 1000);
-                setTimeout(function() {
-                    clearTimeout(interval);
-                    stop = true;
-                }, seconds * 1000); */
+        })
+        .catch(function(err) {
+          myThis.$refs.btnStartRecording.disabled = false;
+          myThis.$refs.btnStopRecording.disabled = true;
+          myThis.$refs.btnPauseResumeRecording.disabled = true;
+          console.log(err.name + ": " + err.message);
+          alert(err.name + ": " + err.message);
         });
 
-      var timer = document.getElementById("timer");
-      var counter = document.getElementById("counter");
-      var interval = setInterval(function() {
-        timer.innerHTML = new Date();
-        counter.innerHTML = (Math.random() * 100).toString().replace(".", "");
-      }, 1000);
       this.$refs.btnStartRecording.disabled = true;
-      console.log("Hey! Iam recording!!!");
+      //console.log("Hey! Iam recording!!!");
       isStoppedRecording = false;
       isRecordingStarted = true;
 
       //recorder.startRecording();
       this.$refs.btnStopRecording.disabled = false;
+      this.$refs.btnPauseResumeRecording.disabled = false;
       //document.getElementById("btn-stop-recording").disabled = false;
     },
-    sppRecording() {
+    pauseResumeRecording() {
+      this.pause = !this.pause;
+      if (this.pause) {
+        recorder.pauseRecording();
+        this.$refs.btnPauseResumeRecording.innerHTML = "Resume";
+      } else {
+        recorder.resumeRecording();
+        this.$refs.btnPauseResumeRecording.innerHTML = "Pause";
+      }
+    },
+    myStopRecording() {
+      this.$refs.btnPauseResumeRecording.innerHTML = "Pause";
       this.$refs.btnStartRecording.disabled = false;
       this.$refs.btnStopRecording.disabled = true;
+      this.$refs.btnPauseResumeRecording.disabled = true;
       //this.videoSrc = "http://techslides.com/demos/sample-videos/small.mp4";
       const self = this;
       recorder.stopRecording(function(bar) {
@@ -270,9 +231,7 @@ export default {
       });
     },
     assignVideo(bar) {
-      this.videoSrc = "http://techslides.com/demos/sample-videos/small.mp4";
       this.videoSrc = URL.createObjectURL(blob);
-      console.log(canvas2d);
       //this.videoSrc = bar;
     },
     getNodeArray(nodeArray) {
@@ -353,9 +312,9 @@ export default {
 #presOps {
   margin: 1px;
   min-height: 600px;
-  border: 1px solid red; /* border: 1px solid grey; */
+  border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
-  background-color: #f1f1f1;
+  background-color: white;
   /* max-width: 300px; */
 }
 .storySections {
@@ -367,7 +326,9 @@ export default {
 
 #preview-video {
   object-fit: initial;
-  width: 400px;
-  height: 300px;
+  /* width: 400px;
+  height: 300px; */
+  width: 100%;
+  height: 100%;
 }
 </style>

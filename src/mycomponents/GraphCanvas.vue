@@ -1,5 +1,5 @@
 <template>
-  <div ref="graphCanvas">
+  <div ref="graphCanvas" id="graphCa">
     <link
       rel="stylesheet"
       href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
@@ -375,7 +375,7 @@ export default {
     //     console.log(nodes);
     // },
     recommend() {
-      NProgress.configure({ parent: "#section2" });
+      NProgress.configure({ parent: "#section2", showSpinner: true });
       NProgress.start(); // start progress bar here and end after worker ends
       //console.log(nodes._data);
       edges.clear(); //clear edges before recommending
@@ -474,6 +474,11 @@ export default {
       console.log(edges._data);
     },
     prepareAndSendData() {
+      NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
+      NProgress.start();
+      setTimeout(() => {
+        NProgress.done();
+      }, 200);
       //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
       var prepEdges = edges._data;
       var nodeArray = [];
@@ -666,5 +671,9 @@ export default {
 
 .prevNext {
   display: inline-block;
+}
+
+#graphCa {
+  overflow: scroll !important;
 }
 </style>

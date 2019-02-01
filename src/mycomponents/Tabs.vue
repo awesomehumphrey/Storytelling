@@ -1,6 +1,6 @@
 <template>
   <b-card no-body>
-    <b-tabs pills card>
+    <b-tabs pills card id="idForProgressBar">
       <b-tab title="DATA" active>
         <b-row>
           <b-col col lg="2" class="tabsections" id="datasection1">

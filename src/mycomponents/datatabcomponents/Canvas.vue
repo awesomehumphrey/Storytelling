@@ -25,6 +25,7 @@
 import { DataBus } from "@/main";
 import vegaEmbed from "vega-embed";
 //import vegalite from 'vega-lite';
+import NProgress from "nprogress";
 
 export default {
   data() {
@@ -79,6 +80,11 @@ export default {
       this.myTitle = "Title";
     },
     sendNodeData() {
+      NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
+      NProgress.start();
+      setTimeout(() => {
+        NProgress.done();
+      }, 200);
       this.spec.myTitle = this.myTitle; //the object property, "myTitle" is not part of the spec. It's only used to send the title to GraphTab...
       // ...The spec property, "title" will be used instead when modals are used for title and axis labels update.
       DataBus.$emit("nodeData", this.spec);
