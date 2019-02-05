@@ -294,7 +294,8 @@ export default {
       console.log(bar);
     }); */
     const networkThis = this; //because of conflicting scope of 'this'
-    network.on("selectNode", function(params) {
+    network.on("doubleClick", function(params) {
+      //Use doubleclick instead of click because click should allow user delete node from canvas
       // click event - your element, edge or node
       // set the popup position by getting the params.pointer attr
       // handle the toggle behavior
@@ -414,7 +415,8 @@ export default {
     // },
     renderMiniVis(item, screenSize) {
       var result;
-      var myNodes = Object.values(nodes._data); //convert object of objects to array of objects
+      var myNodes = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
+      myNodes = Object.values(myNodes); //convert object of objects to array of objects
       for (var key in myNodes) {
         //search for node id in myNodes and assign its spec to result
         if (myNodes[key].id == item) {
