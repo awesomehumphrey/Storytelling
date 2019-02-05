@@ -54,7 +54,10 @@
             :content="'Total sequence cost. Effective sequences have smaller costs.'"
           ></b-popover>
         </div>
-
+        <div ref="miniVis" :style="miniVisStyleObject">
+          <div id="miniVis"></div>
+          <b-button size="sm" style="border-radius: 25px;" variant="primary">Show in DataTab</b-button>
+        </div>
         <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
         <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
 
@@ -88,6 +91,7 @@ import { saveAs } from "file-saver";
 
 import myWorker from "@/my-worker";
 import NProgress from "nprogress";
+import vegaEmbed from "vega-embed";
 
 var gs = require("@/graphscape-master/graphscape.js");
 //var gs = require("C:/Users/hobie/Desktop/graphscape-master/graphscape.js");
@@ -241,6 +245,15 @@ export default {
   },
   data() {
     return {
+      miniVisStyleObject: {
+        "border-radius": "25px",
+        "z-index": "1",
+        position: "fixed",
+        display: "none",
+        border: "2px solid grey",
+        background: "white"
+      },
+      myScreenWidth: 0,
       network: null,
       container: "",
       nodeCount: 0, //this should be set to 0 and not 1
@@ -276,9 +289,34 @@ export default {
             edges: this.edges
         }; */
     window.network = new vis.Network(this.container, data, options);
-    /* network.on("hoverNode", function(bar){ //using events handlers...Should this be in mounted hook or updated?
-      console.log(bar)
+    /* network.on("hoverNode", function(bar) {
+      //using events handlers...Should this be in mounted hook or updated?
+      console.log(bar);
     }); */
+    const networkThis = this; //because of conflicting scope of 'this'
+    network.on("selectNode", function(params) {
+      // click event - your element, edge or node
+      // set the popup position by getting the params.pointer attr
+      // handle the toggle behavior
+      networkThis.myScreenWidth = document.documentElement.clientWidth;
+      console.log(params);
+      console.log(params.nodes[0]);
+      //networkThis.$refs.miniVis.style.position = "absolute";
+      networkThis.$refs.miniVis.style.left = params.pointer.DOM.x + 50 + "px";
+      networkThis.$refs.miniVis.style.top = params.pointer.DOM.y - 50 + "px";
+      networkThis.miniVisStyleObject.height =
+        networkThis.myScreenWidth / 7 + "px";
+      networkThis.miniVisStyleObject.width =
+        networkThis.myScreenWidth / 5 + "px";
+      networkThis.miniVisStyleObject.display = "block";
+
+      networkThis.renderMiniVis(params.nodes[0], networkThis.myScreenWidth);
+    });
+
+    network.on("deselectNode", function(params) {
+      networkThis.miniVisStyleObject.display = "none";
+      console.log(params);
+    });
   },
   beforeDestroy() {
     DataBus.$off("add-node", this.addNode);
@@ -374,6 +412,27 @@ export default {
     //     nodes.update(a)
     //     console.log(nodes);
     // },
+    renderMiniVis(item, screenSize) {
+      var result;
+      var myNodes = Object.values(nodes._data); //convert object of objects to array of objects
+      for (var key in myNodes) {
+        //search for node id in myNodes and assign its spec to result
+        if (myNodes[key].id == item) {
+          result = myNodes[key];
+        }
+      }
+      console.log(result);
+      result.nData.height = screenSize / 7; //7
+      result.nData.width = screenSize / 6; //6
+      result.nData.title = result.nData.myTitle;
+      if (result) {
+        vegaEmbed("#miniVis", result.nData, {
+          defaultStyle: false,
+          actions: false
+        });
+      }
+    },
+
     recommend() {
       NProgress.configure({ parent: "#section2", showSpinner: true });
       NProgress.start(); // start progress bar here and end after worker ends
@@ -435,11 +494,17 @@ export default {
       this.sequenceCost = 0;
       this.totalRecommendation = 0;
       sequenceArray = [];
+      this.miniVisStyleObject.display = "none";
     },
     clearEdges() {
-      edges.clear();
-      this.reInitialiseSeqParam();
-      //console.log(edges._data);
+      //Check if there are edges to clear before confirmation box
+      if (Object.keys(edges._data).length == 0) {
+        alert("There are no edges to clear!");
+      } else if (confirm("Confirm to clear edges!")) {
+        edges.clear();
+        this.reInitialiseSeqParam();
+        //console.log(edges._data);
+      }
     },
     nextSequence() {
       if (sequenceArray.length > 1 && this.seqCounter < sequenceArray.length) {
@@ -674,6 +739,6 @@ export default {
 }
 
 #graphCa {
-  overflow: scroll !important;
+  /*  overflow: scroll !important; */
 }
 </style>

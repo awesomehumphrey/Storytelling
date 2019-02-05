@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       id: [],
-      videoSrc: "https://www.w3schools.com/tags/movie.mp4",
+      videoSrc: require("@/assets/Gapminder.mp4"), //"https://www.w3schools.com/tags/movie.mp4",
       pause: false
     };
   },
@@ -219,6 +219,8 @@ export default {
         // document.getElementById('preview-video').srcObject = null;
         //this.$refs.previewVideo.src = URL.createObjectURL(blob);
         console.log(blob);
+        //blob = blob.slice(0, blob.size, "video/mp4");
+        //console.log(blob);
         this.videoSrc = URL.createObjectURL(blob);
         console.log(this.videoSrc);
 
