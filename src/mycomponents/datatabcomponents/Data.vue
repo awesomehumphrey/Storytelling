@@ -94,7 +94,7 @@ export default {
     sampleData(sData, fileName) {
       document
         .getElementsByClassName("custom-file-control")[0] //Change the placeholder text from "Select file" to fileName
-        .setAttribute("data-selected", fileName); //To get the classname and attributes, inspect the b-form-file element
+        .setAttribute("data-selected", fileName); //To get the classname and attributes, inspect the b-form-file element. If in the future you do not use bootstrap-vue, then use v-model to bind to placeholder attribute
       //this.$refs.fileReader.placeholder = "Cars.json";
       var fieldNames = Object.keys(sData[0]);
       DataBus.$emit("dataJson", sData); // Send the data values through the event bus

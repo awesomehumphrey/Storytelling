@@ -2,6 +2,7 @@
   <div ref="canvas" v-on:resize="handleResize()">
     <div v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field">
       <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input>
+      <!-- v-model.lazy v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field"-->
       <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
@@ -30,6 +31,7 @@ import NProgress from "nprogress";
 export default {
   data() {
     return {
+      myWidth: 0,
       myTitle: "Title",
       spec: {
         $schema: "https://vega.github.io/schema/vega-lite/v3.json",
@@ -49,12 +51,25 @@ export default {
     DataBus.$on("graphSchema", graphSpec => {
       //Receive the graph schema from selected graph component via DataBus
       this.spec = graphSpec;
-      this.spec.width = this.$refs.canvas.clientWidth - 50;
+      this.spec.width = this.myWidth - 50;
+      this.myTitle = "Title";
     });
+    DataBus.$on("defaultTitle", defaultTitle => {
+      //could have sent an "empty" event from axis component
+      this.myTitle = "Title"; //defaultTitle
+    });
+
+    DataBus.$on("specFromGraphCanvas", this.handleSpecFromGraphCanvas);
   },
   mounted() {
     window.addEventListener("resize", this.handleResize);
     //vegaEmbed("#vis", this.spec , {defaultStyle: true, actions: {export: true, source:false, compiled:false, editor: false}});
+    this.$nextTick(() => {
+      this.myWidth = this.$refs.canvas.clientWidth;
+      this.spec.width = this.myWidth - 50;
+      console.log(this.myWidth);
+      this.renderVis();
+    });
   },
   updated() {
     this.renderVis(); //Initially, visualisation is not rendered in mounted() because spec is not yet populated with real data hence rendered in updated() after data selection
@@ -63,9 +78,20 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   methods: {
+    handleSpecFromGraphCanvas(graphSpec) {
+      //Receive the graph schema from miniVis from graph canvas via DataBus
+      console.log(graphSpec.myTitle);
+      this.spec = graphSpec;
+      console.log(this.$refs.canvas.clientWidth);
+      this.spec.width = this.myWidth - 50;
+      this.myTitle = graphSpec.myTitle;
+      console.log(this.myWidth);
+      this.renderVis();
+    },
     // whenever the document is resized, re-set the 'clientWidth' variable and re-render visualisation
     handleResize(event) {
-      this.spec.width = this.$refs.canvas.clientWidth - 50;
+      this.myWidth = this.$refs.canvas.clientWidth;
+      this.spec.width = this.myWidth - 50;
       this.renderVis();
     },
     renderVis() {
@@ -75,9 +101,6 @@ export default {
         tooltip: true,
         actions: { export: true, source: false, compiled: false, editor: false }
       });
-    },
-    updateTitle() {
-      this.myTitle = "Title";
     },
     sendNodeData() {
       NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
@@ -98,13 +121,6 @@ export default {
         this.renderVis();
       },
       deep: true //watches for changes in nested properties in spec
-    },
-    "spec.description"() {
-      //watch for changes in spec.description
-      this.updateTitle(); //Update title when spec description changes, triggered by selection of a different visualisation type
-    },
-    "spec.encoding.x.field"() {
-      this.updateTitle(); //Update title when x-axis changes
     }
   }
 };

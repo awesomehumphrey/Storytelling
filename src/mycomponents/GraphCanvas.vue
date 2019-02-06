@@ -56,7 +56,12 @@
         </div>
         <div ref="miniVis" :style="miniVisStyleObject">
           <div id="miniVis"></div>
-          <b-button size="sm" style="border-radius: 25px;" variant="primary">Show in DataTab</b-button>
+          <b-button
+            size="sm"
+            style="border-radius: 25px;"
+            variant="primary"
+            @click="sendSpecDataTab()"
+          >Show in DataTab</b-button>
         </div>
         <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
         <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
@@ -253,6 +258,7 @@ export default {
         border: "2px solid grey",
         background: "white"
       },
+      resultNode: null,
       myScreenWidth: 0,
       network: null,
       container: "",
@@ -311,7 +317,12 @@ export default {
         networkThis.myScreenWidth / 5 + "px";
       networkThis.miniVisStyleObject.display = "block";
 
-      networkThis.renderMiniVis(params.nodes[0], networkThis.myScreenWidth);
+      if (params.nodes[0]) {
+        //Check to see if a node is present before calling function
+        networkThis.renderMiniVis(params.nodes[0], networkThis.myScreenWidth);
+      } else {
+        networkThis.miniVisStyleObject.display = "none";
+      }
     });
 
     network.on("deselectNode", function(params) {
@@ -414,25 +425,39 @@ export default {
     //     console.log(nodes);
     // },
     renderMiniVis(item, screenSize) {
-      var result;
+      //var resultNode;
       var myNodes = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
       myNodes = Object.values(myNodes); //convert object of objects to array of objects
       for (var key in myNodes) {
         //search for node id in myNodes and assign its spec to result
         if (myNodes[key].id == item) {
-          result = myNodes[key];
+          this.resultNode = myNodes[key];
         }
       }
-      console.log(result);
-      result.nData.height = screenSize / 7; //7
-      result.nData.width = screenSize / 6; //6
-      result.nData.title = result.nData.myTitle;
-      if (result) {
-        vegaEmbed("#miniVis", result.nData, {
+      console.log(this.resultNode);
+      this.resultNode.nData.height = screenSize / 7; //7
+      this.resultNode.nData.width = screenSize / 6; //6
+      this.resultNode.nData.title = this.resultNode.nData.myTitle;
+      if (this.resultNode) {
+        vegaEmbed("#miniVis", this.resultNode.nData, {
           defaultStyle: false,
           actions: false
         });
       }
+    },
+
+    sendSpecDataTab() {
+      NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
+      NProgress.start();
+      setTimeout(() => {
+        NProgress.done();
+      }, 200);
+      delete this.resultNode.nData.title;
+      this.resultNode.nData.height = 500;
+      this.resultNode.nData.width = 650;
+      DataBus.$emit("specFromGraphCanvas", this.resultNode.nData);
+      this.miniVisStyleObject.display = "none";
+      //console.log(this.resultNode);
     },
 
     recommend() {

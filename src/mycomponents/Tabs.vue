@@ -1,7 +1,7 @@
 <template>
   <b-card no-body>
-    <b-tabs pills card id="idForProgressBar">
-      <b-tab title="DATA" active>
+    <b-tabs pills card id="idForProgressBar" v-model="tabIndex">
+      <b-tab title="DATA">
         <b-row>
           <b-col col lg="2" class="tabsections" id="datasection1">
             <b-row>
@@ -86,6 +86,7 @@
 
 <script>
 /* eslint-disable */
+import { DataBus } from "@/main";
 import Data from "@/mycomponents/datatabcomponents/Data";
 import Axis from "@/mycomponents/datatabcomponents/Axis";
 import Canvas from "@/mycomponents/datatabcomponents/Canvas";
@@ -100,6 +101,11 @@ import GraphCanvas from "@/mycomponents/GraphCanvas";
 import Story from "@/mycomponents/Story";
 
 export default {
+  data() {
+    return {
+      tabIndex: 0
+    };
+  },
   components: {
     "app-data": Data,
     "app-axis": Axis,
@@ -113,6 +119,12 @@ export default {
     "app-punchcard": PunchCard,
     "app-graphcanvas": GraphCanvas,
     "app-story": Story
+  },
+  created() {
+    //The graphSpec data is not used here. Only want to use this same event instead of registering another one
+    DataBus.$on("specFromGraphCanvas", graphSpec => {
+      this.tabIndex = 0; //Set data tab to active when "send to Data Tab" button is clicked in graphtab miniVis
+    });
   }
 };
 </script>
