@@ -66,8 +66,8 @@ export default {
       //Receive the graph schema from selected graph component via DataBus
       this.spec = graphSpec;
     });
-    //The graphSpec data is not used here. Only want to use this same event instead of registering another one
-    DataBus.$on("specFromGraphCanvas", graphSpec => {
+    ////Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("sendToDataTabEvent", () => {
       //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
       this.toolTipLabel = "";
       DataBus.$emit("ToolTipLabel", this.toolTipLabel);

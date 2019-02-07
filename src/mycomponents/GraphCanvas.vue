@@ -346,6 +346,7 @@ export default {
         }, */
 
     deleteNode(deleteData) {
+      this.miniVisStyleObject.display = "none";
       console.log(nodes);
     },
 
@@ -361,6 +362,8 @@ export default {
     },
 
     deleteEdge(deleteData) {
+      this.miniVisStyleObject.display = "none";
+      l;
       console.log(deleteData);
       console.log(edges);
     },
@@ -456,6 +459,7 @@ export default {
       this.resultNode.nData.height = 500;
       this.resultNode.nData.width = 650;
       DataBus.$emit("specFromGraphCanvas", this.resultNode.nData);
+      DataBus.$emit("sendToDataTabEvent"); //capture this event and send to tab, axis and other selections components
       this.miniVisStyleObject.display = "none";
       //console.log(this.resultNode);
     },

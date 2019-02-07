@@ -121,8 +121,8 @@ export default {
     "app-story": Story
   },
   created() {
-    //The graphSpec data is not used here. Only want to use this same event instead of registering another one
-    DataBus.$on("specFromGraphCanvas", graphSpec => {
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("sendToDataTabEvent", () => {
       this.tabIndex = 0; //Set data tab to active when "send to Data Tab" button is clicked in graphtab miniVis
     });
   }
