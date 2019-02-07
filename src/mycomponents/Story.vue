@@ -65,6 +65,9 @@
             <hr>
             <div style="background-color:white; ">
               <h4>Speaker Notes</h4>
+              <div v-if="id.length!=0">
+                <p v-for="item in reactiveNodes">{{item.notes}}</p>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -95,6 +98,7 @@ var finalStream = null;
 export default {
   data() {
     return {
+      reactiveNodes: null, //For use in v-for directive
       id: [],
       videoSrc: require("@/assets/Gapminder.mp4"), //"https://www.w3schools.com/tags/movie.mp4",
       pause: false
@@ -239,6 +243,7 @@ export default {
     getNodeArray(nodeArray) {
       //console.log(nodeArray);
       myNodes = JSON.parse(JSON.stringify(nodeArray)); //convert reactive array of objects to normal objects
+      this.reactiveNodes = myNodes;
       this.id = [];
       //generate ids for dynamic slide elements based on number of incoming graph nodes
       for (var i = 0; i < myNodes.length; i++) {

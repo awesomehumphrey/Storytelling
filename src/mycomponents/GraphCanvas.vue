@@ -70,11 +70,61 @@
         <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
       </b-col>
       <b-col col lg="9.5" id="section2">
-        <div ref="graphVis" id="graphVis" class="vis-network"></div>
-        <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button> -->
-        <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-left">Next Sequence</b-button> -->
-        <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
-        <b-button size="md" variant="primary" class="float-left">Export</b-button>-->
+        <b-row>
+          <b-col col lg="9" id="section3">
+            <div ref="graphVis" id="graphVis" class="vis-network"></div>
+          </b-col>
+          <b-col col lg="2.5" id="section4">
+            <!-- <b-card-group deck> -->
+            <b-card
+              header-bg-variant="info"
+              header-text-variant="white"
+              header="Notes"
+              :title="speakerNoteTitle"
+              title-tag="h5"
+              class="text-center"
+              style="min-height: 50%; margin-bottom: 5px;"
+            >
+              <b-form-textarea
+                v-model.lazy="notes"
+                no-resize
+                :rows="5"
+                :max-rows="5"
+                placeholder="Enter speaker notes here"
+              ></b-form-textarea>
+              <b-button
+                class="float-left"
+                size="sm"
+                variant="outline-info"
+                title="Save notes"
+                @click="saveNotes()"
+              >Save</b-button>
+              <b-button
+                class="float-right"
+                size="sm"
+                variant="outline-warning"
+                title="Clear notes"
+                @click="clearNotes()"
+              >clear</b-button>
+              <!-- <button class="btn btn-primary btn-sm float-left" title="Save notes">Save</button>
+              <button class="btn btn-warning btn-sm float-right" title="Clear notes">clear</button>-->
+            </b-card>
+            <b-card
+              header-bg-variant="info"
+              header-text-variant="white"
+              header="Another Card"
+              class="text-center"
+              style="min-height: 48%;"
+            >
+              <p class="card-text">{{notes}}Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+            </b-card>
+            <!-- </b-card-group> -->
+          </b-col>
+          <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-right" @click="prepareAndSendData">Done</b-button> -->
+          <!-- <b-button v-show="nodeCount!=0" size="md" variant="primary" class="float-left">Next Sequence</b-button> -->
+          <!--<b-button size="md" variant="primary" class="float-left">Import</b-button>
+          <b-button size="md" variant="primary" class="float-left">Export</b-button>-->
+        </b-row>
       </b-col>
     </b-row>
   </div>
@@ -250,6 +300,8 @@ export default {
   },
   data() {
     return {
+      speakerNoteTitle: "Awesome!",
+      notes: "",
       miniVisStyleObject: {
         "border-radius": "25px",
         "z-index": "1",
@@ -305,7 +357,7 @@ export default {
       // click event - your element, edge or node
       // set the popup position by getting the params.pointer attr
       // handle the toggle behavior
-      networkThis.myScreenWidth = document.documentElement.clientWidth;
+      networkThis.myScreenWidth = document.documentElement.clientWidth; //Get the width of the device screen
       console.log(params);
       console.log(params.nodes[0]);
       //networkThis.$refs.miniVis.style.position = "absolute";
@@ -319,14 +371,32 @@ export default {
 
       if (params.nodes[0]) {
         //Check to see if a node is present before calling function
-        networkThis.renderMiniVis(params.nodes[0], networkThis.myScreenWidth);
+        networkThis.resultNode = networkThis.getNodeDetails(params.nodes[0]);
+        networkThis.renderMiniVis(
+          networkThis.resultNode,
+          networkThis.myScreenWidth
+        );
+        //Dynamically update speakerNotes titles and notes
+        networkThis.speakerNoteTitle = networkThis.resultNode.title;
+        networkThis.notes = networkThis.resultNode.notes;
+        //networkThis.resultNode.notes = networkThis.notes;
       } else {
         networkThis.miniVisStyleObject.display = "none";
+      }
+    });
+    network.on("selectNode", function(params) {
+      if (params.nodes[0]) {
+        //Check to see if a node is present before calling function
+        networkThis.resultNode = networkThis.getNodeDetails(params.nodes[0]);
+        //Dynamically update speakerNotes titles and notes
+        networkThis.speakerNoteTitle = networkThis.resultNode.title;
+        networkThis.notes = networkThis.resultNode.notes;
       }
     });
 
     network.on("deselectNode", function(params) {
       networkThis.miniVisStyleObject.display = "none";
+      networkThis.resultNode = null;
       console.log(params);
     });
   },
@@ -347,6 +417,9 @@ export default {
 
     deleteNode(deleteData) {
       this.miniVisStyleObject.display = "none";
+      this.speakerNoteTitle = "Awesome!";
+      this.notes = "No notes.";
+      this.resultNode = null;
       console.log(nodes);
     },
 
@@ -386,6 +459,7 @@ export default {
       this.newNode.label = nodeData.myTitle; //newnode.title is for the visjs tooltip and different from vega spec.title
       this.newNode.x = this.getRandomNum(200, 800); // Former default 800 x coordinate on the screen
       this.newNode.y = this.getRandomNum(150, 450); // Former default 250 y coordinate on the screen
+      this.newNode.notes = "No notes.";
 
       switch (
         nodeData.description //select node image based on the graph type
@@ -427,28 +501,69 @@ export default {
     //     nodes.update(a)
     //     console.log(nodes);
     // },
-    renderMiniVis(item, screenSize) {
-      //var resultNode;
+    saveNotes() {
+      if (this.resultNode) {
+        NProgress.configure({
+          parent: "#idForProgressBar",
+          showSpinner: false
+        });
+        NProgress.start();
+        setTimeout(() => {
+          NProgress.done();
+        }, 200);
+        this.resultNode.notes = this.notes;
+        nodes.update(this.resultNode);
+        console.log(this.resultNode.notes);
+        this.miniVisStyleObject.display = "none";
+      } else {
+        alert("Please select a node before you write your notes!");
+      }
+    },
+    clearNotes() {
+      if (this.resultNode) {
+        if (confirm("Please confirm to clear notes.")) {
+          NProgress.configure({
+            parent: "#idForProgressBar",
+            showSpinner: false
+          });
+          NProgress.start();
+          setTimeout(() => {
+            NProgress.done();
+          }, 200);
+          this.notes = "No notes.";
+          this.resultNode.notes = this.notes;
+          nodes.update(this.resultNode);
+          console.log(this.resultNode.notes);
+          this.miniVisStyleObject.display = "none";
+        }
+      } else {
+        alert("Please select a node to clear!");
+      }
+    },
+    getNodeDetails(item) {
+      var localNode;
       var myNodes = JSON.parse(JSON.stringify(nodes._data)); //convert reactive object of objects to normal objects
       myNodes = Object.values(myNodes); //convert object of objects to array of objects
       for (var key in myNodes) {
         //search for node id in myNodes and assign its spec to result
         if (myNodes[key].id == item) {
-          this.resultNode = myNodes[key];
+          localNode = myNodes[key];
+          return localNode;
         }
       }
-      console.log(this.resultNode);
-      this.resultNode.nData.height = screenSize / 7; //7
-      this.resultNode.nData.width = screenSize / 6; //6
-      this.resultNode.nData.title = this.resultNode.nData.myTitle;
-      if (this.resultNode) {
-        vegaEmbed("#miniVis", this.resultNode.nData, {
+    },
+
+    renderMiniVis(node, screenSize) {
+      node.nData.height = screenSize / 7; //7
+      node.nData.width = screenSize / 6; //6
+      node.nData.title = node.nData.myTitle;
+      if (node) {
+        vegaEmbed("#miniVis", node.nData, {
           defaultStyle: false,
           actions: false
         });
       }
     },
-
     sendSpecDataTab() {
       NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
       NProgress.start();
@@ -463,9 +578,8 @@ export default {
       this.miniVisStyleObject.display = "none";
       //console.log(this.resultNode);
     },
-
     recommend() {
-      NProgress.configure({ parent: "#section2", showSpinner: true });
+      NProgress.configure({ parent: "#section3", showSpinner: true });
       NProgress.start(); // start progress bar here and end after worker ends
       //console.log(nodes._data);
       edges.clear(); //clear edges before recommending
@@ -736,7 +850,7 @@ export default {
   height: 600px;
   min-width: 500px;
   /* width: auto; */
-  border: 1px solid grey;
+  /*  border: 1px solid grey; */
   /* background-color: blue; */
 }
 
@@ -751,10 +865,26 @@ export default {
 
 #section2 {
   margin: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  min-height: 600px;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+#section3 {
+  margin: 1px;
+  padding: 0px;
+  min-height: 600px;
+  /* border: 1px solid grey; */
+  border-radius: 2px;
+}
+#section4 {
+  margin: 1px;
   padding: 0px;
   min-height: 600px;
   border: 1px solid grey;
   border-radius: 2px;
+  background-color: #f1f1f1;
 }
 
 #sequenceInfo {

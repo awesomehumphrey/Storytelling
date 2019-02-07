@@ -80,11 +80,11 @@ export default {
     },
     ySelected(val) {
       DataBus.$emit("Y-axisValue", this.ySelected);
-      DataBus.$emit("defaultTitle", this.defaultTitle);
+      //DataBus.$emit("defaultTitle", this.defaultTitle);
     },
     xSelected(val) {
       DataBus.$emit("X-axisValue", this.xSelected);
-      DataBus.$emit("defaultTitle", this.defaultTitle);
+      //DataBus.$emit("defaultTitle", this.defaultTitle);
     }
   }
 };
