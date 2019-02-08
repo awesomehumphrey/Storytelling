@@ -10,7 +10,7 @@
                 <div class="slides">
                   <section>Gravity++: Telling stories with data...</section>
                   <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
-                  <section></section>
+                  <section>Thank you!</section>
                   <!-- <section>Thank you!</section> -->
                 </div>
                 <!--Move 'Thank you' to a different div before adding conditional statements or render it dynamically like the charts-->
@@ -18,6 +18,13 @@
             </div>
           </b-col>
           <b-col col sm="4" id="presOps">
+            <!-- <b-card
+              header-bg-variant="info"
+              header-text-variant="white"
+              header="Storytelling"
+              class="text-center"
+              style="height: 60%; width:100%; margin-bottom: 5px; "
+            >-->
             <button
               class="btn btn-primary btn-sm"
               title="Start recording"
@@ -44,9 +51,7 @@
 
             <hr>
             <div
-              id="element-to-record"
-              ref="elementRecord"
-              style="border: 2px solid gray; border-radius: 2px; width: 100%; height: 40%;"
+              style="border: 2px solid gray; border-radius: 5px; width: 100%; height: 35%; margin-bottom:5px;"
             >
               <video
                 controls
@@ -56,19 +61,30 @@
                 :src="videoSrc"
               ></video>
             </div>
-
+            <!-- </b-card> -->
             <canvas
               id="background-canvas"
               ref="backgroundCanvas"
               style="position:absolute; top:-99999999px; left:-9999999999px; float: right"
             ></canvas>
-            <hr>
-            <div style="background-color:white; ">
-              <h4>Speaker Notes</h4>
-              <div v-if="id.length!=0">
-                <p v-for="item in reactiveNodes">{{item.notes}}</p>
+            <b-card
+              header-bg-variant="info"
+              header-text-variant="white"
+              header="Notes"
+              class="text-center"
+              style="height: 52%; width:100%; overflow-y: auto;"
+            >
+              <div v-if="notesIndex == null || notesIndex < 0 || notesIndex >= id.length">
+                <h5 style="font-weight: bold;">No notes.</h5>
+                <!-- <p style="white-space: pre-wrap; text-align: left">No notes.</p> -->
               </div>
-            </div>
+              <div v-else>
+                <h5 style="font-weight: bold;">{{reactiveNodes[notesIndex].title}}</h5>
+                <p
+                  style="white-space: pre-wrap; text-align: left"
+                >{{reactiveNodes[notesIndex].notes}} - {{reactiveNodes[notesIndex].nData.height}}</p>
+              </div>
+            </b-card>
           </b-col>
         </b-row>
       </b-col>
@@ -98,6 +114,7 @@ var finalStream = null;
 export default {
   data() {
     return {
+      notesIndex: null,
       reactiveNodes: null, //For use in v-for directive
       id: [],
       videoSrc: require("@/assets/Gapminder.mp4"), //"https://www.w3schools.com/tags/movie.mp4",
@@ -119,6 +136,13 @@ export default {
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleResize);
       window.addEventListener("load", this.handleLoad);
+    });
+
+    const myThis = this;
+    Reveal.addEventListener("slidechanged", function(event) {
+      // event.previousSlide, event.currentSlide, event.indexh, event.indexv
+      myThis.notesIndex = event.indexh - 1; //-1 so as to account for the first slide
+      console.log(myThis.notesIndex);
     });
   },
   updated() {
@@ -243,7 +267,7 @@ export default {
     getNodeArray(nodeArray) {
       //console.log(nodeArray);
       myNodes = JSON.parse(JSON.stringify(nodeArray)); //convert reactive array of objects to normal objects
-      this.reactiveNodes = myNodes;
+      this.reactiveNodes = Object.values(myNodes);
       this.id = [];
       //generate ids for dynamic slide elements based on number of incoming graph nodes
       for (var i = 0; i < myNodes.length; i++) {
@@ -317,6 +341,7 @@ export default {
   max-width: 250px;
 }
 #presOps {
+  padding: 10px;
   margin: 1px;
   min-height: 600px;
   border: 1px solid grey; /* border: 1px solid grey; */

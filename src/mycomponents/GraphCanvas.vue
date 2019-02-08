@@ -112,11 +112,11 @@
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
-              header="Another Card"
+              header="Other Operations"
               class="text-center"
               style="min-height: 48%;"
             >
-              <p class="card-text">{{notes}}Lorem ipsum dolor sit amet, consectetur adipiscing</p>
+              <p class="card-text">Move some of the other operations from the left panel here</p>
             </b-card>
             <!-- </b-card-group> -->
           </b-col>
