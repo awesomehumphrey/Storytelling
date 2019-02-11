@@ -13,7 +13,7 @@
           header-text-variant="white"
           header="File"
           header-class="text-center"
-          style="height: 35%; width: 100%; margin-bottom: 5px; background-color: #f1f1f1;"
+          style="height: 35%; margin-bottom: 5px; background-color: #f1f1f1;"
         >
           <app-graphimport></app-graphimport>
           <app-graphexport @clickedExport="exportNetwork()"></app-graphexport>
@@ -78,8 +78,10 @@
               @click="sendSpecDataTab()"
             >Show in DataTab</b-button>
           </div>
-          <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
-          <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
+          <div style="display: table;  margin: 0 auto;">
+            <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
+            <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
+          </div>
           <hr>
         </b-card>
       </b-col>
@@ -883,13 +885,13 @@ export default {
 }
 
 .graphOps {
-  padding: 1px;
+  padding: 0px !important;
   margin: 5px;
   min-height: 600px;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 5px;
   background-color: #f1f1f1;
-  max-width: 270px;
+  max-width: 270px !important;
 }
 
 #section2 {
@@ -925,7 +927,7 @@ export default {
 }
 
 .prevNext {
-  display: inline-block;
+  display: inline;
 }
 
 #graphCa {
