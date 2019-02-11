@@ -1,7 +1,7 @@
 <template>
   <div class="input">
-    <hr>
-    <h5>Data</h5>
+    <!--  <hr>
+    <h5>Data</h5>-->
     <b-button
       v-b-modal="'sampleDataModal'"
       variant="primary"

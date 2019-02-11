@@ -25,30 +25,43 @@
               class="text-center"
               style="height: 60%; width:100%; margin-bottom: 5px; "
             >-->
-            <button
-              class="btn btn-primary btn-sm"
-              title="Start recording"
-              id="btn-start-recording"
-              ref="btnStartRecording"
-              @click="myStartRecording()"
-            >Start</button>
-            <button
-              class="btn btn-primary btn-sm"
-              title="Pause/resume recording"
-              id="btn-pause-resume-recording"
-              ref="btnPauseResumeRecording"
-              @click="pauseResumeRecording()"
-              disabled
-            >Pause</button>
-            <button
-              class="btn btn-primary btn-sm"
-              title="Stop recording"
-              id="btn-stop-recording"
-              ref="btnStopRecording"
-              @click="myStopRecording()"
-              disabled
-            >Stop</button>
-
+            <div style="display: table;  margin: 0 auto;">
+              <button
+                class="btn btn-primary btn-sm"
+                title="Start recording"
+                id="btn-start-recording"
+                ref="btnStartRecording"
+                @click="myStartRecording()"
+                style="border-radius:50px"
+              >
+                Start
+                <i class="fas fa-microphone-alt"></i>
+              </button>
+              <button
+                class="btn btn-primary btn-sm"
+                title="Pause/resume recording"
+                id="btn-pause-resume-recording"
+                ref="btnPauseResumeRecording"
+                @click="pauseResumeRecording()"
+                style="border-radius:50px"
+                disabled
+              >
+                Pause
+                <i class="fas fa-pause"></i>
+              </button>
+              <button
+                class="btn btn-primary btn-sm"
+                title="Stop recording"
+                id="btn-stop-recording"
+                ref="btnStopRecording"
+                @click="myStopRecording()"
+                style="border-radius:50px"
+                disabled
+              >
+                Stop
+                <i class="fas fa-stop"></i>
+              </button>
+            </div>
             <hr>
             <div
               style="border: 2px solid gray; border-radius: 5px; width: 100%; height: 35%; margin-bottom:5px;"
@@ -226,14 +239,17 @@ export default {
       this.pause = !this.pause;
       if (this.pause) {
         recorder.pauseRecording();
-        this.$refs.btnPauseResumeRecording.innerHTML = "Resume";
+        this.$refs.btnPauseResumeRecording.innerHTML =
+          "Resume <i class='fas fa-play'></i>";
       } else {
         recorder.resumeRecording();
-        this.$refs.btnPauseResumeRecording.innerHTML = "Pause";
+        this.$refs.btnPauseResumeRecording.innerHTML =
+          "Pause <i class='fas fa-pause'></i>";
       }
     },
     myStopRecording() {
-      this.$refs.btnPauseResumeRecording.innerHTML = "Pause";
+      this.$refs.btnPauseResumeRecording.innerHTML =
+        "Pause <i class='fas fa-pause'></i>";
       this.$refs.btnStartRecording.disabled = false;
       this.$refs.btnStopRecording.disabled = true;
       this.$refs.btnPauseResumeRecording.disabled = true;

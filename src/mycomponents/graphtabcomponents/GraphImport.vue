@@ -1,6 +1,6 @@
 <template>
   <div class="input">
-    <hr>
+    <!-- <hr> -->
     <b-form-file
       v-model="selectedFile"
       placeholder="Import graph..."

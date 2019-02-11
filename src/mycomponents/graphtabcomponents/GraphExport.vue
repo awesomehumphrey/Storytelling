@@ -4,6 +4,7 @@
     <b-button variant="primary" class="btn-block" size="md" @click="clicked">
       <i class="fa fa-download"></i> Download graph
     </b-button>
+    <hr>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hr>
+    <!-- <hr> -->
     <b-button class="btn-block" variant="outline-primary" size="md" @click="clicked">
       <i class="fas fa-play"></i> Recommend sequence
     </b-button>

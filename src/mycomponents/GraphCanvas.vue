@@ -8,66 +8,80 @@
     >
     <b-row>
       <b-col col lg="2" class="graphOps">
-        <app-graphimport></app-graphimport>
-        <app-graphexport @clickedExport="exportNetwork()"></app-graphexport>
-        <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
-        <div id="sequenceInfo">
-          <b-list-group>
-            <!-- <b-list-group-item
+        <b-card
+          header-bg-variant="info"
+          header-text-variant="white"
+          header="File"
+          header-class="text-center"
+          style="height: 35%; width: 100%; margin-bottom: 5px; background-color: #f1f1f1;"
+        >
+          <app-graphimport></app-graphimport>
+          <app-graphexport @clickedExport="exportNetwork()"></app-graphexport>
+        </b-card>
+        <b-card
+          header-bg-variant="info"
+          header-text-variant="white"
+          header="Recommendation"
+          header-class="text-center"
+          style="height: 63%; width: 100%; background-color: #f1f1f1;"
+        >
+          <app-recommendsequence @clickedRecommendSequence="recommend()"></app-recommendsequence>
+          <div id="sequenceInfo">
+            <b-list-group>
+              <!-- <b-list-group-item
               id="ts"
               class="d-flex justify-content-between align-items-center"
             ># of recommendations
               <b-badge variant="primary" pill>{{totalRecommendation}}</b-badge>
-            </b-list-group-item>-->
-            <b-list-group-item
-              id="sp"
-              class="d-flex justify-content-between align-items-center"
-            >Sequence position
-              <b-badge variant="primary" pill>{{seqCounter}} of {{totalRecommendation}}</b-badge>
-            </b-list-group-item>
-            <b-list-group-item
-              id="tc"
-              class="d-flex justify-content-between align-items-center"
-            >Sequence cost
-              <b-badge variant="primary" pill>{{sequenceCost}}</b-badge>
-            </b-list-group-item>
-          </b-list-group>
-          <!-- <b-popover
+              </b-list-group-item>-->
+              <b-list-group-item
+                id="sp"
+                class="d-flex justify-content-between align-items-center"
+              >Sequence position
+                <b-badge variant="primary" pill>{{seqCounter}} of {{totalRecommendation}}</b-badge>
+              </b-list-group-item>
+              <b-list-group-item
+                id="tc"
+                class="d-flex justify-content-between align-items-center"
+              >Sequence cost
+                <b-badge variant="primary" pill>{{sequenceCost}}</b-badge>
+              </b-list-group-item>
+            </b-list-group>
+            <!-- <b-popover
             :target="'ts'"
             :placement="'top'"
             title="Number of recommendations"
             triggers="hover"
             :content="'Number of recommended sequences. This number increases exponentially with more visualisation nodes. Total cost of transitioning between each pair of adjacent charts'"
-          ></b-popover>-->
-          <b-popover
-            :target="'sp'"
-            :placement="'top'"
-            title="Sequence position"
-            triggers="hover"
-            :content="'The current sequence index. Sequence cost increases as this number increases.'"
-          ></b-popover>
-          <b-popover
-            :target="'tc'"
-            :placement="'top'"
-            title="Sequence cost"
-            triggers="hover"
-            :content="'Total sequence cost. Effective sequences have smaller costs.'"
-          ></b-popover>
-        </div>
-        <div ref="miniVis" :style="miniVisStyleObject">
-          <div id="miniVis"></div>
-          <b-button
-            size="sm"
-            style="border-radius: 25px;"
-            variant="primary"
-            @click="sendSpecDataTab()"
-          >Show in DataTab</b-button>
-        </div>
-        <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
-        <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
-
-        <app-restoredefault @clickedRestoreDefault="clearEdges()"></app-restoredefault>
-        <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
+            ></b-popover>-->
+            <b-popover
+              :target="'sp'"
+              :placement="'top'"
+              title="Sequence position"
+              triggers="hover"
+              :content="'The current sequence index. Sequence cost increases as this number increases.'"
+            ></b-popover>
+            <b-popover
+              :target="'tc'"
+              :placement="'top'"
+              title="Sequence cost"
+              triggers="hover"
+              :content="'Total sequence cost. Effective sequences have smaller costs.'"
+            ></b-popover>
+          </div>
+          <div ref="miniVis" :style="miniVisStyleObject">
+            <div id="miniVis"></div>
+            <b-button
+              size="sm"
+              style="border-radius: 25px;"
+              variant="primary"
+              @click="sendSpecDataTab()"
+            >Show in DataTab</b-button>
+          </div>
+          <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
+          <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
+          <hr>
+        </b-card>
       </b-col>
       <b-col col lg="9.5" id="section2">
         <b-row>
@@ -83,7 +97,7 @@
               :title="speakerNoteTitle"
               title-tag="h5"
               class="text-center"
-              style="min-height: 50%; margin-bottom: 5px;"
+              style="min-height: 50%; margin-bottom: 5px; background-color: #f1f1f1;"
             >
               <b-form-textarea
                 v-model.lazy="notes"
@@ -112,11 +126,13 @@
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
-              header="Other Operations"
+              header="Operations"
               class="text-center"
-              style="min-height: 48%;"
+              style="min-height: 48%; background-color: #f1f1f1;"
             >
-              <p class="card-text">Move some of the other operations from the left panel here</p>
+              <app-restoredefaultnodes @clickedRestoreDefaultNodes="clearNodes()"></app-restoredefaultnodes>
+              <app-restoredefaultedges @clickedRestoreDefaultEdges="clearEdges()"></app-restoredefaultedges>
+              <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
             </b-card>
             <!-- </b-card-group> -->
           </b-col>
@@ -136,7 +152,8 @@ import GraphImport from "@/mycomponents/graphtabcomponents/GraphImport";
 import GraphExport from "@/mycomponents/graphtabcomponents/GraphExport";
 import SendToStory from "@/mycomponents/graphtabcomponents/SendToStory";
 import RecommendSequence from "@/mycomponents/graphtabcomponents/RecommendSequence";
-import RestoreDefault from "@/mycomponents/graphtabcomponents/RestoreDefault";
+import RestoreDefaultEdges from "@/mycomponents/graphtabcomponents/RestoreDefaultEdges";
+import RestoreDefaultNodes from "@/mycomponents/graphtabcomponents/RestoreDefaultNodes";
 import NextSequence from "@/mycomponents/graphtabcomponents/NextSequence";
 import PreviousSequence from "@/mycomponents/graphtabcomponents/PreviousSequence";
 
@@ -294,13 +311,14 @@ export default {
     "app-graphexport": GraphExport,
     "app-sendtostory": SendToStory,
     "app-recommendsequence": RecommendSequence,
-    "app-restoredefault": RestoreDefault,
+    "app-restoredefaultedges": RestoreDefaultEdges,
+    "app-restoredefaultnodes": RestoreDefaultNodes,
     "app-nextsequence": NextSequence,
     "app-previoussequence": PreviousSequence
   },
   data() {
     return {
-      speakerNoteTitle: "Awesome!",
+      speakerNoteTitle: "Graph title",
       notes: "",
       miniVisStyleObject: {
         "border-radius": "25px",
@@ -417,7 +435,7 @@ export default {
 
     deleteNode(deleteData) {
       this.miniVisStyleObject.display = "none";
-      this.speakerNoteTitle = "Awesome!";
+      this.speakerNoteTitle = "Graph title";
       this.notes = "No notes.";
       this.resultNode = null;
       console.log(nodes);
@@ -641,6 +659,16 @@ export default {
       sequenceArray = [];
       this.miniVisStyleObject.display = "none";
     },
+    clearNodes() {
+      //Check if there are nodes to clear before confirmation box
+      if (Object.keys(nodes._data).length == 0) {
+        alert("There are no nodes to clear!");
+      } else if (confirm("Confirm to clear nodes!")) {
+        nodes.clear();
+        this.reInitialiseSeqParam();
+        //console.log(nodes._data);
+      }
+    },
     clearEdges() {
       //Check if there are edges to clear before confirmation box
       if (Object.keys(edges._data).length == 0) {
@@ -855,10 +883,11 @@ export default {
 }
 
 .graphOps {
+  padding: 1px;
   margin: 5px;
   min-height: 600px;
   border: 1px solid grey; /* border: 1px solid grey; */
-  border-radius: 2px;
+  border-radius: 5px;
   background-color: #f1f1f1;
   max-width: 270px;
 }

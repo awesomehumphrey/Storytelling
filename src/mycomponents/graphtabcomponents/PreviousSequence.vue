@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button variant="outline-primary" size="sm" @click="clicked">
+    <b-button class="float-left" variant="outline-primary" size="sm" @click="clicked">
       <i class="fas fa-step-backward"></i>Prev
     </b-button>
   </div>

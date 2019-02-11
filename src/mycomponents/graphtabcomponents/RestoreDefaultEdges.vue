@@ -1,8 +1,7 @@
 <template>
   <div>
-    <hr>
     <b-button variant="outline-warning" class="btn-block" size="md" @click="clicked">
-      <i class="fa fa-remove"></i> Reset
+      <i class="fa fa-remove"></i> Clear edges
     </b-button>
   </div>
 </template>
@@ -12,7 +11,7 @@
 export default {
   methods: {
     clicked() {
-      this.$emit("clickedRestoreDefault");
+      this.$emit("clickedRestoreDefaultEdges");
     }
   }
 };

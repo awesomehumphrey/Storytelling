@@ -4,27 +4,35 @@
       <b-tab title="DATA">
         <b-row>
           <b-col col lg="2" class="tabsections" id="datasection1">
-            <b-row>
-              <b-col id="dataupload">
-                <app-data></app-data>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col id="measures">
-                <app-axis></app-axis>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col id="otherSelections">
-                <app-otherselections></app-otherselections>
-                <!-- <hr> <h5>Others</h5>
+            <b-card
+              header-bg-variant="info"
+              header-text-variant="white"
+              header="Data and Encoding"
+              header-class="text-center"
+              style="height: 99%; width:100%; background-color: #f1f1f1;"
+            >
+              <b-row>
+                <b-col id="dataupload">
+                  <app-data></app-data>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col id="measures">
+                  <app-axis></app-axis>
+                </b-col>
+              </b-row>
+              <b-row>
+                <b-col id="otherSelections">
+                  <app-otherselections></app-otherselections>
+                  <!-- <hr> <h5>Others</h5>
               <p>Colour...</p>
               <p>Shape...</p>
               <p>Size...</p>
-                <p>Opacity...</p>-->
-                <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
-              </b-col>
-            </b-row>
+                  <p>Opacity...</p>-->
+                  <!-- <p>Tooltip...</p> Bin, filter, order, sort,transform, aggregate-->
+                </b-col>
+              </b-row>
+            </b-card>
           </b-col>
           <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
           <b-col col lg="9.5" class="tabsections">
@@ -33,30 +41,38 @@
                 <app-canvas></app-canvas>
               </b-col>
               <b-col col lg="2.5" class="canvas" id="datasection4">
-                <b-row>
-                  <b-col>
-                    <app-bargraph></app-bargraph>
-                  </b-col>
-                  <b-col>
-                    <app-scatterplot></app-scatterplot>
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col>
-                    <app-linegraph></app-linegraph>
-                  </b-col>
-                  <b-col>
-                    <app-areachart></app-areachart>
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-col>
-                    <app-histogram></app-histogram>
-                  </b-col>
-                  <b-col>
-                    <app-punchcard></app-punchcard>
-                  </b-col>
-                </b-row>
+                <b-card
+                  header-bg-variant="info"
+                  header-text-variant="white"
+                  header="Charts"
+                  class="text-center"
+                  style="height: 99%; width:100%; background-color: #f1f1f1;"
+                >
+                  <b-row>
+                    <b-col>
+                      <app-bargraph></app-bargraph>
+                    </b-col>
+                    <b-col>
+                      <app-scatterplot></app-scatterplot>
+                    </b-col>
+                  </b-row>
+                  <b-row>
+                    <b-col>
+                      <app-linegraph></app-linegraph>
+                    </b-col>
+                    <b-col>
+                      <app-areachart></app-areachart>
+                    </b-col>
+                  </b-row>
+                  <b-row>
+                    <b-col>
+                      <app-histogram></app-histogram>
+                    </b-col>
+                    <b-col>
+                      <app-punchcard></app-punchcard>
+                    </b-col>
+                  </b-row>
+                </b-card>
               </b-col>
             </b-row>
           </b-col>
@@ -149,7 +165,9 @@ body {
 
 #datasection1 {
   background-color: #f1f1f1;
-  max-width: 240px;
+  /* max-width: 240px; */
+  padding: 0px;
+  border-radius: 5px;
 }
 
 #datasection2 {
@@ -165,19 +183,20 @@ body {
 
 #datasection4 {
   background-color: #f1f1f1;
-  padding: 10px;
+  padding: 0px;
   min-height: 600px;
+  border-radius: 5px;
 }
 
 #dataupload {
-  min-height: 100px;
+  /* min-height: 100px; */
 }
 
 #measures {
-  min-height: 200px;
+  /* min-height: 200px; */
 }
 
 #otherSelections {
-  min-height: 200px;
+  /* min-height: 200px; */
 }
 </style>
