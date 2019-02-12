@@ -82,7 +82,7 @@
             <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
             <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
           </div>
-         <!--  <hr> -->
+          <!--  <hr> -->
         </b-card>
       </b-col>
       <b-col col lg="9.5" id="section2">
@@ -591,7 +591,7 @@ export default {
         NProgress.done();
       }, 200);
       delete this.resultNode.nData.title;
-      this.resultNode.nData.height = 500;
+      this.resultNode.nData.height = 380;
       this.resultNode.nData.width = 650;
       DataBus.$emit("specFromGraphCanvas", this.resultNode.nData);
       DataBus.$emit("sendToDataTabEvent"); //capture this event and send to tab, axis and other selections components

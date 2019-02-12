@@ -304,7 +304,7 @@ export default {
     renderVisStory() {
       for (var i = 0; i < myNodes.length; i++) {
         myNodes[i].nData.title = myNodes[i].label; //Add graph title to graph spec
-        //myNodes[i].nData.height = 500; //Increase height of the graph
+        myNodes[i].nData.width = document.documentElement.clientWidth / 2; //Modify width of the graph
         //console.log(myNodes[i].nData.height);
         vegaEmbed("#" + this.id[i], myNodes[i].nData, {
           defaultStyle: false,
@@ -313,14 +313,15 @@ export default {
       }
     },
     handleResize(event) {
-      //console.log(this.$refs.bar.clientWidth);
-      for (var i = 0; i < myNodes.length; i++) {
+      /* for (var i = 0; i < myNodes.length; i++) {
+        myNodes[i].nData.width = this.$refs.bar.clientWidth - 150;
+
         if (this.$refs.bar.clientWidth >= 1000) {
           myNodes[i].nData.width = this.$refs.bar.clientWidth - 360;
         } else {
           myNodes[i].nData.width = this.$refs.bar.clientWidth - 160;
-        }
-      }
+        } 
+      } */
       this.renderVisStory();
     },
     handleLoad(event) {
