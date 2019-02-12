@@ -4,7 +4,7 @@
     <b-button variant="primary" class="btn-block" size="md" @click="clicked">
       <i class="fas fa-check"></i> Done
     </b-button>
-    <hr>
+    <!-- <hr> -->
   </div>
 </template>
 

@@ -82,7 +82,7 @@
             <app-previoussequence class="prevNext" @clickedPrevious="previousSequence()"></app-previoussequence>
             <app-nextsequence class="prevNext" @clickedNext="nextSequence()"></app-nextsequence>
           </div>
-          <hr>
+         <!--  <hr> -->
         </b-card>
       </b-col>
       <b-col col lg="9.5" id="section2">
@@ -97,15 +97,15 @@
               header-text-variant="white"
               header="Notes"
               :title="speakerNoteTitle"
-              title-tag="h5"
+              title-tag="h6"
               class="text-center"
               style="min-height: 50%; margin-bottom: 5px; background-color: #f1f1f1;"
             >
               <b-form-textarea
                 v-model.lazy="notes"
                 no-resize
-                :rows="5"
-                :max-rows="5"
+                :rows="3"
+                :max-rows="3"
                 placeholder="Enter speaker notes here"
               ></b-form-textarea>
               <b-button
@@ -870,14 +870,14 @@ export default {
 @import url("https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css");
 #graphVis {
   min-width: 500px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey;
   border-radius: 2px;
   /* background-color: green; */
   overflow: hidden;
 }
 .vis-network {
-  height: 600px;
+  height: 500px;
   min-width: 500px;
   /* width: auto; */
   /*  border: 1px solid grey; */
@@ -887,7 +887,7 @@ export default {
 .graphOps {
   padding: 0px !important;
   margin: 5px;
-  min-height: 600px;
+  min-height: 500px !important;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 5px;
   background-color: #f1f1f1;
@@ -898,21 +898,21 @@ export default {
   margin: 5px;
   padding-left: 15px;
   padding-right: 15px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey;
   border-radius: 2px;
 }
 #section3 {
   margin: 1px;
   padding: 0px;
-  min-height: 600px;
+  min-height: 500px;
   /* border: 1px solid grey; */
   border-radius: 2px;
 }
 #section4 {
   margin: 1px;
   padding: 0px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey;
   border-radius: 2px;
   background-color: #f1f1f1;

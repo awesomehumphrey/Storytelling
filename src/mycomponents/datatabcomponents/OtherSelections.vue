@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="this.spec.description !== 'barChart' && this.spec.description !== 'histogram'">
-      <hr>
+      <br>
       <label for="color">Colour</label>
       <multiselect
         v-model="color"

@@ -85,7 +85,7 @@
               header-text-variant="white"
               header="Notes"
               class="text-center"
-              style="height: 52%; width:100%; overflow-y: auto;"
+              style="height: 40%; width:100%; overflow-y: auto;"
             >
               <div v-if="notesIndex == null || notesIndex < 0 || notesIndex >= id.length">
                 <h5 style="font-weight: bold;">No notes.</h5>
@@ -140,7 +140,7 @@ export default {
   mounted() {
     Reveal.initialize({
       transition: "zoom",
-      backgroundTransition: "slide",
+      /* backgroundTransition: "slide", */
       embedded: true,
       margin: 0,
       minScale: 1,
@@ -350,7 +350,7 @@ export default {
 
 #storyOps {
   margin: 5px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
   background-color: #f1f1f1;
@@ -359,7 +359,7 @@ export default {
 #presOps {
   padding: 10px;
   margin: 1px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
   background-color: white;
@@ -367,7 +367,7 @@ export default {
 }
 .storySections {
   margin: 5px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
 }

@@ -29,7 +29,7 @@ export default {
       spec: {
         $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "scatterplot",
-        height: 500, // Default height of graph
+        height: 380, // Default height of graph
         width: 650, // Default width of graph, but is dynamically updated to fit the width of the device
         autosize: {
           type: "fit",

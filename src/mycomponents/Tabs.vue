@@ -151,14 +151,14 @@ body {
 }
 .tabsections {
   margin: 5px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey; /* border: 1px solid grey; */
   border-radius: 2px;
 }
 
 .canvas {
   margin: 1px;
-  min-height: 600px;
+  min-height: 500px;
   border: 1px solid grey;
   border-radius: 2px;
 }
@@ -177,14 +177,14 @@ body {
 #datasection3 {
   /*background-color: #f0f0f0; */
   padding: 20px;
-  min-height: 600px;
+  min-height: 500px;
   min-width: 500px;
 }
 
 #datasection4 {
   background-color: #f1f1f1;
   padding: 0px;
-  min-height: 600px;
+  min-height: 500px;
   border-radius: 5px;
 }
 
