@@ -138,15 +138,19 @@ export default {
     DataBus.$on("nodeArray", this.getNodeArray); //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
   },
   mounted() {
-    Reveal.initialize({
-      transition: "zoom",
-      /* backgroundTransition: "slide", */
-      embedded: true,
-      margin: 0,
-      minScale: 1,
-      maxScale: 1
-    });
     this.$nextTick(() => {
+      var halfWidth = document.documentElement.clientWidth / 2 + 50;
+      console.log(halfWidth);
+      Reveal.initialize({
+        transition: "zoom",
+        /* backgroundTransition: "slide", */
+        embedded: true,
+        margin: 0,
+        width: halfWidth, //735,
+        minScale: 1,
+        maxScale: 1
+        /*maxScale: 1 */
+      });
       window.addEventListener("resize", this.handleResize);
       window.addEventListener("load", this.handleLoad);
     });
@@ -300,6 +304,8 @@ export default {
     renderVisStory() {
       for (var i = 0; i < myNodes.length; i++) {
         myNodes[i].nData.title = myNodes[i].label; //Add graph title to graph spec
+        //myNodes[i].nData.height = 500; //Increase height of the graph
+        //console.log(myNodes[i].nData.height);
         vegaEmbed("#" + this.id[i], myNodes[i].nData, {
           defaultStyle: false,
           actions: false
