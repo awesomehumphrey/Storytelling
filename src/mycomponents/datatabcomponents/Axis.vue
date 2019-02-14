@@ -2,6 +2,7 @@
   <div>
     <hr>
     <label for="y-axis">Y-Axis</label>
+    <!--This uses https://vue-multiselect.js.org/ different from https://uiv.wxsm.space/multi-select used in Filter component  -->
     <multiselect
       v-model="ySelected"
       placeholder="Select Y-axis"
@@ -9,6 +10,7 @@
       :options="fieldNames"
       @select="sendYValues"
     >
+      <!--Inline-block to place label and multiselect side by side-->
       <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
     </multiselect>
     <br>

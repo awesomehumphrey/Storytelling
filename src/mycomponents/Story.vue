@@ -302,6 +302,35 @@ export default {
       }
     },
     renderVisStory() {
+      /* var newSpec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v3.json",
+        description: "A simple bar chart with embedded data.",
+        data: {
+          values: [
+            { a: "A", b: 28 },
+            { a: "A", b: 55 },
+            { a: "B", b: 55 },
+            { a: "C", b: 43 },
+            { a: "D", b: 91 },
+            { a: "E", b: 81 },
+            { a: "F", b: 53 },
+            { a: "G", b: 19 },
+            { a: "H", b: 87 },
+            { a: "I", b: 52 }
+          ]
+        },
+        transform: [
+          {
+            filter: { field: "a", equal: "A" }
+          },
+          { filter: { field: "b", gte: "28" } }
+        ],
+        mark: "point",
+        encoding: {
+          x: { field: "b", type: "quantitative" },
+          y: { field: "b", type: "quantitative" }
+        }
+      }; */
       for (var i = 0; i < myNodes.length; i++) {
         myNodes[i].nData.title = myNodes[i].label; //Add graph title to graph spec
         myNodes[i].nData.width = document.documentElement.clientWidth / 2; //Modify width of the graph

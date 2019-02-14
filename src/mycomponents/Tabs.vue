@@ -3,7 +3,7 @@
     <b-tabs pills card id="idForProgressBar" v-model="tabIndex">
       <b-tab title="DATA">
         <b-row>
-          <b-col col lg="2" class="tabsections" id="datasection1">
+          <b-col col sm="2" class="tabsections" id="datasection1">
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
@@ -35,12 +35,24 @@
             </b-card>
           </b-col>
           <!-- <b-col col lg="1.5" class="tabsections" id="datasection2">2 of 4</b-col> -->
-          <b-col col lg="9.5" class="tabsections">
+          <b-col col sm="9.5" class="tabsections">
             <b-row>
-              <b-col col lg="9" class="canvas" id="datasection3">
+              <b-col col sm="2.5" class="canvas" id="filter">
+                <b-card
+                  header-bg-variant="info"
+                  header-text-variant="white"
+                  header="Filters and Aggregation"
+                  header-class="text-center"
+                  style="height: 99%; width:100%; background-color: #f1f1f1;"
+                >
+                  <app-filters></app-filters>
+                </b-card>
+              </b-col>
+
+              <b-col col sm="7" class="canvas" id="datasection3">
                 <app-canvas></app-canvas>
               </b-col>
-              <b-col col lg="2.5" class="canvas" id="datasection4">
+              <b-col col sm="2.3" class="canvas" id="datasection4">
                 <b-card
                   header-bg-variant="info"
                   header-text-variant="white"
@@ -115,6 +127,7 @@ import Histogram from "@/mycomponents/graphcomponents/Histogram";
 import PunchCard from "@/mycomponents/graphcomponents/PunchCard";
 import GraphCanvas from "@/mycomponents/GraphCanvas";
 import Story from "@/mycomponents/Story";
+import Filters from "@/mycomponents/datatabcomponents/Filters";
 
 export default {
   data() {
@@ -134,7 +147,8 @@ export default {
     "app-histogram": Histogram,
     "app-punchcard": PunchCard,
     "app-graphcanvas": GraphCanvas,
-    "app-story": Story
+    "app-story": Story,
+    "app-filters": Filters
   },
   created() {
     //Get the click event from miniVis "send to Data tab" button
@@ -152,7 +166,7 @@ body {
 .tabsections {
   margin: 5px;
   min-height: 500px;
-  border: 1px solid grey; /* border: 1px solid grey; */
+  /* border: 1px solid grey; */ /* border: 1px solid grey; */
   border-radius: 2px;
 }
 
@@ -160,7 +174,7 @@ body {
   margin: 1px;
   min-height: 500px;
   border: 1px solid grey;
-  border-radius: 2px;
+  border-radius: 5px;
 }
 
 #datasection1 {
@@ -186,8 +200,15 @@ body {
   padding: 0px;
   min-height: 500px;
   border-radius: 5px;
+  border: 0px;
 }
 
+#filter {
+  background-color: #f1f1f1;
+  padding: 0px;
+  border-radius: 5px;
+  border: 0px;
+}
 #dataupload {
   /* min-height: 100px; */
 }
