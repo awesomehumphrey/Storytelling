@@ -302,14 +302,14 @@ export default {
       }
     },
     renderVisStory() {
-      /* var newSpec = {
+      /*  var newSpec = {
         $schema: "https://vega.github.io/schema/vega-lite/v3.json",
         description: "A simple bar chart with embedded data.",
         data: {
           values: [
             { a: "A", b: 28 },
             { a: "A", b: 55 },
-            { a: "B", b: 55 },
+            { a: "B", b: 56 },
             { a: "C", b: 43 },
             { a: "D", b: 91 },
             { a: "E", b: 81 },
@@ -321,7 +321,7 @@ export default {
         },
         transform: [
           {
-            filter: { field: "a", equal: "A" }
+            filter: { field: "a", oneOf: ["A", "B"] }
           },
           { filter: { field: "b", gte: "28" } }
         ],

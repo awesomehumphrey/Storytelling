@@ -37,6 +37,7 @@
         "vis": "^4.20.1",
         "vue": "^2.5.2",
         "vue-carousel": "^0.16.1",
+        "vue-multi-select": "^3.11.1",
         "vue-multiselect": "^2.1.0",
         "vue-router": "^3.0.1"
     },

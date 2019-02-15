@@ -2,7 +2,6 @@
   <div>
     <hr>
     <label for="y-axis">Y-Axis</label>
-    <!--This uses https://vue-multiselect.js.org/ different from https://uiv.wxsm.space/multi-select used in Filter component  -->
     <multiselect
       v-model="ySelected"
       placeholder="Select Y-axis"
