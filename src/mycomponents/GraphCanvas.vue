@@ -87,7 +87,7 @@
       </b-col>
       <b-col col lg="9.5" id="section2">
         <b-row>
-          <b-col col lg="9" id="section3">
+          <b-col col lg="9" id="section3" :style="canvasStyleObject">
             <div ref="graphVis" id="graphVis" class="vis-network"></div>
           </b-col>
           <b-col col lg="2.5" id="section4">
@@ -320,6 +320,9 @@ export default {
   },
   data() {
     return {
+      canvasStyleObject: {
+        "z-index": 1
+      },
       speakerNoteTitle: "Graph title",
       notes: "",
       miniVisStyleObject: {
@@ -599,8 +602,11 @@ export default {
       //console.log(this.resultNode);
     },
     recommend() {
+      document.getElementById("graphVis").childNodes[0].style.zIndex = -1; //There's a child node with similar vis-network class in graphVis created by visjs
+      this.$refs.graphVis.style.background = "rgba(0,24,72,0.20)";
       NProgress.configure({ parent: "#section3", showSpinner: true });
       NProgress.start(); // start progress bar here and end after worker ends
+
       //console.log(nodes._data);
       edges.clear(); //clear edges before recommending
       this.reInitialiseSeqParam();
@@ -634,6 +640,8 @@ export default {
         .then(reply => {
           // Handle the reply
           //console.log(reply);
+          document.getElementById("graphVis").childNodes[0].style.zIndex = 1;
+          this.$refs.graphVis.style.background = "white";
           NProgress.done();
           sequenceArray = reply;
           if (sequenceArray.length > 1) {
