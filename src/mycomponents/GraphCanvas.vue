@@ -321,7 +321,7 @@ export default {
   data() {
     return {
       canvasStyleObject: {
-        "z-index": 1
+        "z-index": 0
       },
       speakerNoteTitle: "Graph title",
       notes: "",
