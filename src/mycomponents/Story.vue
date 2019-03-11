@@ -3,6 +3,7 @@
     <b-row>
       <b-col col sm="2" id="storyOps">
         <app-authorinformation></app-authorinformation>
+        <app-ethics></app-ethics>
       </b-col>
       <b-col col sm="9.5" class="storySections">
         <b-row>
@@ -10,7 +11,11 @@
             <div id="pres" ref="bar" v-on:resize="handleResize()">
               <div class="reveal">
                 <div class="slides">
-                  <section>Gravity++: Telling stories with data...</section>
+                  <section>
+                    <hr>
+                    <p style="font-size: 1em;">Gravity: Telling stories with data...</p>
+                    <hr>
+                  </section>
                   <section>
                     <hr>
                     <h4 style="color:#002b80;">{{authorDetails.presentationTitle}}</h4>
@@ -27,6 +32,25 @@
                     <h5>{{authorDetails.date}}</h5>
                   </section>
                   <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
+                  <section>
+                    <hr>
+                    <p style="font-size: 1em; color:#002b80;">Ethical Consideration</p>
+                    <hr>
+                    <div style="font-size: 0.5em; ">
+                      <!-- <p>Transformations</p> -->
+                      <p v-if="ethicsDataSource.length!=0" class="ethicsList">Data Source:</p>
+                      <p class="ethicsItem">{{ethicsDataSource}}</p>
+                      <p
+                        v-if="ethicsNormalisation.length!=0"
+                        class="ethicsList"
+                      >Normalised Variables:</p>
+                      <p class="ethicsItem">{{ethicsNormalisation.join(', ') }}</p>
+                      <p v-if="ethicsAggregation.length!=0" class="ethicsList">Aggregated Variables:</p>
+                      <p class="ethicsItem">{{ethicsAggregation.join(', ') }}</p>
+                      <p v-if="ethicsOtherComments.length!=0" class="ethicsList">Other Comments:</p>
+                      <p class="ethicsItem" style="white-space: pre-wrap;">{{ethicsOtherComments }}</p>
+                    </div>
+                  </section>
                   <section>Thank you!</section>
                   <!-- <section>Thank you!</section> -->
                 </div>
@@ -129,6 +153,7 @@ import { DataBus } from "@/main";
 import Reveal from "reveal.js/js/reveal";
 import vegaEmbed from "vega-embed";
 import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
+import Ethics from "@/mycomponents/storytabcomponents/Ethics";
 var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
 
 var isRecordingStarted = false;
@@ -144,7 +169,8 @@ var canvasStream = null;
 var finalStream = null;
 export default {
   components: {
-    "app-authorinformation": AuthorInformation
+    "app-authorinformation": AuthorInformation,
+    "app-ethics": Ethics
   },
   data() {
     return {
@@ -155,7 +181,11 @@ export default {
       pause: false,
       authorDetails: {
         presentationTitle: "Presentation Title"
-      }
+      },
+      ethicsNormalisation: [],
+      ethicsAggregation: [],
+      ethicsDataSource: [],
+      ethicsOtherComments: ""
     };
   },
   created() {
@@ -163,6 +193,22 @@ export default {
     DataBus.$on("authorDetails", authorDetails => {
       this.authorDetails = authorDetails;
       console.log(this.authorDetails);
+    });
+    DataBus.$on("normalisation", value => {
+      this.ethicsNormalisation = value;
+      console.log(this.ethicsNormalisation);
+    });
+    DataBus.$on("aggregation", value => {
+      this.ethicsAggregation = value;
+      console.log(this.ethicsAggregation);
+    });
+    DataBus.$on("dataSource", value => {
+      this.ethicsDataSource = value;
+      console.log(this.ethicsDataSource);
+    });
+    DataBus.$on("otherComments", value => {
+      this.ethicsOtherComments = value;
+      console.log(this.ethicsOtherComments);
     });
   },
   mounted() {
@@ -442,5 +488,13 @@ export default {
   height: 300px; */
   width: 100%;
   height: 100%;
+}
+.ethicsItem {
+  font-style: italic;
+  /*  float: right; */
+}
+.ethicsList {
+  margin: 7px;
+  color: #002b80;
 }
 </style>

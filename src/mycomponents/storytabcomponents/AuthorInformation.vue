@@ -57,12 +57,6 @@
       </b-form-group>
     </b-modal>
     <hr>
-    <b-button
-      variant="primary"
-      class="btn-block"
-      size="md"
-      @click="downloadSlides()"
-    >Download Slides</b-button>
   </div>
 </template>
 <script>
@@ -113,22 +107,6 @@ export default {
       authorDetails.date = today;
 
       DataBus.$emit("authorDetails", authorDetails);
-    },
-    downloadSlides() {
-      const puppeteer = require("puppeteer");
-      var test = document.querySelector("#pres");
-      window.print();
-      /* 
-      (async () => {
-        const browser = await puppeteer.launch({ headless: false });
-        const page = await browser.newPage();
-        await page.goto("https://news.ycombinator.com", {
-          waitUntil: "networkidle2"
-        });
-        await page.pdf({ path: "hn.pdf", format: "A4" });
-
-        await browser.close();
-      })(); */
     }
   },
   computed: {
