@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-row>
-      <b-col col sm="2" id="storyOps"></b-col>
+      <b-col col sm="2" id="storyOps">
+        <app-authorinformation></app-authorinformation>
+      </b-col>
       <b-col col sm="9.5" class="storySections">
         <b-row>
           <b-col col sm="7.5">
@@ -9,6 +11,21 @@
               <div class="reveal">
                 <div class="slides">
                   <section>Gravity++: Telling stories with data...</section>
+                  <section>
+                    <hr>
+                    <h4 style="color:#002b80;">{{authorDetails.presentationTitle}}</h4>
+                    <h5 style="color:#002b80;">{{authorDetails.name}}</h5>
+                    <hr>
+                    <p v-if="authorDetails.email!= null" style="font-size: 0.5em;">
+                      <i class="fas fa-envelope"></i>
+                      {{authorDetails.email}}
+                    </p>
+                    <h5 v-if="authorDetails.institution!= null ">
+                      <i class="fa fa-institution"></i>
+                      {{authorDetails.institution}}
+                    </h5>
+                    <h5>{{authorDetails.date}}</h5>
+                  </section>
                   <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
                   <section>Thank you!</section>
                   <!-- <section>Thank you!</section> -->
@@ -111,6 +128,7 @@
 import { DataBus } from "@/main";
 import Reveal from "reveal.js/js/reveal";
 import vegaEmbed from "vega-embed";
+import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
 var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
 
 var isRecordingStarted = false;
@@ -125,17 +143,27 @@ var blob = null;
 var canvasStream = null;
 var finalStream = null;
 export default {
+  components: {
+    "app-authorinformation": AuthorInformation
+  },
   data() {
     return {
       notesIndex: null,
       reactiveNodes: null, //For use in v-for directive
       id: [],
       videoSrc: require("@/assets/Gapminder.mp4"), //"https://www.w3schools.com/tags/movie.mp4",
-      pause: false
+      pause: false,
+      authorDetails: {
+        presentationTitle: "Presentation Title"
+      }
     };
   },
   created() {
     DataBus.$on("nodeArray", this.getNodeArray); //receive connection/sequenced ordered node array from graph canvas and handle in a dedicated function
+    DataBus.$on("authorDetails", authorDetails => {
+      this.authorDetails = authorDetails;
+      console.log(this.authorDetails);
+    });
   },
   mounted() {
     this.$nextTick(() => {
@@ -158,7 +186,7 @@ export default {
     const myThis = this;
     Reveal.addEventListener("slidechanged", function(event) {
       // event.previousSlide, event.currentSlide, event.indexh, event.indexv
-      myThis.notesIndex = event.indexh - 1; //-1 so as to account for the first slide
+      myThis.notesIndex = event.indexh - 2; //event.indexh - 1;so as to account for the first slide
       console.log(myThis.notesIndex);
     });
   },
