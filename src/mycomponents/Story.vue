@@ -2,8 +2,8 @@
   <div>
     <b-row>
       <b-col col sm="2" id="storyOps">
-        <app-authorinformation></app-authorinformation>
-        <app-ethics></app-ethics>
+        <!-- <app-authorinformation></app-authorinformation>
+        <app-ethics></app-ethics>-->
       </b-col>
       <b-col col sm="9.5" class="storySections">
         <b-row>
@@ -152,8 +152,8 @@
 import { DataBus } from "@/main";
 import Reveal from "reveal.js/js/reveal";
 import vegaEmbed from "vega-embed";
-import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
-import Ethics from "@/mycomponents/storytabcomponents/Ethics";
+/* import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
+import Ethics from "@/mycomponents/storytabcomponents/Ethics"; */
 var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
 
 var isRecordingStarted = false;
@@ -168,10 +168,10 @@ var blob = null;
 var canvasStream = null;
 var finalStream = null;
 export default {
-  components: {
+  /* components: {
     "app-authorinformation": AuthorInformation,
     "app-ethics": Ethics
-  },
+  }, */
   data() {
     return {
       notesIndex: null,

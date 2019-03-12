@@ -1,9 +1,8 @@
 <template>
   <div>
-    <hr>
     <b-button
       v-b-modal="'EthicsModal'"
-      variant="primary"
+      variant="outline-primary"
       class="btn-block"
       size="md"
     >Ethical Consideration</b-button>
@@ -60,7 +59,6 @@
         </b-form-group>
       </b-form-group>
     </b-modal>
-    <hr>
   </div>
 </template>
 <script>

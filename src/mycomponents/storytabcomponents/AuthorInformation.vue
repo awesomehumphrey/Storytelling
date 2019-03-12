@@ -1,9 +1,9 @@
 <template>
   <div>
-    <hr>
+    <!-- <hr> -->
     <b-button
       v-b-modal="'AuthorInformationModal'"
-      variant="primary"
+      variant="outline-primary"
       class="btn-block"
       size="md"
     >Author Details</b-button>
@@ -56,7 +56,8 @@
         </b-form-group>
       </b-form-group>
     </b-modal>
-    <hr>
+    <!-- <hr> -->
+    <br>
   </div>
 </template>
 <script>

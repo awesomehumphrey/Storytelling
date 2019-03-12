@@ -7,7 +7,7 @@
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
-              header="Data and Encoding"
+              header="Data & Encoding"
               header-class="text-center"
               style="height: 99%; width:100%; background-color: #f1f1f1;"
             >
@@ -41,7 +41,7 @@
                 <b-card
                   header-bg-variant="info"
                   header-text-variant="white"
-                  header="Filters and Aggregation"
+                  header="Filters & Aggregation"
                   header-class="text-center"
                   style="height: 99%; width:100%; background-color: #f1f1f1;"
                 >

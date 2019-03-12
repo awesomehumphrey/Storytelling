@@ -128,12 +128,14 @@
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
-              header="Operations"
-              class="text-center"
+              header="Presentation & Ethics"
+              header-class="text-center"
               style="min-height: 48%; background-color: #f1f1f1;"
             >
-              <app-restoredefaultnodes @clickedRestoreDefaultNodes="clearNodes()"></app-restoredefaultnodes>
-              <app-restoredefaultedges @clickedRestoreDefaultEdges="clearEdges()"></app-restoredefaultedges>
+              <app-authorinformation></app-authorinformation>
+              <app-ethics></app-ethics>
+              <!-- <app-restoredefaultnodes @clickedRestoreDefaultNodes="clearNodes()"></app-restoredefaultnodes>
+              <app-restoredefaultedges @clickedRestoreDefaultEdges="clearEdges()"></app-restoredefaultedges>-->
               <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
             </b-card>
             <!-- </b-card-group> -->
@@ -158,6 +160,8 @@ import RestoreDefaultEdges from "@/mycomponents/graphtabcomponents/RestoreDefaul
 import RestoreDefaultNodes from "@/mycomponents/graphtabcomponents/RestoreDefaultNodes";
 import NextSequence from "@/mycomponents/graphtabcomponents/NextSequence";
 import PreviousSequence from "@/mycomponents/graphtabcomponents/PreviousSequence";
+import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
+import Ethics from "@/mycomponents/storytabcomponents/Ethics";
 
 import { DataBus } from "@/main";
 import vis from "vis";
@@ -316,7 +320,9 @@ export default {
     "app-restoredefaultedges": RestoreDefaultEdges,
     "app-restoredefaultnodes": RestoreDefaultNodes,
     "app-nextsequence": NextSequence,
-    "app-previoussequence": PreviousSequence
+    "app-previoussequence": PreviousSequence,
+    "app-authorinformation": AuthorInformation,
+    "app-ethics": Ethics
   },
   data() {
     return {
@@ -896,7 +902,7 @@ export default {
   padding: 0px !important;
   margin: 5px;
   min-height: 500px !important;
-  border: 1px solid grey; /* border: 1px solid grey; */
+  /* border: 1px solid grey;  border: 1px solid grey; */
   border-radius: 5px;
   background-color: #f1f1f1;
   max-width: 270px !important;
@@ -907,7 +913,7 @@ export default {
   padding-left: 15px;
   padding-right: 15px;
   min-height: 500px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   border-radius: 2px;
 }
 #section3 {
@@ -921,7 +927,7 @@ export default {
   margin: 1px;
   padding: 0px;
   min-height: 500px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   border-radius: 2px;
   background-color: #f1f1f1;
 }
