@@ -2,8 +2,16 @@
   <div>
     <b-row>
       <b-col col sm="2" id="storyOps">
-        <!-- <app-authorinformation></app-authorinformation>
-        <app-ethics></app-ethics>-->
+        <b-card
+          header-bg-variant="info"
+          header-text-variant="white"
+          header="Presentation & Ethics"
+          header-class="text-center"
+          style="min-height: 99%; background-color: #f1f1f1; padding: 0px;"
+        >
+          <app-authorinformation></app-authorinformation>
+          <app-ethics></app-ethics>
+        </b-card>
       </b-col>
       <b-col col sm="9.5" class="storySections">
         <b-row>
@@ -126,7 +134,7 @@
               header-text-variant="white"
               header="Notes"
               class="text-center"
-              style="height: 40%; width:100%; overflow-y: auto;"
+              style="height: 48%; width:100%; overflow-y: auto;"
             >
               <div v-if="notesIndex == null || notesIndex < 0 || notesIndex >= id.length">
                 <h5 style="font-weight: bold;">No notes.</h5>
@@ -136,7 +144,7 @@
                 <h5 style="font-weight: bold;">{{reactiveNodes[notesIndex].title}}</h5>
                 <p
                   style="white-space: pre-wrap; text-align: left"
-                >{{reactiveNodes[notesIndex].notes}} - {{reactiveNodes[notesIndex].nData.height}}</p>
+                >{{reactiveNodes[notesIndex].notes}}</p>
               </div>
             </b-card>
           </b-col>
@@ -152,8 +160,8 @@
 import { DataBus } from "@/main";
 import Reveal from "reveal.js/js/reveal";
 import vegaEmbed from "vega-embed";
-/* import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
-import Ethics from "@/mycomponents/storytabcomponents/Ethics"; */
+import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
+import Ethics from "@/mycomponents/storytabcomponents/Ethics";
 var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
 
 var isRecordingStarted = false;
@@ -168,10 +176,10 @@ var blob = null;
 var canvasStream = null;
 var finalStream = null;
 export default {
-  /* components: {
+  components: {
     "app-authorinformation": AuthorInformation,
     "app-ethics": Ethics
-  }, */
+  },
   data() {
     return {
       notesIndex: null,
@@ -184,7 +192,7 @@ export default {
       },
       ethicsNormalisation: [],
       ethicsAggregation: [],
-      ethicsDataSource: [],
+      ethicsDataSource: "",
       ethicsOtherComments: ""
     };
   },
@@ -461,10 +469,11 @@ export default {
 #storyOps {
   margin: 5px;
   min-height: 500px;
-  border: 1px solid grey; /* border: 1px solid grey; */
-  border-radius: 2px;
+  /* border: 1px solid grey;  border: 1px solid grey; */
+  border-radius: 5px;
   background-color: #f1f1f1;
   max-width: 250px;
+  padding: 0px;
 }
 #presOps {
   padding: 10px;
@@ -478,7 +487,7 @@ export default {
 .storySections {
   margin: 5px;
   min-height: 500px;
-  border: 1px solid grey; /* border: 1px solid grey; */
+  /*border: 1px solid grey;  border: 1px solid grey; */
   border-radius: 2px;
 }
 

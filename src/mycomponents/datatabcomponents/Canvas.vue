@@ -42,7 +42,9 @@ export default {
         mark: "line",
         encoding: {
           x: { field: "", type: "" },
-          y: { field: "", type: "" }
+          y: { field: "", type: "" },
+          color: { field: "", type: "nominal" },
+          shape: { field: "", type: "nominal" }
         }
       }
     };
@@ -60,6 +62,23 @@ export default {
     });
 
     DataBus.$on("specFromGraphCanvas", this.handleSpecFromGraphCanvas);
+    //New additions for updating select elements based on spec from graphtab minivis
+    DataBus.$on("Y-axisValue", yAxisSelected => {
+      //Receive the y-axis value from Axis component via DataBus
+      this.spec.encoding["y"]["field"] = yAxisSelected;
+    });
+    DataBus.$on("X-axisValue", xAxisSelected => {
+      //Receive the y-axis value from Axis component via DataBus
+      this.spec.encoding["x"]["field"] = xAxisSelected;
+    });
+    DataBus.$on("Colour", colour => {
+      //Receive the colour value from Axis component via DataBus
+      this.spec.encoding["color"]["field"] = colour;
+    });
+    DataBus.$on("Shape", shape => {
+      //Receive the colour value from Axis component via DataBus
+      this.spec.encoding["shape"]["field"] = shape;
+    });
   },
   mounted() {
     window.addEventListener("resize", this.handleResize);

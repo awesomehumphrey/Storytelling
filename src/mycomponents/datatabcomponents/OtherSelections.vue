@@ -14,7 +14,7 @@
       </multiselect>
       <br>
     </div>
-    <div v-if="this.spec.description === 'scatterplot'">
+    <!-- <div v-if="this.spec.description === 'scatterplot'">
       <label for="shape">Shape</label>
       <multiselect
         v-model="shape"
@@ -22,11 +22,9 @@
         :searchable="true"
         :options="fieldNames"
         @select="sendShapeValue"
-      >
-        <!--Might add the multiple property to make it accept multiple values stored in an array/ or split into y and x into separate components -->
-      </multiselect>
+      ></multiselect>
       <br>
-    </div>
+    </div>-->
     <!-- <div v-if="this.spec.description === 'scatterplot'">
         <label for="labelToolTip">Label</label>
         <multiselect v-model="toolTipLabel" placeholder="Select variable" :searchable="true" :options="fieldNames" @select="sendLabelToolTip">
@@ -50,24 +48,35 @@ export default {
         description: ""
       },
       fieldNames: [],
-      toolTipLabel: "",
+      //toolTipLabel: "",
       color: "",
-      shape: "" //,
+      shape: "", //,
       //size: ''
+      specFromMiniVis: false
     };
   },
   created() {
     DataBus.$on("fieldArray", fieldArray => {
       //Receive the data (field names) from Data component via DataBus
       this.fieldNames = fieldArray;
+      this.specFromMinivis = false;
       //console.log(this.fieldNames);
     });
     DataBus.$on("graphSchema", graphSpec => {
       //Receive the graph schema from selected graph component via DataBus
       this.spec = graphSpec;
     });
-    ////Get the click event from miniVis "send to Data tab" button
-    DataBus.$on("sendToDataTabEvent", () => {
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("specFromGraphCanvas", newSpec => {
+      //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
+      this.specFromMinivis = true;
+      this.fieldNames = Object.keys(newSpec.data.values[0]);
+      this.color = newSpec.encoding.color.field;
+      DataBus.$emit("Colour", this.color);
+      this.shape = newSpec.encoding.shape.field;
+      DataBus.$emit("Shape", this.shape);
+    });
+    /* DataBus.$on("sendToDataTabEvent", () => {
       //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
       this.toolTipLabel = "";
       DataBus.$emit("ToolTipLabel", this.toolTipLabel);
@@ -75,14 +84,14 @@ export default {
       DataBus.$emit("Colour", this.color);
       this.shape = "";
       DataBus.$emit("Shape", this.shape);
-    });
+    }); */
   },
   methods: {
-    sendLabelToolTip(val) {
+    /* sendLabelToolTip(val) {
       // val contains currently selected label value from select input
       DataBus.$emit("ToolTipLabel", val); // Send label values through the event bus...
       //console.log(val)
-    },
+    }, */
     sendColourValue(val) {
       // val contains currently selected colour value from select input
       DataBus.$emit("Colour", val); // Send colour values through the event bus...
@@ -101,24 +110,26 @@ export default {
   watch: {
     // Watch for change in fieldNames which is triggered by a new file upload and reset the x and y axis and then resend their values
     fieldNames(val) {
-      this.toolTipLabel = "";
-      DataBus.$emit("ToolTipLabel", this.toolTipLabel);
-      this.color = "";
-      DataBus.$emit("Colour", this.color);
-      this.shape = "";
-      DataBus.$emit("Shape", this.shape);
-      //this.size = '';
-      //DataBus.$emit('Size', this.size);
+      /* this.toolTipLabel = "";
+      DataBus.$emit("ToolTipLabel", this.toolTipLabel); */
+      if (this.specFromMinivis == false) {
+        this.color = "";
+        DataBus.$emit("Colour", this.color);
+        this.shape = "";
+        DataBus.$emit("Shape", this.shape);
+        //this.size = '';
+        //DataBus.$emit('Size', this.size);
+      }
     },
     color(val) {
       DataBus.$emit("Colour", this.color);
     },
     shape(val) {
       DataBus.$emit("Shape", this.shape);
-    },
-    toolTipLabel(val) {
-      DataBus.$emit("ToolTipLabel", this.toolTipLabel);
     }
+    /* toolTipLabel(val) {
+      DataBus.$emit("ToolTipLabel", this.toolTipLabel);
+    } */
   }
 };
 </script>

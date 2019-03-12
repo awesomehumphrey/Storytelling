@@ -37,7 +37,8 @@ export default {
       fieldNames: [],
       ySelected: "", //Might change these to array depending on...
       xSelected: "",
-      defaultTitle: "Title"
+      defaultTitle: "Title",
+      specFromMiniVis: false
     };
   },
   created() {
@@ -48,16 +49,28 @@ export default {
     DataBus.$on("fieldArray", fieldArray => {
       //Receive the data (field names) from Data component via DataBus
       this.fieldNames = fieldArray;
-      //console.log(this.fieldNames);
+      this.specFromMinivis = false;
+      console.log(this.fieldNames);
+      console.log(this.specFromMinivis);
     });
-    ////Get the click event from miniVis "send to Data tab" button
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("specFromGraphCanvas", newSpec => {
+      //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
+      this.specFromMinivis = true;
+      this.fieldNames = Object.keys(newSpec.data.values[0]);
+      this.ySelected = newSpec.encoding.y.field;
+      DataBus.$emit("Y-axisValue", this.ySelected);
+      this.xSelected = newSpec.encoding.x.field;
+      DataBus.$emit("X-axisValue", this.xSelected);
+    });
+    /* //Get the click event from miniVis "send to Data tab" button
     DataBus.$on("sendToDataTabEvent", () => {
       //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
       this.ySelected = "";
       DataBus.$emit("Y-axisValue", this.ySelected);
       this.xSelected = "";
       DataBus.$emit("X-axisValue", this.xSelected);
-    });
+    }); */
   },
   methods: {
     sendYValues(val) {
@@ -73,11 +86,14 @@ export default {
   watch: {
     // Watch for change in fieldNames which is triggered by a new file upload and reset the x and y axis and then resend their values
     fieldNames(val) {
-      this.ySelected = "";
-      DataBus.$emit("Y-axisValue", this.ySelected);
-      this.xSelected = "";
-      DataBus.$emit("X-axisValue", this.xSelected);
-      DataBus.$emit("defaultTitle", this.defaultTitle);
+      if (this.specFromMinivis == false) {
+        //if spec is sent from graphTab then update the necessary elements else reset
+        this.ySelected = "";
+        DataBus.$emit("Y-axisValue", this.ySelected);
+        this.xSelected = "";
+        DataBus.$emit("X-axisValue", this.xSelected);
+        DataBus.$emit("defaultTitle", this.defaultTitle);
+      }
     },
     ySelected(val) {
       DataBus.$emit("Y-axisValue", this.ySelected);

@@ -128,14 +128,14 @@
             <b-card
               header-bg-variant="info"
               header-text-variant="white"
-              header="Presentation & Ethics"
+              header="Operations"
               header-class="text-center"
               style="min-height: 48%; background-color: #f1f1f1;"
             >
-              <app-authorinformation></app-authorinformation>
-              <app-ethics></app-ethics>
-              <!-- <app-restoredefaultnodes @clickedRestoreDefaultNodes="clearNodes()"></app-restoredefaultnodes>
-              <app-restoredefaultedges @clickedRestoreDefaultEdges="clearEdges()"></app-restoredefaultedges>-->
+              <!-- <app-authorinformation></app-authorinformation>
+              <app-ethics></app-ethics>-->
+              <app-restoredefaultnodes @clickedRestoreDefaultNodes="clearNodes()"></app-restoredefaultnodes>
+              <app-restoredefaultedges @clickedRestoreDefaultEdges="clearEdges()"></app-restoredefaultedges>
               <app-sendtostory @clickedDone="prepareAndSendData()"></app-sendtostory>
             </b-card>
             <!-- </b-card-group> -->

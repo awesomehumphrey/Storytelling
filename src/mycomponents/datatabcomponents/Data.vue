@@ -54,6 +54,14 @@ export default {
       ]
     };
   },
+  created() {
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("sendToDataTabEvent", () => {
+      document
+        .getElementsByClassName("custom-file-control")[0] //Change the placeholder text from "Select file" to fileName
+        .setAttribute("data-selected", "Temp file"); //To get the classname and attributes, inspect the b-form-file element. If in the future you do not use bootstrap-vue, then use v-model to bind to placeholder attribute
+    });
+  },
   methods: {
     onFileChanged(event) {
       this.selectedFile = event.target.files[0]; //ToDo: get name of file, determine file type using the extension,

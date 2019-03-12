@@ -45,7 +45,8 @@ export default {
           x: { field: "", type: "ordinal" },
           y: { field: "", type: "ordinal" },
           color: { field: "", type: "quantitative", aggregate: "sum" },
-          size: { field: "", type: "quantitative", aggregate: "sum" }
+          size: { field: "", type: "quantitative", aggregate: "sum" },
+          shape: { field: "", type: "nominal" }
           //"tooltip": {"field": "", "type": "quantitative", "aggregate": "sum"} //Tooltip now comes with the latest version of vega-embed
         }
       }
@@ -55,6 +56,11 @@ export default {
     DataBus.$on("dataJson", dataJson => {
       //Receive the data (array of data values) from Data component via DataBus
       this.spec.data.values = dataJson;
+    });
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("specFromGraphCanvas", newSpec => {
+      //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
+      this.spec.data.values = newSpec.data.values;
     });
     DataBus.$on("Y-axisValue", yAxisSelected => {
       //Receive the y-axis value from Axis component via DataBus
