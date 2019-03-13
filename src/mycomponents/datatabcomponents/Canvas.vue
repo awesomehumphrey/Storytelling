@@ -11,8 +11,9 @@
       <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
+    <!--Ensure there is an x-axis value and a graph has been selected before showing button -->
     <b-button
-      v-show="spec.encoding.x.field"
+      v-show="spec.encoding.x.field && spec.description != 'Graph'"
       size="md"
       variant="primary"
       class="float-right"

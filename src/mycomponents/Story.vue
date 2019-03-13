@@ -264,19 +264,21 @@ export default {
 
       (function looper() {
         if (!isRecordingStarted) {
-          return setTimeout(looper, 500);
+          return setTimeout(looper, 16); //500
         }
+        //scale for improving quality, the default is 1
+        html2canvas(elementToRecord, { logging: false, scale: 8 }).then(
+          function(canvas) {
+            context.clearRect(0, 0, canvas2d.width, canvas2d.height);
+            context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
 
-        html2canvas(elementToRecord, { logging: false }).then(function(canvas) {
-          context.clearRect(0, 0, canvas2d.width, canvas2d.height);
-          context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
+            if (isStoppedRecording) {
+              return;
+            }
 
-          if (isStoppedRecording) {
-            return;
+            requestAnimationFrame(looper);
           }
-
-          requestAnimationFrame(looper);
-        });
+        );
       })();
 
       /* recorder = new RecordRTC(canvas2d, {
