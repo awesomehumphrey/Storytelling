@@ -39,14 +39,27 @@ export default {
         data: {
           values: []
         },
-        //"mark": {"type": "point", "cursor": "pointer"},
-        mark: "point",
+        selection: {
+          paintbrush: {
+            type: "single",
+            on: "mouseover",
+            empty: "none",
+            nearest: false
+          },
+          select: { type: "multi" }
+        },
+        mark: { type: "point", cursor: "pointer" },
+        //mark: "point",
         encoding: {
           x: { field: "", type: "quantitative" },
           y: { field: "", type: "quantitative" },
           //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" }
+          shape: { field: "", type: "nominal" },
+          size: {
+            condition: { selection: "paintbrush", value: 300 },
+            value: 50
+          }
         }
       }
     };

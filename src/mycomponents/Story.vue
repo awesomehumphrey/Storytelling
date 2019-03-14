@@ -264,10 +264,10 @@ export default {
 
       (function looper() {
         if (!isRecordingStarted) {
-          return setTimeout(looper, 16); //500
+          return setTimeout(looper, 150); //500
         }
         //scale for improving quality, the default is 1
-        html2canvas(elementToRecord, { logging: false, scale: 8 }).then(
+        html2canvas(elementToRecord, { logging: false, scale: 2 }).then(
           function(canvas) {
             context.clearRect(0, 0, canvas2d.width, canvas2d.height);
             context.drawImage(canvas, 0, 0, canvas2d.width, canvas2d.height);
@@ -421,7 +421,8 @@ export default {
         //console.log(myNodes[i].nData.height);
         vegaEmbed("#" + this.id[i], myNodes[i].nData, {
           defaultStyle: false,
-          actions: false
+          actions: false,
+          renderer: "canvas" //or svg
         });
       }
     },
