@@ -39,14 +39,30 @@ export default {
         data: {
           values: []
         },
-        mark: "line",
+        mark: { type: "line" },
         encoding: {
           x: { field: "", type: "ordinal" }, // type can also be ordinal temporal
           y: { field: "", type: "quantitative" },
           //"tooltip": {"field": "", "type": "quantitative"},
-          color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" }
-        }
+          color: { field: "", type: "nominal" }
+          //shape: { field: "", type: "nominal" }
+        },
+        layer: [
+          {
+            selection: {
+              brush: {
+                type: "interval",
+                encodings: ["x"]
+              }
+            },
+            mark: "line"
+          },
+          {
+            transform: [{ filter: { selection: "brush" } }],
+            mark: { type: "line", color: "teal" }
+          }
+        ],
+        config: { invalidValues: "filter" }
       }
     };
   },

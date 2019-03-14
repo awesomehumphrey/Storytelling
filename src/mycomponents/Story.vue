@@ -264,7 +264,7 @@ export default {
 
       (function looper() {
         if (!isRecordingStarted) {
-          return setTimeout(looper, 150); //500
+          return setTimeout(looper, 250); //500
         }
         //scale for improving quality, the default is 1
         html2canvas(elementToRecord, { logging: false, scale: 2 }).then(

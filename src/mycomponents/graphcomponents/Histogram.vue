@@ -39,13 +39,45 @@ export default {
         data: {
           values: []
         },
-        mark: "bar",
+        selection: {
+          highlight: { type: "single", empty: "none", on: "mouseover" },
+          select: { type: "multi" }
+        },
+        mark: {
+          type: "bar",
+          fill: "#4C78A8",
+          stroke: "black",
+          cursor: "pointer"
+        },
+        //mark: "bar",
         encoding: {
           x: { bin: true, field: "", type: "quantitative" },
           y: { aggregate: "count", type: "quantitative" },
           color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" }
+          fillOpacity: {
+            condition: { selection: "select", value: 1 },
+            value: 0.3
+          },
+          strokeWidth: {
+            condition: [
+              {
+                test: {
+                  and: [{ selection: "select" }, 'length(data("select_store"))']
+                },
+                value: 2
+              },
+              { selection: "highlight", value: 1 }
+            ],
+            value: 0
+          }
+          //shape: { field: "", type: "nominal" }
           //"tooltip": {"aggregate": "count", "type": "quantitative"}, //Tooltip now comes with the latest version of vega-embed
+        },
+        config: {
+          scale: {
+            bandPaddingInner: 0.2
+          },
+          invalidValues: "filter"
         }
       }
     };

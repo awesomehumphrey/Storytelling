@@ -55,7 +55,7 @@ export default {
           x: { field: "", type: "ordinal" },
           y: { aggregate: "sum", field: "", type: "quantitative" },
           color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" },
+          //shape: { field: "", type: "nominal" },
           fillOpacity: {
             condition: { selection: "select", value: 1 },
             value: 0.3

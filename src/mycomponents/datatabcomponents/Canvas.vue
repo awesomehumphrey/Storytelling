@@ -44,8 +44,8 @@ export default {
         encoding: {
           x: { field: "", type: "" },
           y: { field: "", type: "" },
-          color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" }
+          color: { field: "", type: "nominal" }
+          // shape: { field: "", type: "nominal" }
         }
       }
     };
@@ -78,7 +78,7 @@ export default {
     });
     DataBus.$on("Shape", shape => {
       //Receive the colour value from Axis component via DataBus
-      this.spec.encoding["shape"]["field"] = shape;
+      //this.spec.encoding["shape"]["field"] = shape;
     });
   },
   mounted() {

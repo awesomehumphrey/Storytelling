@@ -39,16 +39,23 @@ export default {
         data: {
           values: []
         },
-        config: { invalidValues: "filter" },
-        mark: "circle",
+        selection: {
+          brush: {
+            type: "interval",
+            init: { x: [0, 0], y: [0, 0] }
+          }
+        },
+        mark: { type: "circle", cursor: "pointer" },
+        //mark: "circle",
         encoding: {
           x: { field: "", type: "ordinal" },
           y: { field: "", type: "ordinal" },
           color: { field: "", type: "quantitative", aggregate: "sum" },
-          size: { field: "", type: "quantitative", aggregate: "sum" },
-          shape: { field: "", type: "nominal" }
+          size: { field: "", type: "quantitative", aggregate: "sum" }
+          //shape: { field: "", type: "nominal" }
           //"tooltip": {"field": "", "type": "quantitative", "aggregate": "sum"} //Tooltip now comes with the latest version of vega-embed
-        }
+        },
+        config: { invalidValues: "filter" }
       }
     };
   },

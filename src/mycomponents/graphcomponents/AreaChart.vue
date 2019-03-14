@@ -39,15 +39,30 @@ export default {
         data: {
           values: []
         },
-        //"mark": {"type": "area", "line": false, "point": false},
-        mark: "area",
+        mark: { type: "area", line: false, point: false },
+        //mark: "area",
         encoding: {
           x: { field: "", type: "ordinal" }, // type can also be ordinal temporal
           y: { field: "", type: "quantitative" },
           //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
-          color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" }
-        }
+          color: { field: "", type: "nominal" }
+        },
+        layer: [
+          {
+            selection: {
+              brush: {
+                type: "interval",
+                encodings: ["x"]
+              }
+            },
+            mark: "area"
+          },
+          {
+            transform: [{ filter: { selection: "brush" } }],
+            mark: { type: "area", color: "teal" } //color: "teal"
+          }
+        ],
+        config: { invalidValues: "filter" }
       }
     };
   },

@@ -46,7 +46,10 @@ export default {
             empty: "none",
             nearest: false
           },
-          select: { type: "multi" }
+          brush: {
+            type: "interval",
+            init: { x: [0, 0], y: [0, 0] }
+          }
         },
         mark: { type: "point", cursor: "pointer" },
         //mark: "point",
@@ -55,12 +58,13 @@ export default {
           y: { field: "", type: "quantitative" },
           //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" },
-          shape: { field: "", type: "nominal" },
+          //shape: { field: "", type: "nominal" },
           size: {
             condition: { selection: "paintbrush", value: 300 },
             value: 50
           }
-        }
+        },
+        config: { invalidValues: "filter" }
       }
     };
   },
@@ -92,7 +96,7 @@ export default {
     });
     DataBus.$on("Shape", shape => {
       //Receive the colour value from Axis component via DataBus
-      this.spec.encoding["shape"]["field"] = shape;
+      //this.spec.encoding["shape"]["field"] = shape;
     });
   },
   methods: {

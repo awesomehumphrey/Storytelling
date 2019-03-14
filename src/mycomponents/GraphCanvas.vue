@@ -634,6 +634,11 @@ export default {
         delete chartData[i].nData.height;
         delete chartData[i].nData.width;
         delete chartData[i].nData.myTitle;
+        delete chartData[i].nData.selection;
+        delete chartData[i].nData.encoding.fillOpacity;
+        delete chartData[i].nData.encoding.strokeWidth;
+        //graphscape can't hand mark as an object hence the direct assignment
+        chartData[i].nData.mark = chartData[i].nData.mark.type;
         chartSpec.push(chartData[i].nData);
         chartSpec[i].id = chartData[i].id; //assigning id from the node object to graphspec object
       }
@@ -660,6 +665,8 @@ export default {
         })
         .catch(error => {
           // Handle the error
+          document.getElementById("graphVis").childNodes[0].style.zIndex = 1;
+          this.$refs.graphVis.style.background = "white";
           NProgress.done();
           console.log(error);
         });
