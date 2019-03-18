@@ -47,6 +47,7 @@ export default {
     return {
       yAxisOperator: "",
       xAxisOperator: "",
+      groupBySelected: "null", //If this is empty on initial page load, vegalite throws an error. However, it can be empty after that initial load
       aggregationOptions: ["sum", "average", "min", "max", "median"],
       fieldNames: [],
       specFromMiniVis: false
