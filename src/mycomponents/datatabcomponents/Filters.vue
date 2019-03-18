@@ -39,8 +39,6 @@
 <script>
 /* eslint-disable */
 import { DataBus } from "@/main";
-import multiSelect from "vue-multi-select";
-import "vue-multi-select/dist/lib/vue-multi-select.min.css";
 
 export default {
   data() {
