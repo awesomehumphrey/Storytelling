@@ -54,8 +54,9 @@ export default {
         mark: { type: "point", cursor: "pointer" },
         //mark: "point",
         encoding: {
-          x: { field: "", type: "quantitative" },
-          y: { field: "", type: "quantitative" },
+          x: { aggregate: "", field: "", type: "quantitative" },
+          y: { aggregate: "", field: "", type: "quantitative" },
+          detail: { field: "", type: "nominal" },
           //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" },
           //shape: { field: "", type: "nominal" },
@@ -97,6 +98,15 @@ export default {
     DataBus.$on("Shape", shape => {
       //Receive the colour value from Axis component via DataBus
       //this.spec.encoding["shape"]["field"] = shape;
+    });
+    DataBus.$on("yAggregateValue", yAggregateValue => {
+      this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+    });
+    DataBus.$on("xAggregateValue", xAggregateValue => {
+      this.spec.encoding["x"]["aggregate"] = xAggregateValue;
+    });
+    DataBus.$on("groupByValue", groupByValue => {
+      this.spec.encoding["detail"]["field"] = groupByValue;
     });
   },
   methods: {

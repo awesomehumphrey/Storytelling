@@ -73,8 +73,8 @@ export default {
       this.fieldNames = Object.keys(newSpec.data.values[0]);
       this.color = newSpec.encoding.color.field;
       DataBus.$emit("Colour", this.color);
-      this.shape = newSpec.encoding.shape.field;
-      DataBus.$emit("Shape", this.shape);
+      /* this.shape = newSpec.encoding.shape.field;
+      DataBus.$emit("Shape", this.shape); */
     });
     /* DataBus.$on("sendToDataTabEvent", () => {
       //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
@@ -96,12 +96,12 @@ export default {
       // val contains currently selected colour value from select input
       DataBus.$emit("Colour", val); // Send colour values through the event bus...
       //console.log(val)
-    },
-    sendShapeValue(val) {
+    }
+    /* sendShapeValue(val) {
       // val contains currently selected shape value from select input
       DataBus.$emit("Shape", val); // Send shape values through the event bus...
       //console.log(val)
-    } //,
+    }  */ //,
     //sendSizeValue(val) { // val contains currently selected shape value from select input
     //    DataBus.$emit('Size', val); // Send shape values through the event bus...
     //    console.log(val)
@@ -123,10 +123,10 @@ export default {
     },
     color(val) {
       DataBus.$emit("Colour", this.color);
-    },
-    shape(val) {
-      DataBus.$emit("Shape", this.shape);
     }
+    /* shape(val) {
+      DataBus.$emit("Shape", this.shape);
+    } */
     /* toolTipLabel(val) {
       DataBus.$emit("ToolTipLabel", this.toolTipLabel);
     } */

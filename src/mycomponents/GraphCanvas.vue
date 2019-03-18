@@ -637,6 +637,7 @@ export default {
         delete chartData[i].nData.selection;
         delete chartData[i].nData.encoding.fillOpacity;
         delete chartData[i].nData.encoding.strokeWidth;
+        delete chartData[i].nData.encoding.detail;
         //graphscape can't hand mark as an object hence the direct assignment
         chartData[i].nData.mark = chartData[i].nData.mark.type;
         chartSpec.push(chartData[i].nData);

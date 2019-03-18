@@ -43,7 +43,8 @@ export default {
         //mark: "area",
         encoding: {
           x: { field: "", type: "ordinal" }, // type can also be ordinal temporal
-          y: { field: "", type: "quantitative" },
+          y: { aggregate: "", field: "", type: "quantitative" },
+          detail: { field: "", type: "nominal" },
           //tooltip: { field: "", type: "quantitative" }, //Tooltip now comes with the latest version of vega-embed
           color: { field: "", type: "nominal" }
         },
@@ -89,6 +90,14 @@ export default {
     DataBus.$on("Colour", colour => {
       //Receive the colour value from Axis component via DataBus
       this.spec.encoding["color"]["field"] = colour;
+    });
+
+    DataBus.$on("yAggregateValue", yAggregateValue => {
+      this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+    });
+
+    DataBus.$on("groupByValue", groupByValue => {
+      this.spec.encoding["detail"]["field"] = groupByValue;
     });
   },
   methods: {

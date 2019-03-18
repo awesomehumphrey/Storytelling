@@ -1,32 +1,37 @@
 <template>
   <div>
-    <label for="filter1" style="display: block">Filter 1</label>
     <div>
-      <multi-select
-        v-model="fieldSelected"
-        search
-        historyButton
-        :btnLabel="fieldBtnLabel"
-        :selectOptions="fieldNames"
-        style="width:35%; display: inline;"
-      />
-      <multi-select
-        v-model="operandSelected"
-        search
-        historyButton
-        :btnLabel="operandBtnLabel"
-        :selectOptions="optionsOperands"
-        style="width:30%; display: inline;"
-      />
-      <multi-select
-        v-model="dataSelected"
-        search
-        historyButton
-        :btnLabel="dataBtnLabel"
-        :selectOptions="fieldNames"
-        style="width:35%; display: inline;"
-      />
-      <!-- <h5>{{fieldSelected}}</h5> -->
+      <label for="aggregateY">Y-Axis</label>
+      <multiselect
+        placeholder="Select Operation"
+        v-model="yAxisOperator"
+        :searchable="true"
+        :options="aggregationOptions"
+        @select="sendYAggregation"
+      ></multiselect>
+      <br>
+      <label for="aggregateX">X-Axis</label>
+      <multiselect
+        placeholder="Select Operation"
+        v-model="xAxisOperator"
+        :searchable="true"
+        :options="aggregationOptions"
+        @select="sendXAggregation"
+      ></multiselect>
+      <!-- <h5>{{yAxisOperator}}</h5> -->
+    </div>
+    <div
+      v-if="(yAxisOperator!='' && yAxisOperator!=null) || (xAxisOperator!='' && xAxisOperator!=null)"
+    >
+      <hr>
+      <label for="groupBy">Group By (optional)</label>
+      <multiselect
+        placeholder="Select field"
+        v-model="groupBySelected"
+        :searchable="true"
+        :options="fieldNames"
+        @select="sendGroupBy"
+      ></multiselect>
     </div>
   </div>
 </template>
@@ -40,50 +45,63 @@ import "vue-multi-select/dist/lib/vue-multi-select.min.css";
 export default {
   data() {
     return {
-      fieldSelected: [],
-      operandSelected: [],
-      dataSelected: [],
-      fieldBtnLabel: "Fields",
-      operandBtnLabel: "",
-      dataBtnLabel: "Values",
+      yAxisOperator: "",
+      xAxisOperator: "",
+      aggregationOptions: ["sum", "average", "min", "max", "median"],
       fieldNames: [],
-      graphData: null,
-      optionsOperands: [
-        { value: "equal", name: "=" },
-        { value: "gt", name: ">" },
-        { value: "gte", name: ">=" },
-        { value: "lt", name: "<" },
-        { value: "lte", name: "<=" }
-      ]
+      specFromMiniVis: false
     };
   },
   created() {
     DataBus.$on("fieldArray", fieldArray => {
       //Receive the data (field names) from Data component via DataBus
       this.fieldNames = fieldArray;
+      this.specFromMinivis = false;
       //console.log(this.fieldNames);
     });
-    DataBus.$on("dataJson", dataJson => {
-      //Receive the data (array of data values) from Data component via DataBus
-      this.graphData = dataJson;
-      //console.log(this.graphData);
+    //Get the click event from miniVis "send to Data tab" button
+    DataBus.$on("specFromGraphCanvas", newSpec => {
+      //You receive this event when miniVis "send to data tab" button is clicked in graph canvas. Then reset the following axis values
+      this.specFromMinivis = true;
+      this.fieldNames = Object.keys(newSpec.data.values[0]);
+      this.yAxisOperator = newSpec.encoding.y.aggregate;
+      DataBus.$emit("yAggregateValue", this.yAxisOperator);
+      this.xAxisOperator = newSpec.encoding.x.aggregate;
+      DataBus.$emit("xAggregateValue", this.xAxisOperator);
+      this.groupBySelected = newSpec.encoding.detail.field;
+      DataBus.$emit("groupByValue", this.groupBySelected);
     });
   },
   methods: {
-    doSomething(a) {
-      console.log(a);
+    sendYAggregation(val) {
+      DataBus.$emit("yAggregateValue", val); // Send values through the event bus...
+    },
+    sendXAggregation(val) {
+      DataBus.$emit("xAggregateValue", val); // Send values through the event bus...
+    },
+    sendGroupBy(val) {
+      DataBus.$emit("groupByValue", val); // Send values through the event bus...
     }
   },
-  components: {
-    multiSelect
-  },
   watch: {
-    fieldSelected(val) {
-      if (val.length != 0) {
-        this.doSomething(val);
-      } else {
-        console.log("Nullll");
+    fieldNames(val) {
+      if (this.specFromMinivis == false) {
+        this.yAxisOperator = "";
+        DataBus.$emit("yAggregateValue", val);
+        this.xAxisOperator = "";
+        DataBus.$emit("xAggregateValue", val);
+        this.groupBySelected = "";
+        DataBus.$emit("groupByValue", val);
       }
+    },
+    yAxisOperator(val) {
+      DataBus.$emit("yAggregateValue", val);
+    },
+    xAxisOperator(val) {
+      DataBus.$emit("xAggregateValue", val);
+    },
+    groupBySelected(val) {
+      DataBus.$emit("groupByValue", val);
     }
   }
 };

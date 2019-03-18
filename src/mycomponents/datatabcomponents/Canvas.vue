@@ -42,8 +42,9 @@ export default {
         },
         mark: "line",
         encoding: {
-          x: { field: "", type: "" },
-          y: { field: "", type: "" },
+          x: { aggregate: "", field: "", type: "" },
+          y: { aggregate: "", field: "", type: "" },
+          detail: { field: "", type: "nominal" },
           color: { field: "", type: "nominal" }
           // shape: { field: "", type: "nominal" }
         }
@@ -79,6 +80,16 @@ export default {
     DataBus.$on("Shape", shape => {
       //Receive the colour value from Axis component via DataBus
       //this.spec.encoding["shape"]["field"] = shape;
+    });
+
+    DataBus.$on("yAggregateValue", yAggregateValue => {
+      this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+    });
+    DataBus.$on("xAggregateValue", xAggregateValue => {
+      this.spec.encoding["x"]["aggregate"] = xAggregateValue;
+    });
+    DataBus.$on("groupByValue", groupByValue => {
+      this.spec.encoding["detail"]["field"] = groupByValue;
     });
   },
   mounted() {

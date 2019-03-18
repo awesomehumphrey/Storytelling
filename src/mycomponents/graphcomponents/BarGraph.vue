@@ -54,6 +54,7 @@ export default {
         encoding: {
           x: { field: "", type: "ordinal" },
           y: { aggregate: "sum", field: "", type: "quantitative" },
+          detail: { field: "", type: "nominal" },
           color: { field: "", type: "nominal" },
           //shape: { field: "", type: "nominal" },
           fillOpacity: {
@@ -101,6 +102,15 @@ export default {
     DataBus.$on("X-axisValue", xAxisSelected => {
       //Receive the y-axis value from Axis component via DataBus
       this.spec.encoding["x"]["field"] = xAxisSelected;
+    });
+    DataBus.$on("yAggregateValue", yAggregateValue => {
+      this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+    });
+    /* DataBus.$on("xAggregateValue", xAggregateValue => {
+      this.spec.encoding["x"]["aggregate"] = xAggregateValue;
+    }); */
+    DataBus.$on("groupByValue", groupByValue => {
+      this.spec.encoding["detail"]["field"] = groupByValue;
     });
   },
   methods: {

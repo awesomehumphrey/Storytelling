@@ -41,7 +41,7 @@
                 <b-card
                   header-bg-variant="info"
                   header-text-variant="white"
-                  header="Filters & Aggregation"
+                  header="Aggregation"
                   header-class="text-center"
                   style="height: 99%; width:100%; background-color: #f1f1f1;"
                 >
