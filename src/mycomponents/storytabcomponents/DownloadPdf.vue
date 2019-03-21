@@ -6,7 +6,6 @@
 
 <script>
 /* eslint-disable */
-import jsPDF from "jspdf";
 
 export default {
   methods: {

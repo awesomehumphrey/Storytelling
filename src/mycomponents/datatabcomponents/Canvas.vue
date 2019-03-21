@@ -1,19 +1,27 @@
 <template>
   <div ref="canvas" v-on:resize="handleResize()">
-    <div v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field">
+    <div
+      v-if="spec.data.values.length !== 0 && spec.encoding.y.field 
+    && spec.encoding.x.field && track == true"
+    >
       <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input>
-      <!-- v-model.lazy v-if="spec.data.values.length !== 0 && spec.encoding.y.field && spec.encoding.x.field"-->
-      <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
+      <!-- v-model.lazy v-if="spec.data.values.length !== 0 && spec.encoding.y.field 
+      && spec.encoding.x.field"-->
+      <!--Perhaps switch to the use of modals and then delete updateTitle, 
+      update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
     <div v-else-if="spec.description === 'histogram' && spec.encoding.x.field">
       <b-form-input id="visTitle" size="small" v-model.lazy="myTitle"></b-form-input>
-      <!--Perhaps switch to the use of modals and then delete updateTitle, update watcher and sendNodeData-->
+      <!--Perhaps switch to the use of modals and then delete updateTitle, 
+      update watcher and sendNodeData-->
       <div id="vis"></div>
     </div>
-    <!--Ensure there is an x-axis value and a graph has been selected before showing button -->
+    <!--Ensure there is an x-axis value and a graph has been selected before 
+    showing button-->
     <b-button
-      v-show="spec.encoding.x.field && spec.description != 'Graph'"
+      v-show="(spec.encoding.x.field && spec.description == 'histogram' && track == true) || 
+      (spec.encoding.x.field && spec.encoding.y.field && spec.description != 'Graph' && track == true)"
       size="md"
       variant="primary"
       class="float-right"
@@ -32,6 +40,7 @@ import NProgress from "nprogress";
 export default {
   data() {
     return {
+      track: true,
       myWidth: 0,
       myTitle: "Title",
       spec: {
@@ -103,7 +112,8 @@ export default {
     });
   },
   updated() {
-    this.renderVis(); //Initially, visualisation is not rendered in mounted() because spec is not yet populated with real data hence rendered in updated() after data selection
+    this.renderVis(); //Initially, visualisation is not rendered in mounted()
+    //because spec is not yet populated with real data hence rendered in updated() after data selection
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleResize);
@@ -111,7 +121,6 @@ export default {
   methods: {
     handleSpecFromGraphCanvas(graphSpec) {
       //Receive the graph schema from miniVis from graph canvas via DataBus
-      console.log(graphSpec.myTitle);
       this.spec = graphSpec;
       console.log(this.$refs.canvas.clientWidth);
       this.spec.width = this.myWidth - 50;
@@ -126,11 +135,20 @@ export default {
       this.renderVis();
     },
     renderVis() {
+      //console.log(this.spec);
       vegaEmbed("#vis", this.spec, {
         defaultStyle: true,
         tooltip: true,
         actions: { export: true, source: false, compiled: false, editor: false }
-      });
+      })
+        .then(result => {
+          this.track = true;
+          console.log("success!");
+        })
+        .catch(error => {
+          this.track = false;
+          console.log("error!");
+        });
     },
     sendNodeData() {
       NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
@@ -147,7 +165,7 @@ export default {
   watch: {
     // Watch for change in spec properties and re-render visualisation
     spec: {
-      handler() {
+      handler(val) {
         this.renderVis();
       },
       deep: true //watches for changes in nested properties in spec

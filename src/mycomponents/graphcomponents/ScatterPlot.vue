@@ -106,11 +106,14 @@ export default {
       this.spec.encoding["x"]["aggregate"] = xAggregateValue;
     });
     DataBus.$on("groupByValue", groupByValue => {
-      this.spec.encoding["detail"]["field"] = groupByValue;
+      this.spec.encoding.detail.field = groupByValue;
     });
   },
   methods: {
     sendScatterPlotSpec() {
+      this.spec.encoding.y.aggregate = "";
+      this.spec.encoding.x.aggregate = "";
+      this.spec.encoding.detail.field = "null";
       DataBus.$emit("graphSchema", this.spec);
     }
   }

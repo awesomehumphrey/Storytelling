@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     sendHistogramSpec() {
+      this.spec.encoding.y.aggregate = "count";
       DataBus.$emit("graphSchema", this.spec);
     }
   }

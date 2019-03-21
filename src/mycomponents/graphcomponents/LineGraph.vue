@@ -42,7 +42,7 @@ export default {
         mark: { type: "line" },
         encoding: {
           x: { field: "", type: "ordinal" }, // type can also be ordinal temporal
-          y: { aggregate: "", field: "", type: "quantitative" },
+          y: { aggregate: "sum", field: "", type: "quantitative" },
           detail: { field: "", type: "nominal" },
           //"tooltip": {"field": "", "type": "quantitative"},
           color: { field: "", type: "nominal" }
@@ -102,6 +102,8 @@ export default {
   },
   methods: {
     sendLineGraphSpec() {
+      this.spec.encoding.y.aggregate = "sum";
+      this.spec.encoding.detail.field = "null";
       DataBus.$emit("graphSchema", this.spec);
     }
   }

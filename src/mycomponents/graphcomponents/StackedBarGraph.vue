@@ -120,6 +120,7 @@ export default {
   methods: {
     sendStackedBarGraphSpec() {
       this.spec.encoding.y.aggregate = "sum";
+      this.spec.encoding.detail.field = "null";
       DataBus.$emit("graphSchema", this.spec);
     }
   }
