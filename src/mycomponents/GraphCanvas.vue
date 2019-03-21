@@ -511,6 +511,12 @@ export default {
         case "punchCard":
           this.newNode.image = require("@/assets/punchcard.png");
           break;
+        case "boxPlot":
+          this.newNode.image = require("@/assets/boxplot.png");
+          break;
+        case "stackedBarChart":
+          this.newNode.image = require("@/assets/stackedbargraph.png");
+          break;
         default:
           this.newNode.image = require("@/assets/logo.png");
       }

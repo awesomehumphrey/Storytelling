@@ -104,7 +104,13 @@ export default {
       this.spec.encoding["x"]["field"] = xAxisSelected;
     });
     DataBus.$on("yAggregateValue", yAggregateValue => {
-      this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+      if (
+        yAggregateValue != "" &&
+        yAggregateValue != undefined &&
+        yAggregateValue != null
+      ) {
+        this.spec.encoding["y"]["aggregate"] = yAggregateValue;
+      }
     });
     /* DataBus.$on("xAggregateValue", xAggregateValue => {
       this.spec.encoding["x"]["aggregate"] = xAggregateValue;
@@ -115,6 +121,7 @@ export default {
   },
   methods: {
     sendBarGraphSpec() {
+      this.spec.encoding.y.aggregate = "sum"; //For an unknown reason, aggregate is populated with field names without this line
       DataBus.$emit("graphSchema", this.spec);
     }
   }

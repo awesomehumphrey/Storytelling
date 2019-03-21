@@ -11,6 +11,7 @@
         >
           <app-authorinformation></app-authorinformation>
           <app-ethics></app-ethics>
+          <!-- <app-downloadpdf></app-downloadpdf> -->
         </b-card>
       </b-col>
       <b-col col sm="9.5" class="storySections">
@@ -18,7 +19,7 @@
           <b-col col sm="7.5">
             <div id="pres" ref="bar" v-on:resize="handleResize()">
               <div class="reveal">
-                <div class="slides">
+                <div class="slides" id="pdf">
                   <section>
                     <hr>
                     <p style="font-size: 1em;">Gravity: Telling stories with data...</p>
@@ -162,6 +163,7 @@ import Reveal from "reveal.js/js/reveal";
 import vegaEmbed from "vega-embed";
 import AuthorInformation from "@/mycomponents/storytabcomponents/AuthorInformation";
 import Ethics from "@/mycomponents/storytabcomponents/Ethics";
+import DownloadPdf from "@/mycomponents/storytabcomponents/DownloadPdf";
 var myNodes = []; //To hold non-reactive array of objects(nodes) because reactive data doesn't work nicely with v-for directive in the template
 
 var isRecordingStarted = false;
@@ -178,7 +180,8 @@ var finalStream = null;
 export default {
   components: {
     "app-authorinformation": AuthorInformation,
-    "app-ethics": Ethics
+    "app-ethics": Ethics,
+    "app-downloadpdf": DownloadPdf
   },
   data() {
     return {

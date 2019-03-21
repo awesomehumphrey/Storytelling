@@ -72,7 +72,9 @@ export default {
       this.specFromMinivis = true;
       this.fieldNames = Object.keys(newSpec.data.values[0]);
       this.color = newSpec.encoding.color.field;
+
       DataBus.$emit("Colour", this.color);
+
       /* this.shape = newSpec.encoding.shape.field;
       DataBus.$emit("Shape", this.shape); */
     });

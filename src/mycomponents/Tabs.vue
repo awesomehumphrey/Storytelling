@@ -65,20 +65,28 @@
                       <app-bargraph></app-bargraph>
                     </b-col>
                     <b-col>
-                      <app-scatterplot></app-scatterplot>
+                      <app-stackedbargraph></app-stackedbargraph>
                     </b-col>
                   </b-row>
                   <b-row>
+                    <b-col>
+                      <app-scatterplot></app-scatterplot>
+                    </b-col>
                     <b-col>
                       <app-linegraph></app-linegraph>
                     </b-col>
+                  </b-row>
+                  <b-row>
                     <b-col>
                       <app-areachart></app-areachart>
+                    </b-col>
+                    <b-col>
+                      <app-histogram></app-histogram>
                     </b-col>
                   </b-row>
                   <b-row>
                     <b-col>
-                      <app-histogram></app-histogram>
+                      <app-boxplot></app-boxplot>
                     </b-col>
                     <b-col>
                       <app-punchcard></app-punchcard>
@@ -128,6 +136,8 @@ import PunchCard from "@/mycomponents/graphcomponents/PunchCard";
 import GraphCanvas from "@/mycomponents/GraphCanvas";
 import Story from "@/mycomponents/Story";
 import Filters from "@/mycomponents/datatabcomponents/Filters";
+import BoxPlot from "@/mycomponents/graphcomponents/BoxPlot";
+import StackedBarGraph from "@/mycomponents/graphcomponents/StackedBarGraph";
 
 export default {
   data() {
@@ -148,7 +158,9 @@ export default {
     "app-punchcard": PunchCard,
     "app-graphcanvas": GraphCanvas,
     "app-story": Story,
-    "app-filters": Filters
+    "app-filters": Filters,
+    "app-boxplot": BoxPlot,
+    "app-stackedbargraph": StackedBarGraph
   },
   created() {
     //Get the click event from miniVis "send to Data tab" button

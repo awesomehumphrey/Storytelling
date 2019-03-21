@@ -126,7 +126,6 @@ export default {
       this.renderVis();
     },
     renderVis() {
-      //console.log(this.spec);
       vegaEmbed("#vis", this.spec, {
         defaultStyle: true,
         tooltip: true,
