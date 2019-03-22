@@ -17,8 +17,23 @@
       @ok="handleOk()"
       @cancel="handleCancel()"
     >
-      <b-form-group>
+      <b-form-group id="data">
         <b-form-radio-group v-model="selectedRadio" :options="options" stacked name="radiosStacked"></b-form-radio-group>
+        <div v-if="selectedRadio=='temperature'">
+          <hr>This is temperature dataset for Melbourne, Australia, for the year 2013.
+        </div>
+        <div v-if="selectedRadio=='car'">
+          <hr>This car dataset covers between 1970 and 1982 for cars made in Japan, USA and Europe.
+        </div>
+        <div v-if="selectedRadio=='iris'">
+          <hr>The iris flower dataset was collected by Ronald Fisher in 1936 to quantify the variation between 3 species - virginica, setosa and verisicolor.
+        </div>
+        <div v-if="selectedRadio=='weather'">
+          <hr>This is weather dataset for the city of Seattle, USA. It covers 2012 to 2015.
+        </div>
+        <div v-if="selectedRadio=='movies'">
+          <hr>This is dataset for 3200 movies released between 1929 and 2016.
+        </div>
       </b-form-group>
     </b-modal>
     <br>
@@ -41,6 +56,8 @@ import { DataBus } from "@/main";
 var carData = require("@/data/cars.json");
 var temperatureData = require("@/data/temperature.json");
 var irisData = require("@/data/iris.json");
+var weatherData = require("@/data/seattle_weather.json");
+var moviesData = require("@/data/movies.json");
 
 export default {
   data() {
@@ -48,9 +65,11 @@ export default {
       selectedFile: null,
       selectedRadio: "",
       options: [
-        { text: "Melbourne temperature", value: "temperature" },
+        { text: "Melbourne Temperature", value: "temperature" },
         { text: "Cars", value: "car" },
-        { text: "Iris", value: "iris" }
+        { text: "Iris Flower", value: "iris" },
+        { text: "Seattle Weather", value: "weather" },
+        { text: "Movies", value: "movies" }
       ]
     };
   },
@@ -91,6 +110,12 @@ export default {
         case "iris":
           this.sampleData(irisData, this.selectedRadio);
           break;
+        case "weather":
+          this.sampleData(weatherData, this.selectedRadio);
+          break;
+        case "movies":
+          this.sampleData(moviesData, this.selectedRadio);
+          break;
         default:
           this.selectedRadio = "";
       }
@@ -114,6 +139,9 @@ export default {
 </script>
 
 <style scoped>
+#data {
+  line-height: 1.6;
+}
 </style>
 
 
