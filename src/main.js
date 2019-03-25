@@ -19,6 +19,9 @@ import '../node_modules/reveal.js/css/theme/white.css';
 
 import '../node_modules/nprogress/nprogress.css'
 
+import LogRocket from 'logrocket';
+LogRocket.init('v4p5bn/gravity');
+
 export const DataBus = new Vue(); //Event bus for passing data amongst components
 
 Vue.component('multiselect', Multiselect)
