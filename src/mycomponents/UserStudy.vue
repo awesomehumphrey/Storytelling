@@ -25,8 +25,10 @@
             class="d-flex justify-content-center"
           >6. Feel free to ask any questions during the course of the evaluation</b-list-group-item>
         </b-list-group>
-        <div>
-          <h3 class="headers">Task Completion Time: 0:00</h3>
+        <div v-show="taskCompletion">
+          <h3 class="headers">Task Completion Time:
+            <b-badge variant="primary" pill>{{hours}} h {{minutes}} m {{seconds}} s</b-badge>
+          </h3>
         </div>
       </b-col>
       <b-col class="evaluation">
@@ -44,8 +46,22 @@
         <hr>
         <h4 class="headers">(C) Start and stop task</h4>
         <div class="d-flex justify-content-center rightPanel">
-          <b-button size="lg" variant="outline-primary" title="Click to start task">Start Task</b-button>
-          <b-button size="lg" variant="outline-danger" title="Click to stop task">Stop Task</b-button>
+          <b-button
+            size="lg"
+            variant="outline-primary"
+            title="Click to start task"
+            @click="startTask"
+          >
+            <span style="display: inline-flex !important;">Start Task
+              <bounce-loader :loading="spinner" :color="spinnerColor" :size="spinnerSize"></bounce-loader>
+            </span>
+          </b-button>
+          <b-button
+            size="lg"
+            variant="outline-danger"
+            title="Click to stop task"
+            @click="stopTask"
+          >Stop Task</b-button>
         </div>
         <hr>
         <h4 class="headers">(D) Complete evaluation survey</h4>
@@ -60,7 +76,49 @@
   </div>
 </template>
 <script>
-export default {};
+/* eslint-disable */
+import { BounceLoader } from "vue-spinner/dist/vue-spinner.min.js";
+
+export default {
+  components: {
+    "bounce-loader": BounceLoader
+  },
+  data() {
+    return {
+      startTime: 0,
+      currentTime: 0,
+      timeSpent: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      taskCompletion: false,
+      spinner: false,
+      spinnerColor: "blue",
+      spinnerSize: "15px"
+    };
+  },
+  methods: {
+    startTask() {
+      this.taskCompletion = false;
+      this.spinner = true;
+      this.startTime = new Date().getTime();
+    },
+    stopTask() {
+      //console.log("stop task");
+      this.taskCompletion = true;
+      this.spinner = false;
+      this.currentTime = new Date().getTime();
+      this.timeSpent = this.currentTime - this.startTime;
+      this.hours = Math.floor(
+        (this.timeSpent % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      this.minutes = Math.floor(
+        (this.timeSpent % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      this.seconds = Math.floor((this.timeSpent % (1000 * 60)) / 1000);
+    }
+  }
+};
 </script>
 <style scoped>
 .evaluation {

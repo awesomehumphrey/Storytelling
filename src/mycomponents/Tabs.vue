@@ -116,7 +116,7 @@
         </b-row>
         <!--Stories (Slideshows, gifs and videos) here... -->
       </b-tab>
-      <b-tab title="USER STUDY" class="tabsections" active>
+      <b-tab title="USER STUDY" class="tabsections">
         <app-userstudy></app-userstudy>
       </b-tab>
     </b-tabs>
