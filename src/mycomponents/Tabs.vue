@@ -116,6 +116,9 @@
         </b-row>
         <!--Stories (Slideshows, gifs and videos) here... -->
       </b-tab>
+      <b-tab title="USER STUDY" class="tabsections" active>
+        <app-userstudy></app-userstudy>
+      </b-tab>
     </b-tabs>
   </b-card>
 </template>
@@ -138,6 +141,7 @@ import Story from "@/mycomponents/Story";
 import Filters from "@/mycomponents/datatabcomponents/Filters";
 import BoxPlot from "@/mycomponents/graphcomponents/BoxPlot";
 import StackedBarGraph from "@/mycomponents/graphcomponents/StackedBarGraph";
+import UserStudy from "@/mycomponents/UserStudy";
 
 export default {
   data() {
@@ -160,7 +164,8 @@ export default {
     "app-story": Story,
     "app-filters": Filters,
     "app-boxplot": BoxPlot,
-    "app-stackedbargraph": StackedBarGraph
+    "app-stackedbargraph": StackedBarGraph,
+    "app-userstudy": UserStudy
   },
   created() {
     //Get the click event from miniVis "send to Data tab" button
@@ -221,6 +226,7 @@ body {
   border-radius: 5px;
   border: 0px;
 }
+
 #dataupload {
   /* min-height: 100px; */
 }
