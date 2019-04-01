@@ -148,6 +148,7 @@ export default {
         .catch(error => {
           this.track = false;
           console.log("error!");
+          console.log(error);
         });
     },
     sendNodeData() {

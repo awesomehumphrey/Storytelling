@@ -6,10 +6,9 @@
         <b-list-group>
           <b-list-group-item
             class="d-flex justify-content-center"
-          >1. Watch the short tutorial video in the right panel</b-list-group-item>
-          <b-list-group-item
-            class="d-flex justify-content-center"
-          >2. Go through the task sheet handed you by the researcher
+          >1. Watch the short tutorial videos in the right panel</b-list-group-item>
+          <b-list-group-item class="d-flex justify-content-center">
+            2. Go through the task sheet handed you by the researcher
             <!-- <b-badge variant="primary" pill></b-badge> -->
           </b-list-group-item>
           <b-list-group-item
@@ -26,22 +25,41 @@
           >6. Feel free to ask any questions during the course of the evaluation</b-list-group-item>
         </b-list-group>
         <div v-show="taskCompletion">
-          <h3 class="headers">Task Completion Time:
+          <h3 class="headers">
+            Task Completion Time:
             <b-badge variant="primary" pill>{{hours}} h {{minutes}} m {{seconds}} s</b-badge>
           </h3>
         </div>
       </b-col>
       <b-col class="evaluation">
         <hr>
-        <h4 class="headers">(B) Watch tutorial video</h4>
+        <h4 class="headers">(B) Watch tutorial videos</h4>
         <div class="d-flex justify-content-center rightPanel">
-          <a href="https://www.w3schools.com/tags/movie.mp4" target="_blank">
+          <!-- <a href="https://www.w3schools.com/tags/movie.mp4" target="_blank">
             <b-button
               size="lg"
               variant="primary"
               title="Click to open video in a new tab"
             >Tutorial Video</b-button>
-          </a>
+          </a>-->
+          <b-button
+            size="lg"
+            variant="primary"
+            title="Click to open video in a new tab"
+            @click="openVisVideo"
+          >Creating Visualisations</b-button>
+          <b-button
+            size="lg"
+            variant="primary"
+            title="Click to open video in a new tab"
+            @click="openGraphVideo"
+          >Creating Sequences</b-button>
+          <b-button
+            size="lg"
+            variant="primary"
+            title="Click to open video in a new tab"
+            @click="openStoryVideo"
+          >Creating Stories</b-button>
         </div>
         <hr>
         <h4 class="headers">(C) Start and stop task</h4>
@@ -52,7 +70,8 @@
             title="Click to start task"
             @click="startTask"
           >
-            <span style="display: inline-flex !important;">Start Task
+            <span style="display: inline-flex !important;">
+              Start Task
               <bounce-loader :loading="spinner" :color="spinnerColor" :size="spinnerSize"></bounce-loader>
             </span>
           </b-button>
@@ -94,7 +113,10 @@ export default {
       taskCompletion: false,
       spinner: false,
       spinnerColor: "blue",
-      spinnerSize: "15px"
+      spinnerSize: "15px",
+      visVideoSrc: require("@/assets/Visualisation.mp4"),
+      graphVideoSrc: require("@/assets/Graph.mp4"),
+      storyVideoSrc: require("@/assets/Story.mp4")
     };
   },
   methods: {
@@ -116,6 +138,15 @@ export default {
         (this.timeSpent % (1000 * 60 * 60)) / (1000 * 60)
       );
       this.seconds = Math.floor((this.timeSpent % (1000 * 60)) / 1000);
+    },
+    openVisVideo() {
+      window.open(this.visVideoSrc, "_blank");
+    },
+    openGraphVideo() {
+      window.open(this.graphVideoSrc, "_blank");
+    },
+    openStoryVideo() {
+      window.open(this.storyVideoSrc, "_blank");
     }
   }
 };
