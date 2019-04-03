@@ -660,6 +660,13 @@ export default {
           //console.log(reply);
           document.getElementById("graphVis").childNodes[0].style.zIndex = 1;
           this.$refs.graphVis.style.background = "white";
+          this.$swal({
+            position: "top",
+            type: "success",
+            title: "Recommendation completed!",
+            showConfirmButton: false,
+            timer: 1500
+          });
           NProgress.done();
           sequenceArray = reply;
           if (sequenceArray.length > 1) {
@@ -742,6 +749,13 @@ export default {
       console.log(edges._data);
     },
     prepareAndSendData() {
+      this.$swal({
+        position: "top",
+        type: "success",
+        title: "Sequence successful sent to StoryTab!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
       NProgress.start();
       setTimeout(() => {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <label for="aggregateY">Y-Axis</label>
+      <label for="aggregateY">Aggregate Y-Axis</label>
       <multiselect
         placeholder="Select Operation"
         v-model="yAxisOperator"
@@ -10,7 +10,7 @@
         @select="sendYAggregation"
       ></multiselect>
       <br>
-      <label for="aggregateX">X-Axis</label>
+      <label for="aggregateX">Aggregate X-Axis</label>
       <multiselect
         placeholder="Select Operation"
         v-model="xAxisOperator"

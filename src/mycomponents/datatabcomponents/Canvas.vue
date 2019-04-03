@@ -152,6 +152,13 @@ export default {
         });
     },
     sendNodeData() {
+      this.$swal({
+        position: "top",
+        type: "success",
+        title: "Node successfully created!",
+        showConfirmButton: false,
+        timer: 1500
+      });
       NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
       NProgress.start();
       setTimeout(() => {

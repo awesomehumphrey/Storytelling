@@ -19,6 +19,9 @@ import '../node_modules/reveal.js/css/theme/white.css';
 
 import '../node_modules/nprogress/nprogress.css'
 
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
+
 import LogRocket from 'logrocket';
 LogRocket.init('v4p5bn/gravity');
 
@@ -31,10 +34,10 @@ Vue.config.productionTip = false;
 
 ///* eslint-disable no-new */
 new Vue({
-    el: '#app',
-    router,
-    template: '<App/>',
-    components: {
-        App
-    }
+  el: '#app',
+  router,
+  template: '<App/>',
+  components: {
+    App
+  }
 });

@@ -40,7 +40,8 @@
         "vue-carousel": "^0.16.1",
         "vue-multiselect": "^2.1.0",
         "vue-router": "^3.0.1",
-        "vue-spinner": "^1.0.3"
+        "vue-spinner": "^1.0.3",
+        "vue-sweetalert2": "^1.6.4"
     },
     "devDependencies": {
         "autoprefixer": "^7.1.2",
