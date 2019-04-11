@@ -34,16 +34,12 @@
             ># of recommendations
               <b-badge variant="primary" pill>{{totalRecommendation}}</b-badge>
               </b-list-group-item>-->
-              <b-list-group-item
-                id="sp"
-                class="d-flex justify-content-between align-items-center"
-              >Sequence position
+              <b-list-group-item id="sp" class="d-flex justify-content-between align-items-center">
+                Sequence position
                 <b-badge variant="primary" pill>{{seqCounter}} of {{totalRecommendation}}</b-badge>
               </b-list-group-item>
-              <b-list-group-item
-                id="tc"
-                class="d-flex justify-content-between align-items-center"
-              >Sequence cost
+              <b-list-group-item id="tc" class="d-flex justify-content-between align-items-center">
+                Sequence cost
                 <b-badge variant="primary" pill>{{sequenceCost}}</b-badge>
               </b-list-group-item>
             </b-list-group>
@@ -426,7 +422,7 @@ export default {
     network.on("deselectNode", function(params) {
       networkThis.miniVisStyleObject.display = "none";
       networkThis.resultNode = null;
-      console.log(params);
+      //console.log(params);
     });
   },
   beforeDestroy() {
@@ -546,6 +542,13 @@ export default {
         setTimeout(() => {
           NProgress.done();
         }, 200);
+        this.$swal({
+          position: "top",
+          type: "success",
+          title: "Note saved!",
+          showConfirmButton: false,
+          timer: 1500
+        });
         this.resultNode.notes = this.notes;
         nodes.update(this.resultNode);
         console.log(this.resultNode.notes);
@@ -565,6 +568,13 @@ export default {
           setTimeout(() => {
             NProgress.done();
           }, 200);
+          this.$swal({
+            position: "top",
+            type: "success",
+            title: "Node cleared!",
+            showConfirmButton: false,
+            timer: 1500
+          });
           this.notes = "No notes.";
           this.resultNode.notes = this.notes;
           nodes.update(this.resultNode);
@@ -703,6 +713,9 @@ export default {
       } else if (confirm("Confirm to clear nodes!")) {
         nodes.clear();
         this.reInitialiseSeqParam();
+        this.speakerNoteTitle = "Graph title";
+        this.notes = "";
+        DataBus.$emit("graphCanvasCleared");
         //console.log(nodes._data);
       }
     },
@@ -756,11 +769,11 @@ export default {
         showConfirmButton: false,
         timer: 1500
       });
-      NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
+      /* NProgress.configure({ parent: "#idForProgressBar", showSpinner: false });
       NProgress.start();
       setTimeout(() => {
         NProgress.done();
-      }, 200);
+      }, 200); */
       //NOTE-Important: the derived variables from the main nodes and edges variables are reactive and also automatically update their base variables from which they were assigned
       var prepEdges = edges._data;
       var nodeArray = [];

@@ -40,7 +40,8 @@
                     </h5>
                     <h5>{{authorDetails.date}}</h5>
                   </section>
-                  <section :id="item" v-for="(item, index) in id" :key="index">{{item}}</section>
+                  <section :id="item" v-for="(item, index) in id" :key="index"></section>
+                  <!-- {{item}}</section>-->
                   <section>
                     <hr>
                     <p style="font-size: 1em; color:#002b80;">Ethical Consideration</p>
@@ -225,7 +226,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       var halfWidth = document.documentElement.clientWidth / 2 + 50;
-      console.log(halfWidth);
+      //console.log(halfWidth);
       Reveal.initialize({
         transition: "zoom",
         /* backgroundTransition: "slide", */
@@ -238,17 +239,34 @@ export default {
       });
       window.addEventListener("resize", this.handleResize);
       window.addEventListener("load", this.handleLoad);
+      Reveal.slide(1); //This is just a fix for making the first slide display correctly...
+      //...When the dom is mounted load the second slide (index 1) and when story tab is clicked...
+      //...update and set slide back to beginning (index) in updated() and it will display correctly
+      setTimeout(() => {
+        Reveal.slide(0);
+      }, 3000);
     });
 
     const myThis = this;
     Reveal.addEventListener("slidechanged", function(event) {
       // event.previousSlide, event.currentSlide, event.indexh, event.indexv
       myThis.notesIndex = event.indexh - 2; //event.indexh - 1;so as to account for the first slide
-      console.log(myThis.notesIndex);
+      //console.log(myThis.notesIndex);
+    });
+
+    DataBus.$on("graphCanvasCleared", () => {
+      //When graphCanvas is cleared i.e. all nodes are deleted, reinitialise
+      Reveal.slide(0);
+      this.id = [];
+      this.videoSrc = require("@/assets/Gapminder.mp4");
     });
   },
   updated() {
-    //this.renderVisStory();
+    /* setTimeout(() => {
+      Reveal.slide(0);
+
+      console.log("Updated");
+    }, 5000); */
     this.handleLoad();
   },
   beforeDestroy() {

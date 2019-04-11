@@ -73,14 +73,25 @@ export default {
       name: "",
       presentationTitle: "",
       institution: "",
-      email: ""
+      email: "",
+      today: new Date()
     };
   },
+  created() {
+    DataBus.$on("graphCanvasCleared", () => {
+      //When graphCanvas is cleared i.e. all nodes are deleted, reinitialise
+      this.name = "";
+      this.presentationTitle = "Presentation Title";
+      this.institution = null;
+      this.email = null;
+      this.handleOk();
+    });
+  },
   methods: {
-    handleOk() {
-      var today = new Date();
-      var day = today.getDate();
-      var year = today.getFullYear();
+    handleDate() {
+      this.today = new Date();
+      var day = this.today.getDate();
+      var year = this.today.getFullYear();
       var monthsArray = new Array(
         "January",
         "February",
@@ -95,26 +106,29 @@ export default {
         "November",
         "December"
       );
-      var month = monthsArray[today.getMonth()];
+      var month = monthsArray[this.today.getMonth()];
 
       if (day < 10) {
         day = "0" + day;
       }
 
-      today = month + " " + day + ", " + year;
+      this.today = month + " " + day + ", " + year;
+      return this.today;
+    },
+    handleOk() {
       var authorDetails = {};
       authorDetails.name = this.name;
       authorDetails.presentationTitle = this.presentationTitle;
       authorDetails.institution = this.institution;
       authorDetails.email = this.email;
-      authorDetails.date = today;
+      authorDetails.date = this.handleDate();
 
       DataBus.$emit("authorDetails", authorDetails);
     }
   },
   computed: {
     nameState() {
-      return this.name.length > 2 ? true : false;
+      // return this.name.length > 2 ? true : false;
     }
   }
 };

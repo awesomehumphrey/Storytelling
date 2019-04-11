@@ -80,6 +80,17 @@ export default {
       //Receive the data (field names) from Data component via DataBus
       this.fieldNames = fieldArray;
     });
+
+    DataBus.$on("graphCanvasCleared", () => {
+      //When graphCanvas is cleared i.e. all nodes are deleted, reinitialise
+      this.dataSource = "";
+      this.otherComments = "";
+      this.normalisation = false;
+      this.aggregation = false;
+      this.normalisationValue = [];
+      this.aggregatedValue = [];
+      this.handleOk();
+    });
   },
   methods: {
     handleOk() {

@@ -2,7 +2,7 @@
   <div>
     <br>
     <b-button variant="primary" class="btn-block" size="md" @click="clicked">
-      <i class="fas fa-check"></i> Done
+      <i class="fas fa-check"></i> Generate Slides
     </b-button>
     <!-- <hr> -->
   </div>
