@@ -112,6 +112,8 @@ export default {
     });
   },
   updated() {
+    this.myWidth = this.$refs.canvas.clientWidth; //This is because when app is idle width becomes 0
+    this.spec.width = this.myWidth - 50;
     this.renderVis(); //Initially, visualisation is not rendered in mounted()
     //because spec is not yet populated with real data hence rendered in updated() after data selection
   },
